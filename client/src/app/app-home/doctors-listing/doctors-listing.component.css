@@ -1,0 +1,208 @@
+.section h1 {
+  color: #7092c6;
+  font-size: 2.10526316rem;
+  font-weight: 400;
+  text-align: left;
+}
+
+.section p {
+  color: #7092c6;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 0.84210526rem;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.api-card {
+  background-color: #fff;
+  border-radius: 1.05263158rem;
+  -webkit-box-shadow: 1px 5px 18px 0 rgb(0 68 124 / 20%);
+  box-shadow: 1px 5px 18px 0 rgb(0 68 124 / 20%);
+  margin: 0.78947368rem;
+  overflow: hidden;
+  padding: 0;
+  width: auto;
+}
+
+.api-card .card-header {
+  border-bottom: 0;
+  height: 5.84210526rem;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  background-color: #0076ce;
+}
+.api-card .card-header:hover {
+  background-color: rgba(0, 118, 206, 0.9);
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.dellIcons1 {
+  color: #fff;
+  font-size: 40px;
+  margin-left: 25px;
+}
+.dellIcons2 {
+  color: #fff;
+  font-size: 60px;
+  margin-left: 20px;
+}
+.dellIcons3 {
+  color: #fff;
+  font-size: 40px;
+  margin-right: 5px;
+}
+.dds__icons {
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.api-card .card-body .status-card .state-pills {
+  display: inline-block;
+  padding: 0;
+}
+.api-card .card-body .status-card .state-pills span {
+  border-radius: 1.15789474rem;
+  display: block;
+  font-size: 0.84210526rem;
+  font-weight: 500;
+  height: 1.57894737rem;
+  letter-spacing: -0.01263158rem;
+  line-height: 1.57894737rem;
+  padding: 0 1.36842105rem;
+}
+.state-pills span.enabled {
+  background: #e0f7ea;
+  color: #33c5a9;
+}
+.state-pills span {
+  border-radius: 0.78947368rem;
+  font-size: 0.84210526rem;
+  font-weight: bold;
+  padding: 0.42105263rem 0.63157895rem;
+  text-transform: capitalize;
+}
+.api-card .card-body .api-title.line-clamp {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  overflow: hidden;
+  word-break: break-all;
+}
+.api-card .card-body .api-title {
+  color: #1b5381;
+  display: block;
+  font-size: 0.94736842rem;
+  font-weight: 700;
+  height: 2.21052632rem;
+  letter-spacing: -0.01421053rem;
+  line-height: 1.10526316rem;
+  margin: 0 0 0.31578947rem;
+}
+.api-card .card-body .api-category {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #41b6e6;
+  display: block;
+  font-size: 0.73684211rem;
+  line-height: 0.84210526rem;
+  margin-bottom: 0;
+}
+.api-card .card-body .api-metrics {
+  margin-bottom: 0.26315789rem;
+  margin-top: 0.26315789rem;
+}
+.metric-icon.margin-right {
+  margin-right: 0.63157895rem;
+  float: left;
+}
+.metric-data {
+  display: inline-block;
+  margin-left: 10px;
+}
+.metric-data .data-value {
+  color: #6a80a3;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+  vertical-align: top;
+}
+.metric-data .data-label {
+  color: #8ba8d3;
+  font-size: 12px;
+  line-height: 2;
+  margin: -0.26315789rem 0 0 16px;
+}
+.cardicon {
+  font-size: 16px;
+}
+.api-card .card-footer {
+  clear: both;
+  background: none;
+  border-top: 0;
+  height: 2.36842105rem;
+  padding: 0;
+}
+.api-card .card-footer .btn-group {
+  -ms-flex-line-pack: stretch;
+  align-content: stretch;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.btn-bottom-card {
+  background: #f6f5f7;
+  border: 0;
+  color: #3178e2;
+  cursor: pointer;
+  height: 2.36842105rem;
+  position: relative;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  width: 100%;
+}
+.api-card .card-footer button > span {
+  color: #0076ce;
+  display: block;
+  font-size: 0.94736842rem;
+  font-weight: 700;
+  height: 2.21052632rem;
+  letter-spacing: -0.01421053rem;
+  line-height: 0.94736842rem;
+  margin-top: 10px;
+}
+
+.ms-n5 {
+  margin-left: -40px;
+}
+.form-control::-webkit-input-placeholder {
+  color: #7092c6 !important;
+  font-size: 14px !important;
+}
+.btn-outline-secondary:hover {
+  color: #212529 !important;
+}

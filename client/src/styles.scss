@@ -1,0 +1,102 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+@charset 'UTF-8';
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap");
+$base-color: #7c4bd2;
+
+html {
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+body {
+  margin: 0;
+  font-family: Roboto !important;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: $base-color !important;
+  text-align: left;
+  overflow-x: hidden;
+}
+
+.mat-primary {
+  background: $base-color !important;
+}
+.maincolor,
+.text-med,
+.text-primary {
+  color: $base-color !important;
+}
+a:hover {
+  color: inherit !important;
+}
+.social-icon li a:hover {
+  background-color: $base-color !important;
+  border-color: $base-color !important;
+  color: #ffffff !important;
+}
+.login100-form-btn:hover {
+  background: $base-color !important;
+}
+
+.bld7 {
+  font-weight: 700 !important;
+}
+[tabindex="-1"]:focus:not(:focus-visible) {
+  outline: 0 !important;
+}
+
+.icosize {
+  font-size: 18px !important;
+}
+.bg {
+  background-color: #ffffff;
+}
+.navbgfooter {
+  background: linear-gradient(86deg, #377be2, #1d70e1 79%, #5bbfe9) !important;
+}
+.nav-link {
+  padding: 0.5rem 1rem;
+  color: #ffffff !important;
+  text-decoration: none;
+}
+.fa-question-circle {
+  font-size: 30px !important;
+}
+.wrapper {
+  background-color: #e9eff4 !important;
+}
+.apiBtn {
+  background-color: #fff !important;
+  font-weight: 700 !important;
+}
+.btn-catchy {
+  -webkit-box-shadow: 0 3px 6px 0 rgb(0 83 208 / 46%);
+  box-shadow: 0 3px 6px 0 rgb(0 83 208 / 46%);
+  color: #fefefe;
+}
+.cpywrite {
+  font-size: 16px !important;
+}
+.logoico {
+  font-size: 30px !important;
+  font-weight: 400 !important;
+}
+.auth-bg {
+  background-color: #f1f2f7 !important;
+  background-image: none !important;
+  height: auto !important;
+}
+
+.mt {
+  margin-top: 15% !important;
+}
+.auth-content {
+  height: auto !important;
+}
+@media (max-width: 768px) {
+  .homedocBtn {
+    margin-top: 20px !important;
+  }
+}
