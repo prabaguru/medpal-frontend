@@ -1,0 +1,17 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <mat-icon aria-hidden="false">medical_services</mat-icon>&nbsp;
+    <h1>Medpal.Live</h1>
+    <span class="menu-spacer"></span>
+    <div [style.margin-left]="'50px'">
+      <a href="javascript:void();" mat-button>Book Appointments</a>
+    </div>
+    <button mat-button [matMenuTriggerFor]="animals">
+      Login <mat-icon>expand_more</mat-icon>
+    </button>
+    <mat-menu #animals="matMenu">
+      <button mat-menu-item>Doctors Login</button>
+      <button mat-menu-item>Care Seeker Login</button>
+    </mat-menu>
+  </mat-toolbar-row>
+</mat-toolbar>
