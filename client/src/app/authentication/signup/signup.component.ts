@@ -6,17 +6,19 @@ import {
   Validators,
   AbstractControlOptions,
 } from "@angular/forms";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { first } from "rxjs/operators";
 import { of } from "rxjs";
-import { ApiService, MustMatch } from "../../core";
-
+import { ApiService, MustMatch, sharedDataService } from "../../core";
+import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 @Component({
   selector: "app-signup",
   templateUrl: "./signup.component.html",
   styleUrls: ["./signup.component.scss"],
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
   loginForm: FormGroup;
   submitted = false;
   hide = true;
@@ -24,10 +26,12 @@ export class SignupComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
+    private sharedDataService: sharedDataService,
     private route: ActivatedRoute,
-    private router: Router,
-    private snackBar: MatSnackBar
-  ) {}
+    private router: Router
+  ) {
+    super();
+  }
   ngOnInit() {
     this.loginForm = this.formBuilder.group(
       {
@@ -59,14 +63,7 @@ export class SignupComponent implements OnInit {
   get f() {
     return this.loginForm.controls;
   }
-  showNotification(colorName, text: any, placementFrom, placementAlign) {
-    this.snackBar.open(text, "", {
-      duration: 2000,
-      verticalPosition: placementFrom,
-      horizontalPosition: placementAlign,
-      panelClass: colorName,
-    });
-  }
+
   onSubmit() {
     this.submitted = true;
 
@@ -76,24 +73,30 @@ export class SignupComponent implements OnInit {
     }
 
     //this.loading = true;
-    this.apiService
+    this.subs.sink = this.apiService
       .register(this.loginForm.value)
       .pipe(first())
       .subscribe({
-        complete: () => {
-          //this.alertService.success("Registration successful", true);
-        },
-        error: (error) => {
-          this.showNotification("black", error, "top", "center");
-        },
         next: (data) => {
-          this.showNotification(
-            "black",
+          this.sharedDataService.showNotification(
+            "snackbar-success",
             "Registration Successfull...",
             "top",
             "center"
           );
           this.router.navigate(["/authentication/signin"]);
+        },
+        error: (error) => {
+          this.sharedDataService.showNotification(
+            "snackbar-danger",
+            error,
+            "top",
+            "center"
+          );
+          this.submitted = false;
+        },
+        complete: () => {
+          //this.alertService.success("Registration successful", true);
         },
       });
   }

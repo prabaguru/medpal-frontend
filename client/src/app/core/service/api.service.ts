@@ -1,6 +1,6 @@
 ﻿import { Injectable } from "@angular/core";
 import { HttpParams, HttpClient, HttpHeaders } from "@angular/common/http";
-import { catchError, Observable, of } from "rxjs";
+import { catchError, Observable, of, throwError } from "rxjs";
 import { environment } from "src/environments/environment";
 import { IDoctor } from "../index";
 
@@ -15,16 +15,14 @@ export class ApiService {
   register(data: IDoctor): Observable<IDoctor[]> {
     return this.http
       .post<IDoctor[]>(`${environment.apiUrl}/doctors/register`, data)
-      .pipe(
-        catchError(this.handleError<IDoctor[]>("New Doctor reate error", []))
-      );
+      .pipe(catchError(this.handleError));
   }
 
-  private handleError<T>(operation = "operation", result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      return of(result as T);
-    };
+  private handleError(err) {
+    //console.log("error caught in service");
+    //console.error(err);
+    //Handle the error here
+    return throwError(err);
   }
 
   // getAll() {

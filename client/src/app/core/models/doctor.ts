@@ -1,10 +1,14 @@
 export class User {
-  id: number;
+  _id: number;
   username: string;
   password: string;
   firstName: string;
-  lastName: string;
+  email: string;
+  mobile: string;
   token: string;
+  role: string;
+  address: string;
+  Pincode: string;
 }
 
 export interface IDoctor {
