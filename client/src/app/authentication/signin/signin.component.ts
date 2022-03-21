@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AuthService } from "../../core";
+import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
+import { first } from "rxjs/operators";
+import { of } from "rxjs";
 @Component({
-  selector: 'app-signin',
-  templateUrl: './signin.component.html',
-  styleUrls: ['./signin.component.scss']
+  selector: "app-signin",
+  templateUrl: "./signin.component.html",
+  styleUrls: ["./signin.component.scss"],
 })
 export class SigninComponent
   extends UnsubscribeOnDestroyAdapter
@@ -14,7 +16,7 @@ export class SigninComponent
 {
   loginForm: FormGroup;
   submitted = false;
-  error = '';
+  error = "";
   hide = true;
   constructor(
     private formBuilder: FormBuilder,
@@ -26,10 +28,10 @@ export class SigninComponent
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       email: [
-        'admin@atrio.com',
-        [Validators.required, Validators.email, Validators.minLength(5)]
+        "yyyypraba.wg@gmail.com",
+        [Validators.required, Validators.email, Validators.minLength(5)],
       ],
-      password: ['admin', Validators.required]
+      password: ["qwqwqw", Validators.required],
     });
   }
   get f() {
@@ -37,29 +39,31 @@ export class SigninComponent
   }
   onSubmit() {
     this.submitted = true;
-    this.error = '';
+    this.error = "";
     if (this.loginForm.invalid) {
-      this.error = 'Username and Password not valid !';
+      this.error = "Username or password not valid !";
       return;
     } else {
       this.subs.sink = this.authService
         .login(this.f.email.value, this.f.password.value)
-        .subscribe(
-          (res) => {
+        .pipe(first())
+        .subscribe({
+          next: (res) => {
             if (res) {
               const token = this.authService.currentUserValue.token;
               if (token) {
-                this.router.navigate(['/dashboard/main']);
+                this.router.navigate(["/dashboard/main"]);
               }
             } else {
-              this.error = 'Invalid Login';
+              this.error = "Invalid Login";
             }
           },
-          (error) => {
+          error: (error) => {
             this.error = error;
             this.submitted = false;
-          }
-        );
+          },
+          complete: () => {},
+        });
     }
   }
 }

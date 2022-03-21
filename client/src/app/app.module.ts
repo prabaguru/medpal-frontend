@@ -12,7 +12,6 @@ import { RightSidebarComponent } from "./layout/right-sidebar/right-sidebar.comp
 import { AuthLayoutComponent } from "./layout/app-layout/auth-layout/auth-layout.component";
 import { MainLayoutComponent } from "./layout/app-layout/main-layout/main-layout.component";
 import { LocationStrategy, HashLocationStrategy } from "@angular/common";
-import { fakeBackendProvider } from "./core/interceptor/fake-backend";
 import { ErrorInterceptor } from "./core/interceptor/error.interceptor";
 import { JwtInterceptor } from "./core/interceptor/jwt.interceptor";
 import { NgxSpinnerModule } from "ngx-spinner";
@@ -85,7 +84,6 @@ export function createTranslateLoader(http: HttpClient): any {
     },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    fakeBackendProvider,
     WINDOW_PROVIDERS,
   ],
   entryComponents: [],
