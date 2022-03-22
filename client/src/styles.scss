@@ -39,6 +39,14 @@ a:hover {
 .login100-form-btn:hover {
   background: $base-color !important;
 }
+.theme-white .navbar-brand {
+  color: $base-color !important;
+}
+.logo-white .navbar-header .logo-name {
+  color: $base-color !important;
+  font-weight: 600 !important;
+  font-size: 18px;
+}
 
 .bld7 {
   font-weight: 700 !important;

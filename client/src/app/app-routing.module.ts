@@ -31,18 +31,9 @@ const routes: Routes = [
           import("./dashboard/dashboard.module").then((m) => m.DashboardModule),
       },
       {
-        path: "extra-pages",
+        path: "doctors",
         loadChildren: () =>
-          import("./extra-pages/extra-pages.module").then(
-            (m) => m.ExtraPagesModule
-          ),
-      },
-      {
-        path: "multilevel",
-        loadChildren: () =>
-          import("./multilevel/multilevel.module").then(
-            (m) => m.MultilevelModule
-          ),
+          import("./doctors/doctors.module").then((m) => m.DoctorsModule),
       },
     ],
   },

@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../../core";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
@@ -18,14 +18,17 @@ export class SigninComponent
   submitted = false;
   error = "";
   hide = true;
+  returnUrl: string;
   constructor(
     private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService
   ) {
     super();
   }
   ngOnInit() {
+    this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
     this.loginForm = this.formBuilder.group({
       email: [
         "yyyypraba.wg@gmail.com",
@@ -56,6 +59,7 @@ export class SigninComponent
               }
             } else {
               this.error = "Invalid Login";
+              this.router.navigate([this.returnUrl]);
             }
           },
           error: (error) => {
