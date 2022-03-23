@@ -4,11 +4,244 @@
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card">
           <div class="header">
-            <h2><strong>Blank</strong> Page</h2>
+            <h2 translate><strong>Profile</strong> Settings</h2>
           </div>
           <div class="body">
-            sdfklsjdfkh
-            <!-- Add content here -->
+            <mat-accordion class="example-headers-align">
+              <mat-expansion-panel
+                [expanded]="step === 0"
+                (opened)="setStep(0)"
+                hideToggle
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title> Preliminary Details </mat-panel-title>
+                  <mat-panel-description>
+                    Fill Your personnel details
+                    <mat-icon>account_circle</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <form [formGroup]="preliminaryForm" (ngSubmit)="onSubmit()">
+                  <mat-form-field appearance="fill">
+                    <mat-label>First name</mat-label>
+                    <input
+                      matInput
+                      formControlName="firstName"
+                      placeholder="First name"
+                      minlength="3"
+                      maxlength="50"
+                      [ngClass]="{
+                        'is-invalid': submitted && f.firstName.errors
+                      }"
+                    />
+                    <div
+                      *ngIf="submitted && f.firstName.errors"
+                      class="invalid-feedback"
+                    >
+                      <div *ngIf="f.firstName.errors.required">
+                        First name is required
+                      </div>
+                      <div *ngIf="f.firstName.errors.pattern">
+                        Nos & special characters is not allowed
+                      </div>
+                    </div>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>Last name</mat-label>
+                    <input
+                      matInput
+                      formControlName="lastName"
+                      placeholder="Last name"
+                      minlength="3"
+                      maxlength="50"
+                      [ngClass]="{
+                        'is-invalid': submitted && f.lastName.errors
+                      }"
+                    />
+                    <div
+                      *ngIf="submitted && f.lastName.errors"
+                      class="invalid-feedback"
+                    >
+                      <div *ngIf="f.lastName.errors.required">
+                        Last name is required
+                      </div>
+                      <div *ngIf="f.lastName.errors.pattern">
+                        Nos & special characters is not allowed
+                      </div>
+                    </div>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>Email</mat-label>
+                    <input
+                      matInput
+                      formControlName="email"
+                      placeholder="Email"
+                      maxlength="150"
+                      disabled="true"
+                      [ngClass]="{
+                        'is-invalid': submitted && f.email.errors
+                      }"
+                    />
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>Mobile</mat-label>
+                    <input
+                      matInput
+                      disabled="true"
+                      formControlName="mobile"
+                      placeholder="Mobile"
+                      maxlength="13"
+                      [ngClass]="{
+                        'is-invalid': submitted && f.mobile.errors
+                      }"
+                    />
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>Secondary Mobile</mat-label>
+                    <input
+                      matInput
+                      disabled="true"
+                      formControlName="smobile"
+                      placeholder="Secondary Mobile"
+                      maxlength="13"
+                      [ngClass]="{
+                        'is-invalid': submitted && f.smobile.errors
+                      }"
+                    />
+                    <div
+                      *ngIf="submitted && f.smobile.errors"
+                      class="invalid-feedback"
+                    >
+                      <div *ngIf="f.smobile.errors.required">
+                        Secondary Mobile no is required
+                      </div>
+                      <div *ngIf="f.smobile.errors.pattern">
+                        Only numbers Allowed
+                      </div>
+                      <div *ngIf="f.smobile.errors.minlength">
+                        Mobile no must have 10 digits
+                      </div>
+                    </div>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>DOB</mat-label>
+                    <input matInput type="number" min="1" />
+                  </mat-form-field>
+
+                  <mat-action-row>
+                    <button mat-raised-button color="primary" type="submit">
+                      Save
+                    </button>
+                    <button mat-button color="primary" (click)="nextStep()">
+                      Next
+                    </button>
+                  </mat-action-row>
+                </form>
+              </mat-expansion-panel>
+
+              <mat-expansion-panel
+                [expanded]="step === 1"
+                (opened)="setStep(1)"
+                hideToggle
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Education & Specialization
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Fill Your education details
+                    <mat-icon>workspace_premium</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <mat-form-field appearance="fill">
+                  <mat-label>Country</mat-label>
+                  <input matInput />
+                </mat-form-field>
+
+                <mat-action-row>
+                  <button mat-button color="warn" (click)="prevStep()">
+                    Previous
+                  </button>
+                  <button mat-button color="primary" (click)="nextStep()">
+                    Next
+                  </button>
+                </mat-action-row>
+              </mat-expansion-panel>
+
+              <mat-expansion-panel
+                [expanded]="step === 2"
+                (opened)="setStep(2)"
+                hideToggle
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title> Registration & Documents </mat-panel-title>
+                  <mat-panel-description>
+                    Upload Your registered documents
+                    <mat-icon>folder</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <mat-action-row>
+                  <button mat-button color="warn" (click)="prevStep()">
+                    Previous
+                  </button>
+                  <button mat-button color="primary" (click)="nextStep()">
+                    Next
+                  </button>
+                </mat-action-row>
+              </mat-expansion-panel>
+
+              <mat-expansion-panel
+                [expanded]="step === 3"
+                (opened)="setStep(3)"
+                hideToggle
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title> Establishment </mat-panel-title>
+                  <mat-panel-description>
+                    Details of establishment You are practicing at
+                    <mat-icon>date_range</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <mat-action-row>
+                  <button mat-button color="warn" (click)="prevStep()">
+                    Previous
+                  </button>
+                  <button mat-button color="primary" (click)="nextStep()">
+                    Next
+                  </button>
+                </mat-action-row>
+              </mat-expansion-panel>
+
+              <mat-expansion-panel
+                [expanded]="step === 4"
+                (opened)="setStep(4)"
+                hideToggle
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title> Services </mat-panel-title>
+                  <mat-panel-description>
+                    Services and experience
+                    <mat-icon>medical_services</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <mat-action-row>
+                  <button mat-button color="warn" (click)="prevStep()">
+                    Previous
+                  </button>
+                  <button mat-button color="primary" (click)="nextStep()">
+                    End
+                  </button>
+                </mat-action-row>
+              </mat-expansion-panel>
+            </mat-accordion>
           </div>
         </div>
       </div>

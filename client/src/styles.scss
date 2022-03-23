@@ -20,9 +20,14 @@ body {
   overflow-x: hidden;
 }
 
-.mat-primary {
+.mat-toolbar.mat-primary,
+.mat-flat-button.mat-primary,
+.mat-raised-button.mat-primary,
+.mat-fab.mat-primary,
+.mat-mini-fab.mat-primary {
   background: $base-color !important;
 }
+
 .maincolor,
 .text-med,
 .text-primary {
