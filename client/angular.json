@@ -36,6 +36,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "./node_modules/simple-line-icons/dist/styles/simple-line-icons.css",
+              "./node_modules/intl-tel-input/build/css/intlTelInput.css",
               "src/assets/scss/style.scss",
               "src/assets/scss/theme/all-themes.scss",
               "src/styles.scss"

@@ -76,10 +76,10 @@
                       </div>
                     </div>
                     <div class="form-group auth-form-group mb-4">
-                      <mat-icon matSuffix class="auth-page-icon"
+                      <!--<mat-icon matSuffix class="auth-page-icon"
                         >phone</mat-icon
                       >
-                      <input
+                     <input
                         type="text"
                         formControlName="mobile"
                         class="form-control auth-control"
@@ -88,7 +88,31 @@
                         }"
                         placeholder="Mobile No"
                         maxlength="13"
-                      />
+                      /> -->
+                      <ngx-intl-tel-input
+                        [cssClass]="'custom'"
+                        [preferredCountries]="preferredCountries"
+                        [enableAutoCountrySelect]="true"
+                        [enablePlaceholder]="true"
+                        [searchCountryFlag]="true"
+                        [searchCountryField]="[
+                          SearchCountryField.Iso2,
+                          SearchCountryField.Name
+                        ]"
+                        [selectFirstCountry]="false"
+                        [selectedCountryISO]="CountryISO.India"
+                        [maxLength]="15"
+                        [phoneValidation]="true"
+                        [separateDialCode]="separateDialCode"
+                        [numberFormat]="PhoneNumberFormat.National"
+                        name="mobile"
+                        formControlName="mobile"
+                        [ngClass]="{
+                          'is-invalid': submitted && f.mobile.errors
+                        }"
+                        (countryChange)="resetmobilefield()"
+                      >
+                      </ngx-intl-tel-input>
                       <div
                         *ngIf="submitted && f.mobile.errors"
                         class="invalid-feedback"
@@ -96,12 +120,7 @@
                         <div *ngIf="f.mobile.errors.required">
                           Mobile no is required
                         </div>
-                        <div *ngIf="f.mobile.errors.pattern">
-                          Only numbers Allowed
-                        </div>
-                        <div *ngIf="f.mobile.errors.minlength">
-                          Mobile no must have 10 digits
-                        </div>
+                        <div *ngIf="f.mobile.errors">Invalid phone no...</div>
                       </div>
                     </div>
                     <div class="form-group auth-form-group mb-4">

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import {
   FormBuilder,
@@ -10,6 +10,11 @@ import { first } from "rxjs/operators";
 import { of } from "rxjs";
 import { ApiService, MustMatch, sharedDataService } from "../../core";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
+import {
+  SearchCountryField,
+  CountryISO,
+  PhoneNumberFormat,
+} from "ngx-intl-tel-input";
 @Component({
   selector: "app-signup",
   templateUrl: "./signup.component.html",
@@ -19,6 +24,16 @@ export class SignupComponent
   extends UnsubscribeOnDestroyAdapter
   implements OnInit
 {
+  separateDialCode = true;
+  SearchCountryField = SearchCountryField;
+  CountryISO = CountryISO;
+  PhoneNumberFormat = PhoneNumberFormat;
+  preferredCountries: CountryISO[] = [
+    CountryISO.India,
+    CountryISO.UnitedArabEmirates,
+    CountryISO.UnitedStates,
+    CountryISO.UnitedKingdom,
+  ];
   loginForm: FormGroup;
   submitted = false;
   hide = true;
@@ -43,14 +58,7 @@ export class SignupComponent
           "",
           [Validators.required, Validators.email, Validators.minLength(5)],
         ],
-        mobile: [
-          "",
-          [
-            Validators.required,
-            Validators.pattern("^[0-9]*$"),
-            Validators.minLength(10),
-          ],
-        ],
+        mobile: ["", [Validators.required]],
         password: ["", [Validators.required, Validators.minLength(6)]],
         confirmPassword: ["", Validators.required],
         role: ["Doctor", []],
@@ -63,7 +71,11 @@ export class SignupComponent
   get f() {
     return this.loginForm.controls;
   }
-
+  resetmobilefield() {
+    if (this.loginForm.controls.mobile.value) {
+      this.loginForm.controls.mobile.setValue("");
+    }
+  }
   onSubmit() {
     this.submitted = true;
 
