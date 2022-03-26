@@ -21,125 +21,184 @@
                   </mat-panel-description>
                 </mat-expansion-panel-header>
                 <form [formGroup]="preliminaryForm" (ngSubmit)="onSubmit()">
-                  <mat-form-field appearance="fill">
-                    <mat-label>First name</mat-label>
-                    <input
-                      matInput
-                      formControlName="firstName"
-                      placeholder="First name"
-                      minlength="3"
-                      maxlength="50"
-                      [ngClass]="{
-                        'is-invalid': submitted && f.firstName.errors
-                      }"
-                    />
-                    <div
-                      *ngIf="submitted && f.firstName.errors"
-                      class="invalid-feedback"
-                    >
-                      <div *ngIf="f.firstName.errors.required">
-                        First name is required
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <mat-form-field appearance="fill">
+                          <mat-label>First name</mat-label>
+                          <input
+                            matInput
+                            formControlName="firstName"
+                            placeholder="First name"
+                            minlength="3"
+                            maxlength="50"
+                            [ngClass]="{
+                              'is-invalid': submitted && f.firstName.errors
+                            }"
+                          />
+                          <div
+                            *ngIf="submitted && f.firstName.errors"
+                            class="invalid-feedback"
+                          >
+                            <div *ngIf="f.firstName.errors.required">
+                              First name is required
+                            </div>
+                            <div *ngIf="f.firstName.errors.pattern">
+                              Nos & special characters is not allowed
+                            </div>
+                          </div>
+                        </mat-form-field>
                       </div>
-                      <div *ngIf="f.firstName.errors.pattern">
-                        Nos & special characters is not allowed
+                      <div class="col-md-3">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Last name</mat-label>
+                          <input
+                            matInput
+                            formControlName="lastName"
+                            placeholder="Last name"
+                            minlength="3"
+                            maxlength="50"
+                            [ngClass]="{
+                              'is-invalid': submitted && f.lastName.errors
+                            }"
+                          />
+                          <div
+                            *ngIf="submitted && f.lastName.errors"
+                            class="invalid-feedback"
+                          >
+                            <div *ngIf="f.lastName.errors.required">
+                              Last name is required
+                            </div>
+                            <div *ngIf="f.lastName.errors.pattern">
+                              Nos & special characters is not allowed
+                            </div>
+                          </div>
+                        </mat-form-field>
                       </div>
+                      <div class="col-md-3">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Email</mat-label>
+                          <input
+                            matInput
+                            formControlName="email"
+                            [readonly]="true"
+                            placeholder="Email"
+                            maxlength="150"
+                            [ngClass]="{
+                              'is-invalid': submitted && f.email.errors
+                            }"
+                          />
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Mobile</mat-label>
+                          <input
+                            matInput
+                            formControlName="mobile"
+                            [readonly]="true"
+                            placeholder="Mobile"
+                            maxlength="13"
+                            [ngClass]="{
+                              'is-invalid': submitted && f.mobile.errors
+                            }"
+                          />
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Secondary Mobile</mat-label>
+                          <input
+                            matInput
+                            formControlName="smobile"
+                            placeholder="Secondary Mobile"
+                            maxlength="13"
+                            [ngClass]="{
+                              'is-invalid': submitted && f.smobile.errors
+                            }"
+                          />
+                          <div
+                            *ngIf="submitted && f.smobile.errors"
+                            class="invalid-feedback"
+                          >
+                            <div *ngIf="f.smobile.errors.required">
+                              Secondary Mobile no is required
+                            </div>
+                            <div *ngIf="f.smobile.errors.pattern">
+                              Only numbers Allowed
+                            </div>
+                            <div *ngIf="f.smobile.errors.minlength">
+                              Mobile no must have 10 digits
+                            </div>
+                          </div>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field appearance="fill">
+                          <mat-label>DOB</mat-label>
+                          <input
+                            matInput
+                            [matDatepicker]="picker"
+                            [readonly]="true"
+                            formControlName="dob"
+                            [min]="minDate"
+                            [max]="tomorrow"
+                            (dateChange)="calAge($event)"
+                          />
+                          <mat-datepicker-toggle
+                            matSuffix
+                            [for]="picker"
+                          ></mat-datepicker-toggle>
+                          <mat-datepicker #picker startView="multi-year">
+                          </mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Age</mat-label>
+                          <input
+                            type="text"
+                            matInput
+                            [readonly]="true"
+                            formControlName="age"
+                            class="form-control"
+                            value="{{ cage }}"
+                        /></mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Address</mat-label>
+                          <input
+                            type="text"
+                            matInput
+                            formControlName="address"
+                            maxlength="300"
+                          />
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Blood Group</mat-label>
+                          <mat-select formControlName="bloodGroup">
+                            <mat-option
+                              *ngFor="let bg of bloodGrp"
+                              [value]="bg"
+                            >
+                              {{ bg }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <mat-action-row>
+                        <button mat-raised-button color="primary" type="submit">
+                          Save
+                        </button>
+                        <button mat-button color="primary" (click)="nextStep()">
+                          Next
+                        </button>
+                      </mat-action-row>
                     </div>
-                  </mat-form-field>
-
-                  <mat-form-field appearance="fill">
-                    <mat-label>Last name</mat-label>
-                    <input
-                      matInput
-                      formControlName="lastName"
-                      placeholder="Last name"
-                      minlength="3"
-                      maxlength="50"
-                      [ngClass]="{
-                        'is-invalid': submitted && f.lastName.errors
-                      }"
-                    />
-                    <div
-                      *ngIf="submitted && f.lastName.errors"
-                      class="invalid-feedback"
-                    >
-                      <div *ngIf="f.lastName.errors.required">
-                        Last name is required
-                      </div>
-                      <div *ngIf="f.lastName.errors.pattern">
-                        Nos & special characters is not allowed
-                      </div>
-                    </div>
-                  </mat-form-field>
-
-                  <mat-form-field appearance="fill">
-                    <mat-label>Email</mat-label>
-                    <input
-                      matInput
-                      formControlName="email"
-                      placeholder="Email"
-                      maxlength="150"
-                      disabled="true"
-                      [ngClass]="{
-                        'is-invalid': submitted && f.email.errors
-                      }"
-                    />
-                  </mat-form-field>
-
-                  <mat-form-field appearance="fill">
-                    <mat-label>Mobile</mat-label>
-                    <input
-                      matInput
-                      disabled="true"
-                      formControlName="mobile"
-                      placeholder="Mobile"
-                      maxlength="13"
-                      [ngClass]="{
-                        'is-invalid': submitted && f.mobile.errors
-                      }"
-                    />
-                  </mat-form-field>
-
-                  <mat-form-field appearance="fill">
-                    <mat-label>Secondary Mobile</mat-label>
-                    <input
-                      matInput
-                      disabled="true"
-                      formControlName="smobile"
-                      placeholder="Secondary Mobile"
-                      maxlength="13"
-                      [ngClass]="{
-                        'is-invalid': submitted && f.smobile.errors
-                      }"
-                    />
-                    <div
-                      *ngIf="submitted && f.smobile.errors"
-                      class="invalid-feedback"
-                    >
-                      <div *ngIf="f.smobile.errors.required">
-                        Secondary Mobile no is required
-                      </div>
-                      <div *ngIf="f.smobile.errors.pattern">
-                        Only numbers Allowed
-                      </div>
-                      <div *ngIf="f.smobile.errors.minlength">
-                        Mobile no must have 10 digits
-                      </div>
-                    </div>
-                  </mat-form-field>
-
-                  <mat-form-field appearance="fill">
-                    <mat-label>DOB</mat-label>
-                    <input matInput type="number" min="1" />
-                  </mat-form-field>
-
-                  <mat-action-row>
-                    <button mat-raised-button color="primary" type="submit">
-                      Save
-                    </button>
-                    <button mat-button color="primary" (click)="nextStep()">
-                      Next
-                    </button>
-                  </mat-action-row>
+                  </div>
                 </form>
               </mat-expansion-panel>
 
@@ -157,20 +216,33 @@
                     <mat-icon>workspace_premium</mat-icon>
                   </mat-panel-description>
                 </mat-expansion-panel-header>
-
-                <mat-form-field appearance="fill">
-                  <mat-label>Country</mat-label>
-                  <input matInput />
-                </mat-form-field>
-
-                <mat-action-row>
-                  <button mat-button color="warn" (click)="prevStep()">
-                    Previous
-                  </button>
-                  <button mat-button color="primary" (click)="nextStep()">
-                    Next
-                  </button>
-                </mat-action-row>
+                <form [formGroup]="EducationForm" (ngSubmit)="onSubmitEdu()">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Specialisation</mat-label>
+                          <mat-select formControlName="specialisation">
+                            <mat-option
+                              *ngFor="let sp of specialization"
+                              [value]="sp.name"
+                            >
+                              {{ sp.name }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <mat-action-row>
+                    <button mat-button color="warn" (click)="prevStep()">
+                      Previous
+                    </button>
+                    <button mat-button color="primary" (click)="nextStep()">
+                      Next
+                    </button>
+                  </mat-action-row>
+                </form>
               </mat-expansion-panel>
 
               <mat-expansion-panel

@@ -23,6 +23,7 @@ import {
 import { ClickOutsideModule } from "ng-click-outside";
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+
 import {
   HttpClientModule,
   HTTP_INTERCEPTORS,
