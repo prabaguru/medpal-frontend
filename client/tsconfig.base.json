@@ -15,9 +15,6 @@
   },
   "angularCompilerOptions": {
     "enableIvy": true,
-    "allowEmptyCodegenFiles": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowEmptyCodegenFiles": true
   }
 }

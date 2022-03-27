@@ -12,6 +12,8 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatSelectModule } from "@angular/material/select";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatChipsModule } from "@angular/material/chips";
 @NgModule({
   declarations: [ProfileSettingsComponent],
   imports: [
@@ -28,6 +30,8 @@ import { MatSelectModule } from "@angular/material/select";
     MatTabsModule,
     MatDatepickerModule,
     MatSelectModule,
+    MatAutocompleteModule,
+    MatChipsModule,
   ],
 })
 export class DoctorsModule {}
