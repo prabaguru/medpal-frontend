@@ -15,7 +15,10 @@ import {
   IFspecialisation,
   SPECIALISATION,
   DOCTORTYPE,
+  UG,
+  PG,
   CONSULTATIONDURATION,
+  YEAROFPASSING,
 } from "../../../dropdwndata";
 @Component({
   selector: "profile-settings",
@@ -26,13 +29,20 @@ export class ProfileSettingsComponent implements OnInit {
   preliminaryForm: FormGroup;
   educationForm: FormGroup;
   establishmentForm: FormGroup;
+
   @Output() dateChange: EventEmitter<MatDatepickerInputEvent<any>>;
   consultationDuration = CONSULTATIONDURATION;
   doctorType: IFspecialisation[] = DOCTORTYPE;
   bloodGrp: String[] = BLOODGROUP;
+  yearOfPassing = YEAROFPASSING;
   specialisation: IFspecialisation[] = SPECIALISATION;
+  UGList: IFspecialisation[] = UG;
+  PGList: IFspecialisation[] = PG;
   specialisationCtrl = new FormControl("", Validators.required);
   specialisationOptions: Observable<IFspecialisation[]>;
+  qualificationCtrl = new FormControl("", Validators.required);
+  qualificationOptions: Observable<IFspecialisation[]>;
+
   tomorrow = new Date("01/01/2000");
   minDate = new Date("01/01/1960");
   cyPickerStart = new Date("01/01/1980");
@@ -42,10 +52,11 @@ export class ProfileSettingsComponent implements OnInit {
   panelOpenState = false;
   userData;
   submitted = false;
-  step = 2;
+  gradeOption = ["UG", "PG"];
+  step = 1;
   tabs = ["Clinic1"];
   selected = new FormControl(0);
-
+  doctorEduObj = {};
   addTab(selectAfterAdding?: boolean, len?: any) {
     this.tabs.push("Clinic" + len);
 
@@ -104,22 +115,38 @@ export class ProfileSettingsComponent implements OnInit {
     });
 
     this.educationForm = this.formBuilder.group({
+      Graduation: ["", []],
       DoctorType: ["", [Validators.required]],
-      specialisation: this.specialisationCtrl,
-      Qualification: ["", [Validators.required]],
-      College: [
+      qualificationUG: this.qualificationCtrl.value,
+      CollegeUG: [
         "",
         [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
       ],
-      CompletionYear: ["", [Validators.required]],
-      MedicalRegistrationNo: [
+      CompletionYearUG: ["", [Validators.required]],
+      MedicalRegistrationNoUG: [
         "",
         [Validators.required, Validators.pattern("^[a-zA-Z0-9 '-]+$")],
       ],
-      MedicalCouncilName: [
+      MedicalCouncilNameUG: [
         "",
         [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
       ],
+      qualificationPG: ["", [Validators.required]],
+      specialisationPG: this.specialisationCtrl.value,
+      CollegePG: [
+        "",
+        [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
+      ],
+      CompletionYearPG: ["", [Validators.required]],
+      MedicalRegistrationNoPG: [
+        "",
+        [Validators.required, Validators.pattern("^[a-zA-Z0-9 '-]+$")],
+      ],
+      MedicalCouncilNamePG: [
+        "",
+        [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
+      ],
+
       role: ["Doctor", []],
     });
 
@@ -145,6 +172,11 @@ export class ProfileSettingsComponent implements OnInit {
       map((value) => (typeof value === "string" ? value : value.name)),
       map((name) => (name ? this._filter(name) : this.specialisation.slice()))
     );
+    this.qualificationOptions = this.qualificationCtrl.valueChanges.pipe(
+      startWith(""),
+      map((value) => (typeof value === "string" ? value : value.name)),
+      map((name) => (name ? this._filterQua(name) : this.UGList.slice()))
+    );
   }
 
   displayFn(user: IFspecialisation): string {
@@ -159,14 +191,26 @@ export class ProfileSettingsComponent implements OnInit {
     );
   }
 
+  private _filterQua(name: string): IFspecialisation[] {
+    const filterValue = name.toLowerCase();
+
+    return this.UGList.filter((option) =>
+      option.name.toLowerCase().includes(filterValue)
+    );
+  }
+
   get f() {
     return this.preliminaryForm.controls;
   }
-
+  get g() {
+    return this.educationForm.controls;
+  }
   get e() {
     return this.establishmentForm.controls;
   }
-
+  resetform() {
+    this.educationForm.reset();
+  }
   setStep(index: number) {
     this.step = index;
   }
@@ -180,7 +224,7 @@ export class ProfileSettingsComponent implements OnInit {
   }
 
   calAge(e) {
-    let date = e.target.value;
+    let date = e.value;
     var timeDiff = Math.abs(Date.now() - new Date(date).getTime());
     this.cage = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25) + " - Years";
     this.Age = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
@@ -193,7 +237,12 @@ export class ProfileSettingsComponent implements OnInit {
 
   onSubmitEdu() {
     this.submitted = true;
-    console.log(this.educationForm.value);
+    let grad = {
+      _id: this.userData._id,
+      graduation: this.educationForm.value,
+    };
+
+    console.log(grad);
   }
 
   onSubmitEst() {

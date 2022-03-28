@@ -19,33 +19,64 @@ export const DOCTORTYPE = [
   },
   {
     id: "4",
-    name: "Naturopathy",
+    name: "Yunani",
   },
   {
     id: "5",
-    name: "Yoga",
+    name: "Naturopathy",
   },
   {
     id: "6",
-    name: "Physiotherapist",
+    name: "Yoga",
   },
   {
     id: "7",
-    name: "Dentist",
+    name: "Physiotherapist",
   },
   {
     id: "8",
-    name: "Dietician",
+    name: "Dentist",
   },
   {
     id: "9",
-    name: "Sports Medicine",
+    name: "Dietician",
   },
   {
     id: "10",
-    name: "Yunani",
+    name: "Sports Medicine",
   },
 ];
+export const UG: IFspecialisation[] = [
+  { id: "1", name: "MBBS-Bachelor of Medicine, Bachelor of Surgery" },
+  { id: "2", name: "BDS-Bachelor of Dental Surgery" },
+  { id: "3", name: "BAMS-Bachelor of Ayurvedic Medicine and Surgery" },
+  { id: "4", name: "BUMS-Bachelor of Unani Medicine and Surgery" },
+  { id: "5", name: "BHMS-Bachelor of Homeopathy Medicine and Surgery" },
+  { id: "6", name: "BYNS-Bachelor of Yoga and Naturopathy Sciences" },
+  {
+    id: "7",
+    name: "B.V.Sc & AH Bachelor of Veterinary Sciences and Animal Husbandry",
+  },
+];
+
+export const PG: IFspecialisation[] = [
+  { id: "1", name: "MD-Doctor of Medicine" },
+  { id: "2", name: "MS-Master of Surgery" },
+  { id: "3", name: "DNB-Diplomate of National Board" },
+];
+
+export const YEAROFPASSING = generateArrayOfYears();
+function generateArrayOfYears() {
+  var max = new Date().getFullYear();
+  var min = max - 60;
+  var years = [];
+
+  for (var i = max; i >= min; i--) {
+    years.push(i);
+  }
+  return years;
+}
+
 export const BLOODGROUP = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
 export const SPECIALISATION: IFspecialisation[] = [
   {
@@ -154,7 +185,7 @@ export const SPECIALISATION: IFspecialisation[] = [
   },
   {
     id: "27",
-    name: "Otolaryngology",
+    name: "Oto Rhino laryngology",
   },
   {
     id: "28",
