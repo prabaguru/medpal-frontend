@@ -502,132 +502,187 @@
                 >
                   <div class="container">
                     <div class="row">
-                      <div class="col-md-3">
-                        <mat-form-field appearance="fill">
-                          <mat-label>Consultation Duration</mat-label>
-                          <mat-select formControlName="ConsultationDuration">
-                            <mat-option
-                              *ngFor="let option of consultationDuration"
-                              [value]="option"
-                            >
-                              {{ option }} - Minutes
-                            </mat-option>
-                          </mat-select>
-                        </mat-form-field>
-                      </div>
-                      <div class="col-md-3">
-                        <mat-form-field appearance="fill">
-                          <mat-label>Consultation Fees</mat-label>
-                          <input
-                            type="text"
-                            matInput
-                            formControlName="ConsultationFees"
-                            maxlength="5"
-                            [ngClass]="{
-                              'is-invalid':
-                                submitted && e.ConsultationFees.errors
-                            }"
-                          />
-                          <div
-                            *ngIf="submitted && e.ConsultationFees.errors"
-                            class="invalid-feedback"
+                      <div class="card">
+                        <div class="header">
+                          <h2>Enter Clinic details</h2>
+                        </div>
+                        <div class="body">
+                          <mat-tab-group
+                            [selectedIndex]="selected.value"
+                            (selectedIndexChange)="selected.setValue($event)"
                           >
-                            <div *ngIf="e.ConsultationFees.errors.required">
-                              Consultation Fees is required
-                            </div>
-                            <div *ngIf="e.ConsultationFees.errors.pattern">
-                              Only numbers Allowed.
-                            </div>
-                            <div *ngIf="e.ConsultationFees.errors.minlength">
-                              Consultation Fees requires 2 digits.
-                            </div>
-                          </div>
-                        </mat-form-field>
-                      </div>
-                      <div class="row col-md-12">
-                        <div class="col-md-12">
-                          <div class="row">
-                            <div
-                              class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-                            >
-                              <div class="card">
-                                <div class="header">
-                                  <h2>Enter clinic details</h2>
-                                </div>
-                                <div class="body">
-                                  <div class="mb-3">
-                                    <a
-                                      href="javascript:void();"
-                                      mat-raised-button
-                                      class="example-add-tab-button msr-2"
-                                      (click)="addTab(false, tabs.length + 1)"
-                                      [disabled]="tabs.length === 3"
+                            <mat-tab label="Clinic1">
+                              <div class="row col-md-12 py-5">
+                                <div class="col-md-3">
+                                  <mat-form-field appearance="fill">
+                                    <mat-label>Consultation Duration</mat-label>
+                                    <mat-select
+                                      formControlName="ConsultationDurationC1"
                                     >
-                                      Add Clinic
-                                    </a>
-                                  </div>
-
-                                  <mat-tab-group
-                                    [selectedIndex]="selected.value"
-                                    (selectedIndexChange)="
-                                      selected.setValue($event)
-                                    "
-                                  >
-                                    <mat-tab
-                                      *ngFor="
-                                        let tab of tabs;
-                                        let index = index
-                                      "
-                                      [label]="tab"
-                                    >
-                                      <!-- Contents for {{ tab }} tab{{ index }} -->
-                                      <div class="row col-md-12 py-5">
-                                        <div class="col-md-3">
-                                          <mat-form-field appearance="fill">
-                                            <mat-label
-                                              >{{ tab }} Name</mat-label
-                                            >
-                                            <input
-                                              type="text"
-                                              matInput
-                                              maxlength="100"
-                                              id="{{ tab }}Name"
-                                            />
-                                          </mat-form-field>
-                                        </div>
-                                        <div class="col-md-3">
-                                          <mat-form-field appearance="fill">
-                                            <mat-label
-                                              >{{ tab }} Location</mat-label
-                                            >
-                                            <input
-                                              type="text"
-                                              matInput
-                                              maxlength="100"
-                                              id="{{ tab }}Location"
-                                            />
-                                          </mat-form-field>
-                                        </div>
-                                      </div>
-                                      <button
-                                        mat-raised-button
-                                        color="warn"
-                                        class="example-delete-tab-button"
-                                        [disabled]="
-                                          tabs.length === 1 ||
-                                          index === 0 ||
-                                          (tabs.length === 3 && index === 1)
+                                      <mat-option
+                                        *ngFor="
+                                          let option of consultationDuration
                                         "
-                                        (click)="removeTab(index)"
+                                        [value]="option"
                                       >
-                                        Delete Clinic
-                                      </button>
-                                    </mat-tab>
-                                  </mat-tab-group>
+                                        {{ option }} - Minutes
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                  <mat-form-field appearance="fill">
+                                    <mat-label>Consultation Fees</mat-label>
+                                    <input
+                                      type="text"
+                                      matInput
+                                      formControlName="ConsultationFeesC1"
+                                      maxlength="5"
+                                      [ngClass]="{
+                                        'is-invalid':
+                                          submitted && e.ConsultationFees.errors
+                                      }"
+                                    />
+                                    <div
+                                      *ngIf="
+                                        submitted && e.ConsultationFees.errors
+                                      "
+                                      class="invalid-feedback"
+                                    >
+                                      <div
+                                        *ngIf="
+                                          e.ConsultationFees.errors.required
+                                        "
+                                      >
+                                        Consultation Fees is required
+                                      </div>
+                                      <div
+                                        *ngIf="
+                                          e.ConsultationFees.errors.pattern
+                                        "
+                                      >
+                                        Only numbers Allowed.
+                                      </div>
+                                      <div
+                                        *ngIf="
+                                          e.ConsultationFees.errors.minlength
+                                        "
+                                      >
+                                        Consultation Fees requires 2 digits.
+                                      </div>
+                                    </div>
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                  <mat-form-field appearance="fill">
+                                    <mat-label>Clinic Name</mat-label>
+                                    <input
+                                      type="text"
+                                      matInput
+                                      maxlength="100"
+                                      id="clinic1"
+                                    />
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                  <mat-form-field appearance="fill">
+                                    <mat-label>Clinic Location</mat-label>
+                                    <input
+                                      type="text"
+                                      matInput
+                                      maxlength="100"
+                                      id="clinicLocation"
+                                    />
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3"></div>
+                              </div>
+                            </mat-tab>
+                            <mat-tab label="Clinic2">
+                              <div class="row col-md-12 py-5">
+                                <div class="col-md-3">
+                                  <mat-form-field appearance="fill">
+                                    <mat-label>Consultation Duration</mat-label>
+                                    <mat-select>
+                                      <mat-option
+                                        *ngFor="
+                                          let option of consultationDuration
+                                        "
+                                        [value]="option"
+                                      >
+                                        {{ option }} - Minutes
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                  <mat-form-field appearance="fill">
+                                    <mat-label>Consultation Fees</mat-label>
+                                    <input
+                                      type="text"
+                                      matInput
+                                      maxlength="5"
+                                      [ngClass]="{
+                                        'is-invalid':
+                                          submitted && e.ConsultationFees.errors
+                                      }"
+                                    />
+                                    <div
+                                      *ngIf="
+                                        submitted && e.ConsultationFees.errors
+                                      "
+                                      class="invalid-feedback"
+                                    >
+                                      <div
+                                        *ngIf="
+                                          e.ConsultationFees.errors.required
+                                        "
+                                      >
+                                        Consultation Fees is required
+                                      </div>
+                                      <div
+                                        *ngIf="
+                                          e.ConsultationFees.errors.pattern
+                                        "
+                                      >
+                                        Only numbers Allowed.
+                                      </div>
+                                      <div
+                                        *ngIf="
+                                          e.ConsultationFees.errors.minlength
+                                        "
+                                      >
+                                        Consultation Fees requires 2 digits.
+                                      </div>
+                                    </div>
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                  <mat-form-field appearance="fill">
+                                    <mat-label>Clinic Name</mat-label>
+                                    <input
+                                      type="text"
+                                      matInput
+                                      maxlength="100"
+                                      id="clinic1"
+                                    />
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                  <mat-form-field appearance="fill">
+                                    <mat-label>Clinic Location</mat-label>
+                                    <input
+                                      type="text"
+                                      matInput
+                                      maxlength="100"
+                                      id="clinicLocation"
+                                    />
+                                  </mat-form-field>
                                 </div>
                               </div>
-                            </div>
-                          </div>
+                            </mat-tab>
+                          </mat-tab-group>
                         </div>
                       </div>
                       <mat-action-row>

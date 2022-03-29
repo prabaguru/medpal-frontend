@@ -31,6 +31,7 @@ export class ProfileSettingsComponent implements OnInit {
   establishmentForm: FormGroup;
 
   @Output() dateChange: EventEmitter<MatDatepickerInputEvent<any>>;
+
   consultationDuration = CONSULTATIONDURATION;
   doctorType: IFspecialisation[] = DOCTORTYPE;
   bloodGrp: String[] = BLOODGROUP;
@@ -42,7 +43,7 @@ export class ProfileSettingsComponent implements OnInit {
   specialisationOptions: Observable<IFspecialisation[]>;
   qualificationCtrl = new FormControl("", Validators.required);
   qualificationOptions: Observable<IFspecialisation[]>;
-
+  format = 24;
   tomorrow = new Date("01/01/2000");
   minDate = new Date("01/01/1960");
   cyPickerStart = new Date("01/01/1980");
@@ -53,21 +54,9 @@ export class ProfileSettingsComponent implements OnInit {
   userData;
   submitted = false;
   gradeOption = ["UG", "PG"];
-  step = 1;
-  tabs = ["Clinic1"];
+  step = 2;
   selected = new FormControl(0);
-  doctorEduObj = {};
-  addTab(selectAfterAdding?: boolean, len?: any) {
-    this.tabs.push("Clinic" + len);
-
-    if (selectAfterAdding) {
-      this.selected.setValue(this.tabs.length - 1);
-    }
-  }
-
-  removeTab(index: number) {
-    this.tabs.splice(index, 1);
-  }
+  time = { hour: 13, minute: 30 };
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
@@ -151,8 +140,8 @@ export class ProfileSettingsComponent implements OnInit {
     });
 
     this.establishmentForm = this.formBuilder.group({
-      ConsultationDuration: ["", [Validators.required]],
-      ConsultationFees: [
+      ConsultationDurationC1: ["", [Validators.required]],
+      ConsultationFeesC1: [
         "",
         [
           Validators.required,
@@ -160,12 +149,12 @@ export class ProfileSettingsComponent implements OnInit {
           Validators.minLength(2),
         ],
       ],
-      Clinics: ["", []],
+      time: [this.time, []],
     });
 
     this.preliminaryForm.controls.mobile.disable();
     this.preliminaryForm.controls.email.disable();
-    // this.preliminaryForm.controls.age.disable();
+    //this.establishmentForm.controls.sundayStartTimeCtrl.disable();
 
     this.specialisationOptions = this.specialisationCtrl.valueChanges.pipe(
       startWith(""),
