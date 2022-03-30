@@ -117,7 +117,20 @@ a:hover {
 .iti {
   width: 100% !important;
 }
+.timepicker__header {
+  height: auto !important;
+  line-height: 0 !important;
+  background-color: $base-color !important;
+}
+.clock-face__number > span.active,
+.clock-face__clock-hand {
+  background-color: $base-color !important;
+  color: #ffffff !important;
+}
 
+.timepicker-button {
+  color: $base-color !important;
+}
 @media (max-width: 768px) {
   .homedocBtn {
     margin-top: 20px !important;

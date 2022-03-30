@@ -14,7 +14,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatSelectModule } from "@angular/material/select";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatChipsModule } from "@angular/material/chips";
-import { NgxMatTimepickerModule } from "ngx-mat-timepicker";
+import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 @NgModule({
   declarations: [ProfileSettingsComponent],
   imports: [
@@ -33,7 +33,7 @@ import { NgxMatTimepickerModule } from "ngx-mat-timepicker";
     MatSelectModule,
     MatAutocompleteModule,
     MatChipsModule,
-    NgxMatTimepickerModule,
+    NgxMaterialTimepickerModule,
   ],
 })
 export class DoctorsModule {}

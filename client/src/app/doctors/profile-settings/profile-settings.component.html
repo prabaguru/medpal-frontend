@@ -512,92 +512,467 @@
                             (selectedIndexChange)="selected.setValue($event)"
                           >
                             <mat-tab label="Clinic1">
-                              <div class="row col-md-12 py-5">
-                                <div class="col-md-3">
-                                  <mat-form-field appearance="fill">
-                                    <mat-label>Consultation Duration</mat-label>
-                                    <mat-select
-                                      formControlName="ConsultationDurationC1"
-                                    >
-                                      <mat-option
-                                        *ngFor="
-                                          let option of consultationDuration
-                                        "
-                                        [value]="option"
+                              <span formGroupName="ClinicOneTimings">
+                                <div class="row col-md-12 py-5">
+                                  <div class="col-md-3">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label
+                                        >Consultation Duration</mat-label
                                       >
-                                        {{ option }} - Minutes
-                                      </mat-option>
-                                    </mat-select>
-                                  </mat-form-field>
-                                </div>
-                                <div class="col-md-3">
-                                  <mat-form-field appearance="fill">
-                                    <mat-label>Consultation Fees</mat-label>
-                                    <input
-                                      type="text"
-                                      matInput
-                                      formControlName="ConsultationFeesC1"
-                                      maxlength="5"
-                                      [ngClass]="{
-                                        'is-invalid':
-                                          submitted && e.ConsultationFees.errors
-                                      }"
-                                    />
-                                    <div
-                                      *ngIf="
-                                        submitted && e.ConsultationFees.errors
-                                      "
-                                      class="invalid-feedback"
-                                    >
+                                      <mat-select
+                                        formControlName="ConsultationDurationC1"
+                                      >
+                                        <mat-option
+                                          *ngFor="
+                                            let option of consultationDuration
+                                          "
+                                          [value]="option"
+                                        >
+                                          {{ option }} - Minutes
+                                        </mat-option>
+                                      </mat-select>
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="col-md-3">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Consultation Fees</mat-label>
+                                      <input
+                                        type="text"
+                                        matInput
+                                        formControlName="ConsultationFeesC1"
+                                        maxlength="5"
+                                        [ngClass]="{
+                                          'is-invalid':
+                                            submitted &&
+                                            ec1.get(
+                                              'ClinicOneTimings.ConsultationFeesC1'
+                                            ).errors
+                                        }"
+                                      />
                                       <div
                                         *ngIf="
-                                          e.ConsultationFees.errors.required
+                                          submitted &&
+                                          ec1.get(
+                                            'ClinicOneTimings.ConsultationFeesC1'
+                                          ).errors
                                         "
+                                        class="invalid-feedback"
                                       >
-                                        Consultation Fees is required
+                                        <div
+                                          *ngIf="
+                                            ec1.get(
+                                              'ClinicOneTimings.ConsultationFeesC1'
+                                            ).errors.required
+                                          "
+                                        >
+                                          Consultation Fees is required
+                                        </div>
+                                        <div
+                                          *ngIf="
+                                            ec1.get(
+                                              'ClinicOneTimings.ConsultationFeesC1'
+                                            ).errors.pattern
+                                          "
+                                        >
+                                          Only numbers Allowed.
+                                        </div>
+                                        <div
+                                          *ngIf="
+                                            ec1.get(
+                                              'ClinicOneTimings.ConsultationFeesC1'
+                                            ).errors.minlength
+                                          "
+                                        >
+                                          Consultation Fees requires 2 digits.
+                                        </div>
                                       </div>
-                                      <div
-                                        *ngIf="
-                                          e.ConsultationFees.errors.pattern
-                                        "
-                                      >
-                                        Only numbers Allowed.
-                                      </div>
-                                      <div
-                                        *ngIf="
-                                          e.ConsultationFees.errors.minlength
-                                        "
-                                      >
-                                        Consultation Fees requires 2 digits.
-                                      </div>
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="col-md-3">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Clinic Name</mat-label>
+                                      <input
+                                        type="text"
+                                        matInput
+                                        maxlength="100"
+                                        formControlName="ClinicName"
+                                        [ngClass]="{
+                                          'is-invalid':
+                                            submitted &&
+                                            ec1.get(
+                                              'ClinicOneTimings.ClinicName'
+                                            ).errors
+                                        }"
+                                      />
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="col-md-3">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Clinic Location</mat-label>
+                                      <input
+                                        type="text"
+                                        matInput
+                                        maxlength="100"
+                                        formControlName="ClinicLocation"
+                                        [ngClass]="{
+                                          'is-invalid':
+                                            submitted &&
+                                            ec1.get(
+                                              'ClinicOneTimings.ClinicLocation'
+                                            ).errors
+                                        }"
+                                      />
+                                    </mat-form-field>
+                                  </div>
+
+                                  <div class="row">
+                                    <div class="col-md-3">
+                                      <mat-form-field appearance="fill">
+                                        <mat-label>Sunday Start Time</mat-label>
+                                        <input
+                                          [ngxTimepicker]="STSun"
+                                          [min]="mintimeDefault"
+                                          [max]="maxtimeDefault"
+                                          [format]="timeFormat"
+                                          formControlName="SunStarttime"
+                                          readonly
+                                          matInput />
+                                        <mat-icon matSuffix>schedule</mat-icon>
+                                        <ngx-material-timepicker
+                                          #STSun
+                                          [preventOverlayClick]="
+                                            preventOverlayClick
+                                          "
+                                          (timeSet)="
+                                            changeTimeUnit($event, 'Sun')
+                                          "
+                                        ></ngx-material-timepicker
+                                      ></mat-form-field>
                                     </div>
-                                  </mat-form-field>
+                                    <div class="col-md-3">
+                                      <mat-form-field appearance="fill">
+                                        <mat-label>Sunday End Time</mat-label>
+                                        <input
+                                          [ngxTimepicker]="ETSun"
+                                          [min]="mintimeSun"
+                                          [max]="maxtimeDefault"
+                                          [format]="timeFormat"
+                                          formControlName="SunEndtime"
+                                          readonly
+                                          matInput />
+                                        <mat-icon matSuffix>schedule</mat-icon>
+                                        <ngx-material-timepicker
+                                          #ETSun
+                                          [preventOverlayClick]="
+                                            preventOverlayClick
+                                          "
+                                          (timeSet)="
+                                            changeTimeUnit($event, 'Sun')
+                                          "
+                                        ></ngx-material-timepicker
+                                      ></mat-form-field>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-3">
+                                      <mat-form-field appearance="fill">
+                                        <mat-label>Monday Start Time</mat-label>
+                                        <input
+                                          [ngxTimepicker]="STMon"
+                                          [min]="mintimeDefault"
+                                          [max]="maxtimeDefault"
+                                          [format]="timeFormat"
+                                          readonly
+                                          formControlName="MonStarttime"
+                                          matInput />
+                                        <mat-icon matSuffix>schedule</mat-icon>
+                                        <ngx-material-timepicker
+                                          #STMon
+                                          [preventOverlayClick]="
+                                            preventOverlayClick
+                                          "
+                                          (timeSet)="
+                                            changeTimeUnit($event, 'Mon')
+                                          "
+                                        ></ngx-material-timepicker
+                                      ></mat-form-field>
+                                    </div>
+                                    <div class="col-md-3">
+                                      <mat-form-field appearance="fill">
+                                        <mat-label>Monday End Time</mat-label>
+                                        <input
+                                          [ngxTimepicker]="ETMon"
+                                          [min]="mintimeMon"
+                                          [max]="maxtimeDefault"
+                                          [format]="timeFormat"
+                                          formControlName="MonEndtime"
+                                          readonly
+                                          matInput />
+                                        <mat-icon matSuffix>schedule</mat-icon>
+                                        <ngx-material-timepicker
+                                          #ETMon
+                                          [preventOverlayClick]="
+                                            preventOverlayClick
+                                          "
+                                          (timeSet)="
+                                            changeTimeUnit($event, 'Mon')
+                                          "
+                                        ></ngx-material-timepicker
+                                      ></mat-form-field>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-3">
+                                      <mat-form-field appearance="fill">
+                                        <mat-label
+                                          >Tuesday Start Time</mat-label
+                                        >
+                                        <input
+                                          [ngxTimepicker]="STTue"
+                                          [min]="mintimeDefault"
+                                          [max]="maxtimeDefault"
+                                          [format]="timeFormat"
+                                          formControlName="TueStarttime"
+                                          readonly
+                                          matInput />
+                                        <mat-icon matSuffix>schedule</mat-icon>
+                                        <ngx-material-timepicker
+                                          #STTue
+                                          [preventOverlayClick]="
+                                            preventOverlayClick
+                                          "
+                                          (timeSet)="
+                                            changeTimeUnit($event, 'Tue')
+                                          "
+                                        ></ngx-material-timepicker
+                                      ></mat-form-field>
+                                    </div>
+                                    <div class="col-md-3">
+                                      <mat-form-field appearance="fill">
+                                        <mat-label>Tuesday End Time</mat-label>
+                                        <input
+                                          [ngxTimepicker]="ETTue"
+                                          [min]="mintimeTue"
+                                          [max]="maxtimeDefault"
+                                          [format]="timeFormat"
+                                          formControlName="TueEndtime"
+                                          readonly
+                                          matInput />
+                                        <mat-icon matSuffix>schedule</mat-icon>
+                                        <ngx-material-timepicker
+                                          #ETTue
+                                          [preventOverlayClick]="
+                                            preventOverlayClick
+                                          "
+                                          (timeSet)="
+                                            changeTimeUnit($event, 'Tue')
+                                          "
+                                        ></ngx-material-timepicker
+                                      ></mat-form-field>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-3">
+                                      <mat-form-field appearance="fill">
+                                        <mat-label
+                                          >Wednesday Start Time</mat-label
+                                        >
+                                        <input
+                                          [ngxTimepicker]="STWed"
+                                          [min]="mintimeDefault"
+                                          [max]="maxtimeDefault"
+                                          [format]="timeFormat"
+                                          formControlName="WedStarttime"
+                                          readonly
+                                          matInput />
+                                        <mat-icon matSuffix>schedule</mat-icon>
+                                        <ngx-material-timepicker
+                                          #STWed
+                                          [preventOverlayClick]="
+                                            preventOverlayClick
+                                          "
+                                          (timeSet)="
+                                            changeTimeUnit($event, 'Wed')
+                                          "
+                                        ></ngx-material-timepicker
+                                      ></mat-form-field>
+                                    </div>
+                                    <div class="col-md-3">
+                                      <mat-form-field appearance="fill">
+                                        <mat-label
+                                          >Wednesday End Time</mat-label
+                                        >
+                                        <input
+                                          [ngxTimepicker]="ETWed"
+                                          [min]="mintimeWed"
+                                          [max]="maxtimeDefault"
+                                          [format]="timeFormat"
+                                          formControlName="WedEndtime"
+                                          readonly
+                                          matInput />
+                                        <mat-icon matSuffix>schedule</mat-icon>
+                                        <ngx-material-timepicker
+                                          #ETWed
+                                          [preventOverlayClick]="
+                                            preventOverlayClick
+                                          "
+                                          (timeSet)="
+                                            changeTimeUnit($event, 'Wed')
+                                          "
+                                        ></ngx-material-timepicker
+                                      ></mat-form-field>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-3">
+                                      <mat-form-field appearance="fill">
+                                        <mat-label
+                                          >Thursday Start Time</mat-label
+                                        >
+                                        <input
+                                          [ngxTimepicker]="STThu"
+                                          [min]="mintimeDefault"
+                                          [max]="maxtimeDefault"
+                                          [format]="timeFormat"
+                                          formControlName="ThuStarttime"
+                                          readonly
+                                          matInput />
+                                        <mat-icon matSuffix>schedule</mat-icon>
+                                        <ngx-material-timepicker
+                                          #STThu
+                                          [preventOverlayClick]="
+                                            preventOverlayClick
+                                          "
+                                          (timeSet)="
+                                            changeTimeUnit($event, 'Thu')
+                                          "
+                                        ></ngx-material-timepicker
+                                      ></mat-form-field>
+                                    </div>
+                                    <div class="col-md-3">
+                                      <mat-form-field appearance="fill">
+                                        <mat-label>Thursday End Time</mat-label>
+                                        <input
+                                          [ngxTimepicker]="ETThu"
+                                          [min]="mintimeThu"
+                                          [max]="maxtimeDefault"
+                                          [format]="timeFormat"
+                                          formControlName="ThuEndtime"
+                                          readonly
+                                          matInput />
+                                        <mat-icon matSuffix>schedule</mat-icon>
+                                        <ngx-material-timepicker
+                                          #ETThu
+                                          [preventOverlayClick]="
+                                            preventOverlayClick
+                                          "
+                                          (timeSet)="
+                                            changeTimeUnit($event, 'Thu')
+                                          "
+                                        ></ngx-material-timepicker
+                                      ></mat-form-field>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-3">
+                                      <mat-form-field appearance="fill">
+                                        <mat-label>Friday Start Time</mat-label>
+                                        <input
+                                          [ngxTimepicker]="STFri"
+                                          [min]="mintimeDefault"
+                                          [max]="maxtimeDefault"
+                                          [format]="timeFormat"
+                                          formControlName="FriStarttime"
+                                          readonly
+                                          matInput />
+                                        <mat-icon matSuffix>schedule</mat-icon>
+                                        <ngx-material-timepicker
+                                          #STFri
+                                          [preventOverlayClick]="
+                                            preventOverlayClick
+                                          "
+                                          (timeSet)="
+                                            changeTimeUnit($event, 'Fri')
+                                          "
+                                        ></ngx-material-timepicker
+                                      ></mat-form-field>
+                                    </div>
+                                    <div class="col-md-3">
+                                      <mat-form-field appearance="fill">
+                                        <mat-label>Friday End Time</mat-label>
+                                        <input
+                                          [ngxTimepicker]="ETFri"
+                                          [min]="mintimeFri"
+                                          [max]="maxtimeDefault"
+                                          [format]="timeFormat"
+                                          formControlName="FriEndtime"
+                                          readonly
+                                          matInput />
+                                        <mat-icon matSuffix>schedule</mat-icon>
+                                        <ngx-material-timepicker
+                                          #ETFri
+                                          [preventOverlayClick]="
+                                            preventOverlayClick
+                                          "
+                                          (timeSet)="
+                                            changeTimeUnit($event, 'Fri')
+                                          "
+                                        ></ngx-material-timepicker
+                                      ></mat-form-field>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-3">
+                                      <mat-form-field appearance="fill">
+                                        <mat-label
+                                          >Saturday Start Time</mat-label
+                                        >
+                                        <input
+                                          [ngxTimepicker]="STSat"
+                                          [min]="mintimeDefault"
+                                          [max]="maxtimeDefault"
+                                          [format]="timeFormat"
+                                          formControlName="SatStarttime"
+                                          readonly
+                                          matInput />
+                                        <mat-icon matSuffix>schedule</mat-icon>
+                                        <ngx-material-timepicker
+                                          #STSat
+                                          [preventOverlayClick]="
+                                            preventOverlayClick
+                                          "
+                                          (timeSet)="
+                                            changeTimeUnit($event, 'Sat')
+                                          "
+                                        ></ngx-material-timepicker
+                                      ></mat-form-field>
+                                    </div>
+                                    <div class="col-md-3">
+                                      <mat-form-field appearance="fill">
+                                        <mat-label>Saturday End Time</mat-label>
+                                        <input
+                                          [ngxTimepicker]="ETSat"
+                                          [min]="mintimeSat"
+                                          [max]="maxtimeDefault"
+                                          [format]="timeFormat"
+                                          formControlName="SatEndtime"
+                                          readonly
+                                          matInput />
+                                        <mat-icon matSuffix>schedule</mat-icon>
+                                        <ngx-material-timepicker
+                                          #ETSat
+                                          [preventOverlayClick]="
+                                            preventOverlayClick
+                                          "
+                                          (timeSet)="
+                                            changeTimeUnit($event, 'Sat')
+                                          "
+                                        ></ngx-material-timepicker
+                                      ></mat-form-field>
+                                    </div>
+                                  </div>
                                 </div>
-                                <div class="col-md-3">
-                                  <mat-form-field appearance="fill">
-                                    <mat-label>Clinic Name</mat-label>
-                                    <input
-                                      type="text"
-                                      matInput
-                                      maxlength="100"
-                                      id="clinic1"
-                                    />
-                                  </mat-form-field>
-                                </div>
-                                <div class="col-md-3">
-                                  <mat-form-field appearance="fill">
-                                    <mat-label>Clinic Location</mat-label>
-                                    <input
-                                      type="text"
-                                      matInput
-                                      maxlength="100"
-                                      id="clinicLocation"
-                                    />
-                                  </mat-form-field>
-                                </div>
-                                <div class="col-md-3"></div>
-                                <div class="col-md-3"></div>
-                              </div>
+                              </span>
                             </mat-tab>
                             <mat-tab label="Clinic2">
                               <div class="row col-md-12 py-5">
@@ -619,43 +994,7 @@
                                 <div class="col-md-3">
                                   <mat-form-field appearance="fill">
                                     <mat-label>Consultation Fees</mat-label>
-                                    <input
-                                      type="text"
-                                      matInput
-                                      maxlength="5"
-                                      [ngClass]="{
-                                        'is-invalid':
-                                          submitted && e.ConsultationFees.errors
-                                      }"
-                                    />
-                                    <div
-                                      *ngIf="
-                                        submitted && e.ConsultationFees.errors
-                                      "
-                                      class="invalid-feedback"
-                                    >
-                                      <div
-                                        *ngIf="
-                                          e.ConsultationFees.errors.required
-                                        "
-                                      >
-                                        Consultation Fees is required
-                                      </div>
-                                      <div
-                                        *ngIf="
-                                          e.ConsultationFees.errors.pattern
-                                        "
-                                      >
-                                        Only numbers Allowed.
-                                      </div>
-                                      <div
-                                        *ngIf="
-                                          e.ConsultationFees.errors.minlength
-                                        "
-                                      >
-                                        Consultation Fees requires 2 digits.
-                                      </div>
-                                    </div>
+                                    <input type="text" matInput maxlength="5" />
                                   </mat-form-field>
                                 </div>
                                 <div class="col-md-3">
