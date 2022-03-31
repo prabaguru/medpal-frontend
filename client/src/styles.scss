@@ -29,9 +29,15 @@ body {
 }
 
 .maincolor,
-.text-med,
-.text-primary {
+.text-med {
   color: $base-color !important;
+}
+
+.text-primary a:hover {
+  color: #fff !important;
+}
+.text-primary a:hover {
+  color: #fff !important;
 }
 a:hover {
   color: inherit !important;
