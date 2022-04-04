@@ -27,7 +27,13 @@ body {
 .mat-mini-fab.mat-primary {
   background: $base-color !important;
 }
-
+.mat-toolbar.mat-primary,
+.mat-flat-button.mat-primary,
+.mat-raised-button.mat-primary,
+.mat-fab.mat-primary,
+.mat-mini-fab.mat-primary :hover {
+  color: #fff !important;
+}
 .maincolor,
 .text-med {
   color: $base-color !important;
