@@ -6,7 +6,7 @@ import {
   Validators,
   FormControl,
 } from "@angular/forms";
-import { AuthService } from "../../core";
+import { AuthService, sharedDataService } from "../../core";
 import { MatDatepickerInputEvent } from "@angular/material/datepicker";
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 import { Observable } from "rxjs";
@@ -20,7 +20,9 @@ import {
   PG,
   CONSULTATIONDURATION,
   YEAROFPASSING,
+  EDITORCONFIG,
 } from "../../../dropdwndata";
+import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import * as moment from "moment";
 @Component({
   selector: "profile-settings",
@@ -30,8 +32,9 @@ import * as moment from "moment";
 export class ProfileSettingsComponent implements OnInit {
   preliminaryForm: FormGroup;
   educationForm: FormGroup;
-  establishmentForm: FormGroup;
-
+  ServicesForm: FormGroup;
+  public Editor = ClassicEditor;
+  config = EDITORCONFIG;
   @Output() dateChange: EventEmitter<MatDatepickerInputEvent<any>>;
   @Output() timeSet = new EventEmitter<string>();
   consultationDuration = CONSULTATIONDURATION;
@@ -56,29 +59,15 @@ export class ProfileSettingsComponent implements OnInit {
   userData;
   submitted = false;
   gradeOption = ["UG", "PG"];
-  step = 2;
+  step = 3;
   selected = new FormControl(0);
   timeFormat: number = 24;
   preventOverlayClick: boolean = true;
-  mintimeDefault = "00:00 am";
-  maxtimeDefault = "23:59 pm";
-  mintimeSun = "00:00 am";
-  mintimeMon = "00:00 am";
-  mintimeTue = "00:00 am";
-  mintimeWed = "00:00 am";
-  mintimeThu = "00:00 am";
-  mintimeFri = "00:00 am";
-  mintimeSat = "00:00 am";
-  disabledSun: boolean = true;
-  disabledMon: boolean = true;
-  disabledTue: boolean = true;
-  disabledWed: boolean = true;
-  disabledThu: boolean = true;
-  disabledFri: boolean = true;
-  disabledSat: boolean = true;
+
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
+    private sharedDataService: sharedDataService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -157,43 +146,9 @@ export class ProfileSettingsComponent implements OnInit {
 
       role: ["Doctor", []],
     });
-
-    this.establishmentForm = this.formBuilder.group({
-      ClinicOneTimings: this.formBuilder.group({
-        ConsultationDurationC1: ["", [Validators.required]],
-        ConsultationFeesC1: [
-          "",
-          [
-            Validators.required,
-            Validators.pattern("^[0-9]*$"),
-            Validators.minLength(2),
-          ],
-        ],
-        ClinicName: [
-          "",
-          [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
-        ],
-        ClinicLocation: [
-          "",
-          [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
-        ],
-        SunStarttime: ["", []],
-        SunEndtime: [{ value: "", disabled: true }, []],
-        MonStarttime: ["", []],
-        MonEndtime: [{ value: "", disabled: true }, []],
-        TueStarttime: ["", []],
-        TueEndtime: [{ value: "", disabled: true }, []],
-        WedStarttime: ["", []],
-        WedEndtime: [{ value: "", disabled: true }, []],
-        ThuStarttime: ["", []],
-        ThuEndtime: [{ value: "", disabled: true }, []],
-        FriStarttime: ["", []],
-        FriEndtime: [{ value: "", disabled: true }, []],
-        SatStarttime: ["", []],
-        SatEndtime: [{ value: "", disabled: true }, []],
-      }),
+    this.ServicesForm = this.formBuilder.group({
+      servicesData: ["", [Validators.required]],
     });
-
     this.preliminaryForm.controls.mobile.disable();
     this.preliminaryForm.controls.email.disable();
     //this.establishmentForm.controls.sundayStartTimeCtrl.disable();
@@ -236,13 +191,9 @@ export class ProfileSettingsComponent implements OnInit {
   get g() {
     return this.educationForm.controls;
   }
-  get e() {
-    return this.establishmentForm.controls;
+  get s() {
+    return this.ServicesForm.controls;
   }
-  get ec1() {
-    return this.establishmentForm;
-  }
-
   resetform() {
     this.educationForm.reset();
   }
@@ -279,70 +230,21 @@ export class ProfileSettingsComponent implements OnInit {
 
     console.log(grad);
   }
-
-  onSubmitEst() {
-    this.submitted = true;
-    console.log(this.establishmentForm.value);
+  resetformSer() {
+    this.ServicesForm.reset();
   }
-  changeTimeUnit(e: string, day: string) {
-    let minval = "";
-    minval = moment(e, "HH.mm").add(1, "hours").format("HH:mm");
-    if (day === "Sun") {
-      let getAcc = this.establishmentForm.get("ClinicOneTimings.SunEndtime");
-      getAcc.enable();
-      if (getAcc.value) {
-        getAcc.setValue("");
-      }
-      this.mintimeSun = minval;
-    }
-    if (day === "Mon") {
-      let getAcc = this.establishmentForm.get("ClinicOneTimings.MonEndtime");
-      getAcc.enable();
-      if (getAcc.value) {
-        getAcc.setValue("");
-      }
-      this.mintimeMon = minval;
-    }
-
-    if (day === "Tue") {
-      let getAcc = this.establishmentForm.get("ClinicOneTimings.TueEndtime");
-      getAcc.enable();
-      if (getAcc.value) {
-        getAcc.setValue("");
-      }
-      this.mintimeTue = minval;
-    }
-    if (day === "Wed") {
-      let getAcc = this.establishmentForm.get("ClinicOneTimings.WedEndtime");
-      getAcc.enable();
-      if (getAcc.value) {
-        getAcc.setValue("");
-      }
-      this.mintimeWed = minval;
-    }
-    if (day === "Thu") {
-      let getAcc = this.establishmentForm.get("ClinicOneTimings.ThuEndtime");
-      getAcc.enable();
-      if (getAcc.value) {
-        getAcc.setValue("");
-      }
-      this.mintimeThu = minval;
-    }
-    if (day === "Fri") {
-      let getAcc = this.establishmentForm.get("ClinicOneTimings.FriEndtime");
-      getAcc.enable();
-      if (getAcc.value) {
-        getAcc.setValue("");
-      }
-      this.mintimeFri = minval;
-    }
-    if (day === "Sat") {
-      let getAcc = this.establishmentForm.get("ClinicOneTimings.SatEndtime");
-      getAcc.enable();
-      if (getAcc.value) {
-        getAcc.setValue("");
-      }
-      this.mintimeSat = minval;
+  onSubmitSer() {
+    this.submitted = true;
+    console.log(this.ServicesForm.value);
+    // stop here if form is invalid
+    if (this.ServicesForm.invalid) {
+      this.sharedDataService.showNotification(
+        "snackbar-danger",
+        "Services Info is required",
+        "top",
+        "center"
+      );
+      return;
     }
   }
 }

@@ -256,3 +256,28 @@ export const SPECIALISATION: IFspecialisation[] = [
     name: "Vascular Surger",
   },
 ];
+
+export const EDITORCONFIG = {
+  toolbar: [
+    "undo",
+    "redo",
+    "|",
+    "heading",
+    "|",
+    "bold",
+    "italic",
+    "|",
+    "link",
+    "mediaEmbed",
+    "|",
+    "bulletedList",
+    "numberedList",
+    "|",
+    "indent",
+    "outdent",
+    "|",
+    "insertTable",
+    "blockQuote",
+  ],
+  language: "id",
+};

@@ -496,7 +496,18 @@
                     <mat-icon>date_range</mat-icon>
                   </mat-panel-description>
                 </mat-expansion-panel-header>
-                <establishment></establishment>
+                <div class="container">
+                  <div class="row">
+                    <div class="card">
+                      <div class="header">
+                        <h2>Enter Clinic details</h2>
+                      </div>
+                      <div class="body">
+                        <clinic1></clinic1>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div class="container">
                   <div class="row">
                     <mat-action-row>
@@ -526,10 +537,72 @@
                 hideToggle
               >
                 <mat-expansion-panel-header>
-                  <mat-panel-title> Registration & Documents </mat-panel-title>
+                  <mat-panel-title> Services </mat-panel-title>
+                  <mat-panel-description>
+                    Write about your Services & Experience
+                    <mat-icon>medical_services</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <form [formGroup]="ServicesForm" (ngSubmit)="onSubmitSer()">
+                  <div class="container">
+                    <div class="row clearfix">
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <ckeditor
+                          [editor]="Editor"
+                          [config]="config"
+                          formControlName="servicesData"
+                          [ngClass]="{
+                            'is-invalid': submitted && s.servicesData.errors
+                          }"
+                        ></ckeditor>
+                      </div>
+                      <div class="float-start">
+                        <a
+                          mat-raised-button
+                          color="primary"
+                          href="javascript:void();"
+                          (click)="resetformSer()"
+                        >
+                          Reset </a
+                        >&nbsp;
+                        <button mat-raised-button color="primary" type="submit">
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <mat-action-row>
+                  <a
+                    mat-button
+                    color="warn"
+                    (click)="prevStep()"
+                    href="javascript:void();"
+                  >
+                    Previous
+                  </a>
+                  <a
+                    mat-button
+                    color="primary"
+                    (click)="nextStep()"
+                    href="javascript:void();"
+                  >
+                    End
+                  </a>
+                </mat-action-row>
+              </mat-expansion-panel>
+              <mat-expansion-panel
+                [expanded]="step === 4"
+                (opened)="setStep(4)"
+                hideToggle
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Upload Registration Documents
+                  </mat-panel-title>
                   <mat-panel-description>
                     Upload Your registered documents
-                    <mat-icon>folder</mat-icon>
+                    <mat-icon>upload_file</mat-icon>
                   </mat-panel-description>
                 </mat-expansion-panel-header>
 
@@ -549,39 +622,6 @@
                     href="javascript:void();"
                   >
                     Next
-                  </a>
-                </mat-action-row>
-              </mat-expansion-panel>
-
-              <mat-expansion-panel
-                [expanded]="step === 4"
-                (opened)="setStep(4)"
-                hideToggle
-              >
-                <mat-expansion-panel-header>
-                  <mat-panel-title> Services </mat-panel-title>
-                  <mat-panel-description>
-                    Write about your Services
-                    <mat-icon>medical_services</mat-icon>
-                  </mat-panel-description>
-                </mat-expansion-panel-header>
-
-                <mat-action-row>
-                  <a
-                    mat-button
-                    color="warn"
-                    (click)="prevStep()"
-                    href="javascript:void();"
-                  >
-                    Previous
-                  </a>
-                  <a
-                    mat-button
-                    color="primary"
-                    (click)="nextStep()"
-                    href="javascript:void();"
-                  >
-                    End
                   </a>
                 </mat-action-row>
               </mat-expansion-panel>

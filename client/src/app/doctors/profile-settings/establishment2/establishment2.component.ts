@@ -10,15 +10,15 @@ import { AuthService } from "../../../core";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
 import { CONSULTATIONDURATION } from "../../../../dropdwndata";
-import { ApiService, MustMatch, sharedDataService } from "../../../core";
+import { ApiService, sharedDataService } from "../../../core";
 import * as moment from "moment";
 @Component({
-  selector: "clinic1",
-  templateUrl: "./establishment.component.html",
-  styleUrls: ["./establishment.component.scss"],
+  selector: "clinic2",
+  templateUrl: "./establishment2.component.html",
+  styleUrls: ["./establishment2.component.scss"],
 })
-export class establishmentComponent implements OnInit {
-  establishmentForm: FormGroup;
+export class establishment2Component implements OnInit {
+  establishmentForm2: FormGroup;
   @Output() timeSet = new EventEmitter<string>();
   consultationDuration = CONSULTATIONDURATION;
   timeFormat = 24;
@@ -58,8 +58,8 @@ export class establishmentComponent implements OnInit {
   ngOnInit() {
     this.userData = this.authService.currentUserValue;
 
-    this.establishmentForm = this.formBuilder.group({
-      ClinicOneTimings: this.formBuilder.group({
+    this.establishmentForm2 = this.formBuilder.group({
+      ClinicTwoTimings: this.formBuilder.group({
         Sunday: ["", []],
         Monday: ["", []],
         Tuesday: ["", []],
@@ -105,34 +105,34 @@ export class establishmentComponent implements OnInit {
   }
 
   get e() {
-    return this.establishmentForm.controls;
+    return this.establishmentForm2.controls;
   }
   get ec1() {
-    return this.establishmentForm;
+    return this.establishmentForm2;
   }
   resetform() {
     this.submitted = false;
-    this.establishmentForm.reset();
+    this.establishmentForm2.reset();
     this.resetValidation();
   }
 
   resetValidation() {
-    let ec1 = this.establishmentForm;
-    ec1.get("ClinicOneTimings.SunEndtime").clearValidators();
-    ec1.get("ClinicOneTimings.SunEndtime").disable();
-    ec1.get("ClinicOneTimings.MonEndtime").clearValidators();
-    ec1.get("ClinicOneTimings.MonEndtime").disable();
-    ec1.get("ClinicOneTimings.TueEndtime").clearValidators();
-    ec1.get("ClinicOneTimings.TueEndtime").disable();
-    ec1.get("ClinicOneTimings.WedEndtime").clearValidators();
-    ec1.get("ClinicOneTimings.WedEndtime").disable();
-    ec1.get("ClinicOneTimings.ThuEndtime").clearValidators();
-    ec1.get("ClinicOneTimings.ThuEndtime").disable();
-    ec1.get("ClinicOneTimings.FriEndtime").clearValidators();
-    ec1.get("ClinicOneTimings.FriEndtime").disable();
-    ec1.get("ClinicOneTimings.SatEndtime").clearValidators();
-    ec1.get("ClinicOneTimings.SatEndtime").disable();
-    ec1.get("ClinicOneTimings.ComBrEndtime").disable();
+    let ec1 = this.establishmentForm2;
+    ec1.get("ClinicTwoTimings.SunEndtime").clearValidators();
+    ec1.get("ClinicTwoTimings.SunEndtime").disable();
+    ec1.get("ClinicTwoTimings.MonEndtime").clearValidators();
+    ec1.get("ClinicTwoTimings.MonEndtime").disable();
+    ec1.get("ClinicTwoTimings.TueEndtime").clearValidators();
+    ec1.get("ClinicTwoTimings.TueEndtime").disable();
+    ec1.get("ClinicTwoTimings.WedEndtime").clearValidators();
+    ec1.get("ClinicTwoTimings.WedEndtime").disable();
+    ec1.get("ClinicTwoTimings.ThuEndtime").clearValidators();
+    ec1.get("ClinicTwoTimings.ThuEndtime").disable();
+    ec1.get("ClinicTwoTimings.FriEndtime").clearValidators();
+    ec1.get("ClinicTwoTimings.FriEndtime").disable();
+    ec1.get("ClinicTwoTimings.SatEndtime").clearValidators();
+    ec1.get("ClinicTwoTimings.SatEndtime").disable();
+    ec1.get("ClinicTwoTimings.ComBrEndtime").disable();
     this.enableDaySun(false, "Sun");
     this.enableDayMon(false, "Mon");
     this.enableDayTue(false, "Tue");
@@ -141,19 +141,19 @@ export class establishmentComponent implements OnInit {
     this.enableDayFri(false, "Fri");
     this.enableDaySat(false, "Sat");
   }
-  onSubmitEst() {
+  onSubmitEst2() {
     this.submitted = true;
     this.ValidateTimeEntered();
-    console.log(this.establishmentForm.value);
+    console.log(this.establishmentForm2.value);
   }
   ValidateTimeEntered() {
-    let sun = this.ec1.get("ClinicOneTimings.Sunday").value;
-    let mon = this.ec1.get("ClinicOneTimings.Monday").value;
-    let tue = this.ec1.get("ClinicOneTimings.Tuesday").value;
-    let wed = this.ec1.get("ClinicOneTimings.Wednesday").value;
-    let thu = this.ec1.get("ClinicOneTimings.Thursday").value;
-    let fri = this.ec1.get("ClinicOneTimings.Friday").value;
-    let sat = this.ec1.get("ClinicOneTimings.Saturday").value;
+    let sun = this.ec1.get("ClinicTwoTimings.Sunday").value;
+    let mon = this.ec1.get("ClinicTwoTimings.Monday").value;
+    let tue = this.ec1.get("ClinicTwoTimings.Tuesday").value;
+    let wed = this.ec1.get("ClinicTwoTimings.Wednesday").value;
+    let thu = this.ec1.get("ClinicTwoTimings.Thursday").value;
+    let fri = this.ec1.get("ClinicTwoTimings.Friday").value;
+    let sat = this.ec1.get("ClinicTwoTimings.Saturday").value;
     if (
       sun == "" &&
       mon == "" &&
@@ -174,7 +174,7 @@ export class establishmentComponent implements OnInit {
     let minval = "";
     minval = moment(e, "HH.mm").add(1, "hours").format("HH:mm");
     if (day === "ComBrStarttime") {
-      let getAcc = this.establishmentForm.get("ClinicOneTimings.ComBrEndtime");
+      let getAcc = this.establishmentForm2.get("ClinicTwoTimings.ComBrEndtime");
       getAcc.addValidators(Validators.required);
       getAcc.enable();
       if (getAcc.value) {
@@ -184,7 +184,7 @@ export class establishmentComponent implements OnInit {
     }
 
     if (day === "Sun") {
-      let getAcc = this.establishmentForm.get("ClinicOneTimings.SunEndtime");
+      let getAcc = this.establishmentForm2.get("ClinicTwoTimings.SunEndtime");
       getAcc.addValidators(Validators.required);
       getAcc.enable();
       if (getAcc.value) {
@@ -193,7 +193,7 @@ export class establishmentComponent implements OnInit {
       this.mintimeSun = minval;
     }
     if (day === "Mon") {
-      let getAcc = this.establishmentForm.get("ClinicOneTimings.MonEndtime");
+      let getAcc = this.establishmentForm2.get("ClinicTwoTimings.MonEndtime");
       getAcc.addValidators(Validators.required);
       getAcc.enable();
       if (getAcc.value) {
@@ -203,7 +203,7 @@ export class establishmentComponent implements OnInit {
     }
 
     if (day === "Tue") {
-      let getAcc = this.establishmentForm.get("ClinicOneTimings.TueEndtime");
+      let getAcc = this.establishmentForm2.get("ClinicTwoTimings.TueEndtime");
       getAcc.addValidators(Validators.required);
       getAcc.enable();
       if (getAcc.value) {
@@ -212,7 +212,7 @@ export class establishmentComponent implements OnInit {
       this.mintimeTue = minval;
     }
     if (day === "Wed") {
-      let getAcc = this.establishmentForm.get("ClinicOneTimings.WedEndtime");
+      let getAcc = this.establishmentForm2.get("ClinicTwoTimings.WedEndtime");
       getAcc.addValidators(Validators.required);
       getAcc.enable();
       if (getAcc.value) {
@@ -221,7 +221,7 @@ export class establishmentComponent implements OnInit {
       this.mintimeWed = minval;
     }
     if (day === "Thu") {
-      let getAcc = this.establishmentForm.get("ClinicOneTimings.ThuEndtime");
+      let getAcc = this.establishmentForm2.get("ClinicTwoTimings.ThuEndtime");
       getAcc.addValidators(Validators.required);
       getAcc.enable();
       if (getAcc.value) {
@@ -230,7 +230,7 @@ export class establishmentComponent implements OnInit {
       this.mintimeThu = minval;
     }
     if (day === "Fri") {
-      let getAcc = this.establishmentForm.get("ClinicOneTimings.FriEndtime");
+      let getAcc = this.establishmentForm2.get("ClinicTwoTimings.FriEndtime");
       getAcc.addValidators(Validators.required);
       getAcc.enable();
       if (getAcc.value) {
@@ -239,7 +239,7 @@ export class establishmentComponent implements OnInit {
       this.mintimeFri = minval;
     }
     if (day === "Sat") {
-      let getAcc = this.establishmentForm.get("ClinicOneTimings.SatEndtime");
+      let getAcc = this.establishmentForm2.get("ClinicTwoTimings.SatEndtime");
       getAcc.addValidators(Validators.required);
       getAcc.enable();
       if (getAcc.value) {
@@ -253,14 +253,14 @@ export class establishmentComponent implements OnInit {
     let dayStart;
     let dayEnd;
     if (e.checked === true && d === "Sun") {
-      dayStart = this.ec1.get("ClinicOneTimings.SunStarttime");
-      dayEnd = this.ec1.get("ClinicOneTimings.SunEndtime");
+      dayStart = this.ec1.get("ClinicTwoTimings.SunStarttime");
+      dayEnd = this.ec1.get("ClinicTwoTimings.SunEndtime");
       dayStart.addValidators(Validators.required);
       dayStart.enable();
       this.SetAllTime(dayStart, dayEnd, d);
     } else {
-      dayStart = this.ec1.get("ClinicOneTimings.SunStarttime");
-      dayEnd = this.ec1.get("ClinicOneTimings.SunEndtime");
+      dayStart = this.ec1.get("ClinicTwoTimings.SunStarttime");
+      dayEnd = this.ec1.get("ClinicTwoTimings.SunEndtime");
       dayStart.clearValidators();
       dayStart.disable();
       dayEnd.disable();
@@ -272,88 +272,88 @@ export class establishmentComponent implements OnInit {
   SetAllTime(dayStart, dayEnd, d) {
     if (
       d === "Tue" &&
-      this.ec1.get("ClinicOneTimings.MonStarttime").value !== "" &&
-      this.ec1.get("ClinicOneTimings.MonEndtime").value !== ""
+      this.ec1.get("ClinicTwoTimings.MonStarttime").value !== "" &&
+      this.ec1.get("ClinicTwoTimings.MonEndtime").value !== ""
     ) {
       this.changeTimeUnit(
-        this.ec1.get("ClinicOneTimings.MonStarttime").value,
+        this.ec1.get("ClinicTwoTimings.MonStarttime").value,
         d
       );
-      dayStart.setValue(this.ec1.get("ClinicOneTimings.MonStarttime").value);
-      dayEnd.setValue(this.ec1.get("ClinicOneTimings.MonEndtime").value);
+      dayStart.setValue(this.ec1.get("ClinicTwoTimings.MonStarttime").value);
+      dayEnd.setValue(this.ec1.get("ClinicTwoTimings.MonEndtime").value);
     }
     if (
       d === "Wed" &&
-      this.ec1.get("ClinicOneTimings.TueStarttime").value !== "" &&
-      this.ec1.get("ClinicOneTimings.TueEndtime").value !== ""
+      this.ec1.get("ClinicTwoTimings.TueStarttime").value !== "" &&
+      this.ec1.get("ClinicTwoTimings.TueEndtime").value !== ""
     ) {
       this.changeTimeUnit(
-        this.ec1.get("ClinicOneTimings.TueStarttime").value,
+        this.ec1.get("ClinicTwoTimings.TueStarttime").value,
         d
       );
-      dayStart.setValue(this.ec1.get("ClinicOneTimings.TueStarttime").value);
-      dayEnd.setValue(this.ec1.get("ClinicOneTimings.TueEndtime").value);
+      dayStart.setValue(this.ec1.get("ClinicTwoTimings.TueStarttime").value);
+      dayEnd.setValue(this.ec1.get("ClinicTwoTimings.TueEndtime").value);
     }
     if (
       d === "Thu" &&
-      this.ec1.get("ClinicOneTimings.WedStarttime").value !== "" &&
-      this.ec1.get("ClinicOneTimings.WedEndtime").value !== ""
+      this.ec1.get("ClinicTwoTimings.WedStarttime").value !== "" &&
+      this.ec1.get("ClinicTwoTimings.WedEndtime").value !== ""
     ) {
       this.changeTimeUnit(
-        this.ec1.get("ClinicOneTimings.WedStarttime").value,
+        this.ec1.get("ClinicTwoTimings.WedStarttime").value,
         d
       );
-      dayStart.setValue(this.ec1.get("ClinicOneTimings.WedStarttime").value);
-      dayEnd.setValue(this.ec1.get("ClinicOneTimings.WedEndtime").value);
+      dayStart.setValue(this.ec1.get("ClinicTwoTimings.WedStarttime").value);
+      dayEnd.setValue(this.ec1.get("ClinicTwoTimings.WedEndtime").value);
     }
     if (
       d === "Fri" &&
-      this.ec1.get("ClinicOneTimings.ThuStarttime").value !== "" &&
-      this.ec1.get("ClinicOneTimings.ThuEndtime").value !== ""
+      this.ec1.get("ClinicTwoTimings.ThuStarttime").value !== "" &&
+      this.ec1.get("ClinicTwoTimings.ThuEndtime").value !== ""
     ) {
       this.changeTimeUnit(
-        this.ec1.get("ClinicOneTimings.ThuStarttime").value,
+        this.ec1.get("ClinicTwoTimings.ThuStarttime").value,
         d
       );
-      dayStart.setValue(this.ec1.get("ClinicOneTimings.ThuStarttime").value);
-      dayEnd.setValue(this.ec1.get("ClinicOneTimings.ThuEndtime").value);
+      dayStart.setValue(this.ec1.get("ClinicTwoTimings.ThuStarttime").value);
+      dayEnd.setValue(this.ec1.get("ClinicTwoTimings.ThuEndtime").value);
     }
     if (
       d === "Sat" &&
-      this.ec1.get("ClinicOneTimings.FriStarttime").value !== "" &&
-      this.ec1.get("ClinicOneTimings.FriEndtime").value !== ""
+      this.ec1.get("ClinicTwoTimings.FriStarttime").value !== "" &&
+      this.ec1.get("ClinicTwoTimings.FriEndtime").value !== ""
     ) {
       this.changeTimeUnit(
-        this.ec1.get("ClinicOneTimings.FriStarttime").value,
+        this.ec1.get("ClinicTwoTimings.FriStarttime").value,
         d
       );
-      dayStart.setValue(this.ec1.get("ClinicOneTimings.FriStarttime").value);
-      dayEnd.setValue(this.ec1.get("ClinicOneTimings.FriEndtime").value);
+      dayStart.setValue(this.ec1.get("ClinicTwoTimings.FriStarttime").value);
+      dayEnd.setValue(this.ec1.get("ClinicTwoTimings.FriEndtime").value);
     }
     if (
       d === "Sun" &&
-      this.ec1.get("ClinicOneTimings.SatStarttime").value !== "" &&
-      this.ec1.get("ClinicOneTimings.SatEndtime").value !== ""
+      this.ec1.get("ClinicTwoTimings.SatStarttime").value !== "" &&
+      this.ec1.get("ClinicTwoTimings.SatEndtime").value !== ""
     ) {
       this.changeTimeUnit(
-        this.ec1.get("ClinicOneTimings.SatStarttime").value,
+        this.ec1.get("ClinicTwoTimings.SatStarttime").value,
         d
       );
-      dayStart.setValue(this.ec1.get("ClinicOneTimings.SatStarttime").value);
-      dayEnd.setValue(this.ec1.get("ClinicOneTimings.SatEndtime").value);
+      dayStart.setValue(this.ec1.get("ClinicTwoTimings.SatStarttime").value);
+      dayEnd.setValue(this.ec1.get("ClinicTwoTimings.SatEndtime").value);
     }
   }
   enableDayMon(e, d) {
     let dayStart;
     let dayEnd;
     if (e.checked === true && d === "Mon") {
-      dayStart = this.ec1.get("ClinicOneTimings.MonStarttime");
-      dayEnd = this.ec1.get("ClinicOneTimings.MonEndtime");
+      dayStart = this.ec1.get("ClinicTwoTimings.MonStarttime");
+      dayEnd = this.ec1.get("ClinicTwoTimings.MonEndtime");
       dayStart.addValidators(Validators.required);
       dayStart.enable();
     } else {
-      dayStart = this.ec1.get("ClinicOneTimings.MonStarttime");
-      dayEnd = this.ec1.get("ClinicOneTimings.MonEndtime");
+      dayStart = this.ec1.get("ClinicTwoTimings.MonStarttime");
+      dayEnd = this.ec1.get("ClinicTwoTimings.MonEndtime");
       dayStart.clearValidators();
       dayStart.disable();
       dayEnd.disable();
@@ -365,15 +365,15 @@ export class establishmentComponent implements OnInit {
     let dayStart;
     let dayEnd;
     if (e.checked === true && d == "Tue") {
-      dayStart = this.ec1.get("ClinicOneTimings.TueStarttime");
-      dayEnd = this.ec1.get("ClinicOneTimings.TueEndtime");
+      dayStart = this.ec1.get("ClinicTwoTimings.TueStarttime");
+      dayEnd = this.ec1.get("ClinicTwoTimings.TueEndtime");
       dayStart.addValidators(Validators.required);
       dayStart.enable();
 
       this.SetAllTime(dayStart, dayEnd, d);
     } else {
-      dayStart = this.ec1.get("ClinicOneTimings.TueStarttime");
-      dayEnd = this.ec1.get("ClinicOneTimings.TueEndtime");
+      dayStart = this.ec1.get("ClinicTwoTimings.TueStarttime");
+      dayEnd = this.ec1.get("ClinicTwoTimings.TueEndtime");
       dayStart.clearValidators();
       dayStart.disable();
       dayEnd.disable();
@@ -387,15 +387,15 @@ export class establishmentComponent implements OnInit {
     let dayEnd;
 
     if (e.checked === true && d == "Wed") {
-      dayStart = this.ec1.get("ClinicOneTimings.WedStarttime");
-      dayEnd = this.ec1.get("ClinicOneTimings.WedEndtime");
+      dayStart = this.ec1.get("ClinicTwoTimings.WedStarttime");
+      dayEnd = this.ec1.get("ClinicTwoTimings.WedEndtime");
       dayStart.addValidators(Validators.required);
       dayStart.enable();
 
       this.SetAllTime(dayStart, dayEnd, d);
     } else {
-      dayStart = this.ec1.get("ClinicOneTimings.WedStarttime");
-      dayEnd = this.ec1.get("ClinicOneTimings.WedEndtime");
+      dayStart = this.ec1.get("ClinicTwoTimings.WedStarttime");
+      dayEnd = this.ec1.get("ClinicTwoTimings.WedEndtime");
       dayStart.clearValidators();
       dayStart.disable();
       dayEnd.disable();
@@ -408,15 +408,15 @@ export class establishmentComponent implements OnInit {
     let dayStart;
     let dayEnd;
     if (e.checked === true && d == "Thu") {
-      dayStart = this.ec1.get("ClinicOneTimings.ThuStarttime");
-      dayEnd = this.ec1.get("ClinicOneTimings.ThuEndtime");
+      dayStart = this.ec1.get("ClinicTwoTimings.ThuStarttime");
+      dayEnd = this.ec1.get("ClinicTwoTimings.ThuEndtime");
       dayStart.addValidators(Validators.required);
       dayStart.enable();
 
       this.SetAllTime(dayStart, dayEnd, d);
     } else {
-      dayStart = this.ec1.get("ClinicOneTimings.ThuStarttime");
-      dayEnd = this.ec1.get("ClinicOneTimings.ThuEndtime");
+      dayStart = this.ec1.get("ClinicTwoTimings.ThuStarttime");
+      dayEnd = this.ec1.get("ClinicTwoTimings.ThuEndtime");
       dayStart.clearValidators();
       dayStart.disable();
       dayEnd.disable();
@@ -429,15 +429,15 @@ export class establishmentComponent implements OnInit {
     let dayStart;
     let dayEnd;
     if (e.checked === true && d == "Fri") {
-      dayStart = this.ec1.get("ClinicOneTimings.FriStarttime");
-      dayEnd = this.ec1.get("ClinicOneTimings.FriEndtime");
+      dayStart = this.ec1.get("ClinicTwoTimings.FriStarttime");
+      dayEnd = this.ec1.get("ClinicTwoTimings.FriEndtime");
       dayStart.addValidators(Validators.required);
       dayStart.enable();
 
       this.SetAllTime(dayStart, dayEnd, d);
     } else {
-      dayStart = this.ec1.get("ClinicOneTimings.FriStarttime");
-      dayEnd = this.ec1.get("ClinicOneTimings.FriEndtime");
+      dayStart = this.ec1.get("ClinicTwoTimings.FriStarttime");
+      dayEnd = this.ec1.get("ClinicTwoTimings.FriEndtime");
       dayStart.clearValidators();
       dayStart.disable();
       dayEnd.disable();
@@ -451,15 +451,15 @@ export class establishmentComponent implements OnInit {
     let dayEnd;
 
     if (e.checked === true && d == "Sat") {
-      dayStart = this.ec1.get("ClinicOneTimings.SatStarttime");
-      dayEnd = this.ec1.get("ClinicOneTimings.SatEndtime");
+      dayStart = this.ec1.get("ClinicTwoTimings.SatStarttime");
+      dayEnd = this.ec1.get("ClinicTwoTimings.SatEndtime");
       dayStart.addValidators(Validators.required);
       dayStart.enable();
 
       this.SetAllTime(dayStart, dayEnd, d);
     } else {
-      dayStart = this.ec1.get("ClinicOneTimings.SatStarttime");
-      dayEnd = this.ec1.get("ClinicOneTimings.SatEndtime");
+      dayStart = this.ec1.get("ClinicTwoTimings.SatStarttime");
+      dayEnd = this.ec1.get("ClinicTwoTimings.SatEndtime");
       dayStart.clearValidators();
       dayStart.disable();
       dayEnd.disable();
