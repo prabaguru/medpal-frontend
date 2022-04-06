@@ -6,11 +6,11 @@ import {
   Validators,
   FormControl,
 } from "@angular/forms";
-import { AuthService, sharedDataService } from "../../core";
+import { AuthService, sharedDataService, ApiService } from "../../core";
 import { MatDatepickerInputEvent } from "@angular/material/datepicker";
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 import { Observable } from "rxjs";
-import { map, startWith } from "rxjs/operators";
+import { map, startWith, first } from "rxjs/operators";
 import {
   BLOODGROUP,
   IFspecialisation,
@@ -23,13 +23,17 @@ import {
   EDITORCONFIG,
 } from "../../../dropdwndata";
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import * as moment from "moment";
 @Component({
   selector: "profile-settings",
   templateUrl: "./profile-settings.component.html",
   styleUrls: ["./profile-settings.component.scss"],
 })
-export class ProfileSettingsComponent implements OnInit {
+export class ProfileSettingsComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
   preliminaryForm: FormGroup;
   educationForm: FormGroup;
   ServicesForm: FormGroup;
@@ -67,14 +71,19 @@ export class ProfileSettingsComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
+    private apiService: ApiService,
     private sharedDataService: sharedDataService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.userData = this.authService.currentUserValue;
+    this.cage = this.userData.age ? this.userData.age : "";
     this.preliminaryForm = this.formBuilder.group({
+      id: [this.userData._id, []],
       firstName: [
         this.userData.firstName,
         [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
@@ -89,29 +98,29 @@ export class ProfileSettingsComponent implements OnInit {
       ],
       mobile: [this.userData.mobile.number],
       smobile: [
-        "",
+        this.userData.smobile,
         [
           Validators.required,
           Validators.pattern("^[0-9]*$"),
           Validators.minLength(10),
         ],
       ],
-      dob: ["", [Validators.required]],
-      age: ["", []],
-      address: ["", []],
-      bloodGroup: ["", [Validators.required]],
+      dob: [this.userData.dob, [Validators.required]],
+      age: [this.userData.age, []],
+      address: [this.userData.address, []],
+      bloodGroup: [this.userData.bloodGroup, [Validators.required]],
       AadhaarNo: [
-        "",
+        this.userData.AadhaarNo,
         [
           Validators.required,
           Validators.pattern("^[0-9]*$"),
           Validators.minLength(12),
         ],
       ],
-      role: ["Doctor", []],
     });
 
     this.educationForm = this.formBuilder.group({
+      id: [this.userData._id, []],
       Graduation: ["", []],
       DoctorType: ["", [Validators.required]],
       qualificationUG: this.qualificationCtrl.value,
@@ -215,21 +224,78 @@ export class ProfileSettingsComponent implements OnInit {
     this.cage = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25) + " - Years";
     this.Age = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
   }
+
   onSubmit() {
     this.submitted = true;
+    //console.log(this.preliminaryForm.value);
     this.preliminaryForm.controls.age.setValue(this.cage);
-    console.log(this.preliminaryForm.value);
+    // stop here if form is invalid
+    if (this.preliminaryForm.invalid) {
+      return;
+    }
+
+    this.subs.sink = this.apiService
+      .update(this.preliminaryForm.value)
+      .pipe(first())
+      .subscribe({
+        next: (data) => {
+          this.sharedDataService.showNotification(
+            "snackbar-success",
+            "Update Successfull...",
+            "top",
+            "center"
+          );
+          //this.router.navigate(["/authentication/signin"]);
+        },
+        error: (error) => {
+          this.sharedDataService.showNotification(
+            "snackbar-danger",
+            error,
+            "top",
+            "center"
+          );
+          this.submitted = false;
+        },
+        complete: () => {},
+      });
   }
 
   onSubmitEdu() {
     this.submitted = true;
-    let grad = {
-      _id: this.userData._id,
-      graduation: this.educationForm.value,
-    };
+    this.qualificationCtrl.value;
+    console.log(this.educationForm.value);
+    return;
+    // stop here if form is invalid
+    if (this.educationForm.invalid) {
+      return;
+    }
 
-    console.log(grad);
+    this.subs.sink = this.apiService
+      .update(this.educationForm.value)
+      .pipe(first())
+      .subscribe({
+        next: (data) => {
+          this.sharedDataService.showNotification(
+            "snackbar-success",
+            "Update Successfull...",
+            "top",
+            "center"
+          );
+          //this.router.navigate(["/authentication/signin"]);
+        },
+        error: (error) => {
+          this.sharedDataService.showNotification(
+            "snackbar-danger",
+            error,
+            "top",
+            "center"
+          );
+          this.submitted = false;
+        },
+        complete: () => {},
+      });
   }
+
   resetformSer() {
     this.ServicesForm.reset();
   }
