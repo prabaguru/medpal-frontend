@@ -47,6 +47,7 @@
                 <mat-option
                   *ngFor="let option of consultationDuration"
                   [value]="option"
+                  [compareWith]="compareArr"
                 >
                   {{ option }} - Minutes
                 </mat-option>

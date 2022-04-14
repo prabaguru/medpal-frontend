@@ -48,7 +48,7 @@ export class ProfileSettingsComponent
   specialisation: IFspecialisation[] = SPECIALISATION;
   UGList: IFspecialisation[] = UG;
   PGList: IFspecialisation[] = PG;
-  specialisationCtrl = new FormControl("", Validators.required);
+  specialisationCtrl = new FormControl();
   specialisationOptions: Observable<IFspecialisation[]>;
   qualificationCtrl = new FormControl("", Validators.required);
   qualificationOptions: Observable<IFspecialisation[]>;
@@ -118,45 +118,52 @@ export class ProfileSettingsComponent
         ],
       ],
     });
-
     this.educationForm = this.formBuilder.group({
       id: [this.userData._id, []],
-      Graduation: ["", []],
-      DoctorType: ["", [Validators.required]],
-      qualificationUG: this.qualificationCtrl.value,
-      CollegeUG: [
-        "",
-        [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
-      ],
-      CompletionYearUG: ["", [Validators.required]],
-      MedicalRegistrationNoUG: [
-        "",
-        [Validators.required, Validators.pattern("^[a-zA-Z0-9 '-]+$")],
-      ],
-      MedicalCouncilNameUG: [
-        "",
-        [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
-      ],
-      qualificationPG: ["", [Validators.required]],
-      specialisationPG: this.specialisationCtrl.value,
-      CollegePG: [
-        "",
-        [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
-      ],
-      CompletionYearPG: ["", [Validators.required]],
-      MedicalRegistrationNoPG: [
-        "",
-        [Validators.required, Validators.pattern("^[a-zA-Z0-9 '-]+$")],
-      ],
-      MedicalCouncilNamePG: [
-        "",
-        [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
-      ],
-
-      role: ["Doctor", []],
+      graduation: this.formBuilder.group({
+        id: [this.userData._id, []],
+        Graduation: [
+          this.userData.graduation.Graduation,
+          [Validators.required],
+        ],
+        DoctorType: [
+          this.userData.graduation.DoctorType,
+          [Validators.required],
+        ],
+        qualificationUG: ["", []],
+        CollegeUG: [
+          this.userData.graduation.CollegeUG,
+          [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
+        ],
+        CompletionYearUG: [
+          this.userData.graduation.CompletionYearUG,
+          [Validators.required],
+        ],
+        MedicalRegistrationNoUG: [
+          this.userData.graduation.MedicalRegistrationNoUG,
+          [Validators.required, Validators.pattern("^[a-zA-Z0-9 '-]+$")],
+        ],
+        MedicalCouncilNameUG: [
+          this.userData.graduation.MedicalCouncilNameUG,
+          [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
+        ],
+        qualificationPG: [this.userData.graduation.qualificationPG, []],
+        specialisationPG: ["", []],
+        CollegePG: [this.userData.graduation.CollegePG, []],
+        CompletionYearPG: [this.userData.graduation.CompletionYearPG, []],
+        MedicalRegistrationNoPG: [
+          this.userData.graduation.MedicalRegistrationNoPG,
+          [],
+        ],
+        MedicalCouncilNamePG: [
+          this.userData.graduation.MedicalCouncilNamePG,
+          [],
+        ],
+      }),
     });
     this.ServicesForm = this.formBuilder.group({
-      servicesData: ["", [Validators.required]],
+      id: [this.userData._id, []],
+      services: [this.userData.services, [Validators.required]],
     });
     this.preliminaryForm.controls.mobile.disable();
     this.preliminaryForm.controls.email.disable();
@@ -172,10 +179,22 @@ export class ProfileSettingsComponent
       map((value) => (typeof value === "string" ? value : value.name)),
       map((name) => (name ? this._filterQua(name) : this.UGList.slice()))
     );
+
+    this.qualificationCtrl.setValue(this.userData.graduation.qualificationUG);
+    this.specialisationCtrl.setValue(this.userData.graduation.qualificationPG);
+  }
+  compareWith(o1: any, o2: any) {
+    if (o1.name === o2.name && o1.id === o2.id) return true;
+    else return false;
   }
 
-  displayFn(user: IFspecialisation): string {
-    return user && user.name ? user.name : "";
+  compareArr(o1: any, o2: any) {
+    if (o1 === o2) return true;
+    else return false;
+  }
+
+  displayFn(user): string {
+    return user ? user.name : user;
   }
 
   private _filter(name: string): IFspecialisation[] {
@@ -198,7 +217,7 @@ export class ProfileSettingsComponent
     return this.preliminaryForm.controls;
   }
   get g() {
-    return this.educationForm.controls;
+    return this.educationForm;
   }
   get s() {
     return this.ServicesForm.controls;
@@ -259,12 +278,76 @@ export class ProfileSettingsComponent
         complete: () => {},
       });
   }
+  eduformAddPg(e: any) {
+    if (e.value === "PG") {
+      this.g
+        .get("graduation.qualificationPG")
+        .addValidators(Validators.required);
+      this.g
+        .get("graduation.CollegePG")
+        .addValidators([
+          Validators.required,
+          Validators.pattern("^[a-zA-Z '-]+$"),
+        ]);
+      this.g
+        .get("graduation.CompletionYearPG")
+        .addValidators([Validators.required]);
+      this.g
+        .get("graduation.CollegePG")
+        .addValidators([
+          Validators.required,
+          Validators.pattern("^[a-zA-Z '-]+$"),
+        ]);
+      this.g
+        .get("graduation.MedicalRegistrationNoPG")
+        .addValidators([
+          Validators.required,
+          Validators.pattern("^[a-zA-Z0-9 '-]+$"),
+        ]);
+      this.g
+        .get("graduation.MedicalCouncilNamePG")
+        .addValidators([
+          Validators.required,
+          Validators.pattern("^[a-zA-Z '-]+$"),
+        ]);
+      this.specialisationCtrl.addValidators(Validators.required);
+    } else {
+      this.clearEduValidators();
+    }
+  }
+  clearEduValidators() {
+    this.g.get("graduation.qualificationPG").clearValidators();
+    this.g.get("graduation.CollegePG").clearValidators();
+    this.g.get("graduation.CompletionYearPG").clearValidators();
+    this.g.get("graduation.MedicalRegistrationNoPG").clearValidators();
+    this.g.get("graduation.MedicalCouncilNamePG").clearValidators();
 
+    this.g.get("graduation.qualificationPG").setValue("");
+    this.g.get("graduation.CollegePG").setValue(null);
+    this.g.get("graduation.CompletionYearPG").setValue(null);
+    this.g.get("graduation.MedicalRegistrationNoPG").setValue(null);
+    this.g.get("graduation.MedicalCouncilNamePG").setValue(null);
+
+    this.g.get("graduation.qualificationPG").setErrors(null);
+    this.g.get("graduation.CollegePG").setErrors(null);
+    this.g.get("graduation.CompletionYearPG").setErrors(null);
+    this.g.get("graduation.MedicalRegistrationNoPG").setErrors(null);
+    this.g.get("graduation.MedicalCouncilNamePG").setErrors(null);
+    this.specialisationCtrl.setValue("");
+    this.specialisationCtrl.clearValidators();
+  }
   onSubmitEdu() {
     this.submitted = true;
-    this.qualificationCtrl.value;
-    console.log(this.educationForm.value);
-    return;
+
+    this.g.get("graduation.qualificationUG").setValue("");
+    this.g
+      .get("graduation.qualificationUG")
+      .setValue(this.qualificationCtrl.value);
+    this.g.get("graduation.specialisationPG").setValue("");
+    this.g
+      .get("graduation.specialisationPG")
+      .setValue(this.specialisationCtrl.value);
+    //console.log(this.educationForm.value);
     // stop here if form is invalid
     if (this.educationForm.invalid) {
       return;
@@ -298,10 +381,12 @@ export class ProfileSettingsComponent
 
   resetformSer() {
     this.ServicesForm.reset();
+    this.ServicesForm.controls.id.setValue(this.userData._id);
   }
+
   onSubmitSer() {
     this.submitted = true;
-    console.log(this.ServicesForm.value);
+    //console.log(this.ServicesForm.value);
     // stop here if form is invalid
     if (this.ServicesForm.invalid) {
       this.sharedDataService.showNotification(
@@ -310,7 +395,31 @@ export class ProfileSettingsComponent
         "top",
         "center"
       );
-      return;
     }
+
+    this.subs.sink = this.apiService
+      .update(this.ServicesForm.value)
+      .pipe(first())
+      .subscribe({
+        next: (data) => {
+          this.sharedDataService.showNotification(
+            "snackbar-success",
+            "Update Successfull...",
+            "top",
+            "center"
+          );
+          //this.router.navigate(["/authentication/signin"]);
+        },
+        error: (error) => {
+          this.sharedDataService.showNotification(
+            "snackbar-danger",
+            error,
+            "top",
+            "center"
+          );
+          this.submitted = false;
+        },
+        complete: () => {},
+      });
   }
 }
