@@ -395,6 +395,7 @@ export class ProfileSettingsComponent
         "top",
         "center"
       );
+      return;
     }
 
     this.subs.sink = this.apiService
