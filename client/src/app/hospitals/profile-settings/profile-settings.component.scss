@@ -1,0 +1,9 @@
+.example-full-width {
+  width: 100%;
+}
+#cdk-overlay-1 {
+  width: auto !important;
+}
+:host ::ng-deep .ck-editor__editable_inline {
+  min-height: 400px;
+}

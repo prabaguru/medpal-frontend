@@ -1,0 +1,656 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <h2 translate><strong>Profile</strong> Settings</h2>
+          </div>
+          <div class="body">
+            <mat-accordion class="example-headers-align">
+              <mat-expansion-panel
+                [expanded]="step === 0"
+                (opened)="setStep(0)"
+                hideToggle
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title> Preliminary Details </mat-panel-title>
+                  <mat-panel-description>
+                    Fill Your personnel details
+                    <mat-icon>account_circle</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <form [formGroup]="preliminaryForm" (ngSubmit)="onSubmit()">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <mat-form-field appearance="fill">
+                          <mat-label>First name</mat-label>
+                          <input
+                            matInput
+                            formControlName="firstName"
+                            placeholder="First name"
+                            minlength="3"
+                            maxlength="50"
+                            [ngClass]="{
+                              'is-invalid': submitted && f.firstName.errors
+                            }"
+                          />
+                          <div
+                            *ngIf="submitted && f.firstName.errors"
+                            class="invalid-feedback"
+                          >
+                            <div *ngIf="f.firstName.errors.required">
+                              First name is required
+                            </div>
+                            <div *ngIf="f.firstName.errors.pattern">
+                              Nos & special characters is not allowed
+                            </div>
+                          </div>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Last name</mat-label>
+                          <input
+                            matInput
+                            formControlName="lastName"
+                            placeholder="Last name"
+                            minlength="3"
+                            maxlength="50"
+                            [ngClass]="{
+                              'is-invalid': submitted && f.lastName.errors
+                            }"
+                          />
+                          <div
+                            *ngIf="submitted && f.lastName.errors"
+                            class="invalid-feedback"
+                          >
+                            <div *ngIf="f.lastName.errors.required">
+                              Last name is required
+                            </div>
+                            <div *ngIf="f.lastName.errors.pattern">
+                              Nos & special characters is not allowed
+                            </div>
+                          </div>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Email</mat-label>
+                          <input
+                            matInput
+                            formControlName="email"
+                            placeholder="Email"
+                            maxlength="150"
+                            [ngClass]="{
+                              'is-invalid': submitted && f.email.errors
+                            }"
+                          />
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Mobile</mat-label>
+                          <input
+                            matInput
+                            formControlName="mobile"
+                            placeholder="Mobile"
+                            maxlength="13"
+                            [ngClass]="{
+                              'is-invalid': submitted && f.mobile.errors
+                            }"
+                          />
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Secondary Mobile</mat-label>
+                          <input
+                            matInput
+                            formControlName="smobile"
+                            placeholder="Secondary Mobile"
+                            maxlength="13"
+                            [ngClass]="{
+                              'is-invalid': submitted && f.smobile.errors
+                            }"
+                          />
+                          <div
+                            *ngIf="submitted && f.smobile.errors"
+                            class="invalid-feedback"
+                          >
+                            <div *ngIf="f.smobile.errors.required">
+                              Secondary Mobile no is required
+                            </div>
+                            <div *ngIf="f.smobile.errors.pattern">
+                              Only numbers Allowed
+                            </div>
+                            <div *ngIf="f.smobile.errors.minlength">
+                              Mobile no must have 10 digits
+                            </div>
+                          </div>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field appearance="fill">
+                          <mat-label>DOB</mat-label>
+                          <input
+                            matInput
+                            [matDatepicker]="picker"
+                            [readonly]="true"
+                            formControlName="dob"
+                            [min]="minDate"
+                            [max]="tomorrow"
+                            (dateChange)="calAge($event)"
+                          />
+                          <mat-datepicker-toggle
+                            matSuffix
+                            [for]="picker"
+                          ></mat-datepicker-toggle>
+                          <mat-datepicker #picker startView="multi-year">
+                          </mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Age</mat-label>
+                          <input
+                            type="text"
+                            matInput
+                            [readonly]="true"
+                            formControlName="age"
+                            class="form-control"
+                            value="{{ cage }}"
+                        /></mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Address</mat-label>
+                          <input
+                            type="text"
+                            matInput
+                            formControlName="address"
+                            maxlength="300"
+                          />
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Blood Group</mat-label>
+                          <mat-select formControlName="bloodGroup">
+                            <mat-option
+                              *ngFor="let bg of bloodGrp"
+                              [value]="bg"
+                            >
+                              {{ bg }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+
+                      <div class="col-md-3">
+                        <mat-form-field
+                          class="example-full-width"
+                          appearance="fill"
+                        >
+                          <mat-label>Aadhaar no</mat-label>
+                          <input
+                            matInput
+                            formControlName="AadhaarNo"
+                            placeholder="Enter 12 digit Aadhaar no"
+                            maxlength="12"
+                            [ngClass]="{
+                              'is-invalid': submitted && f.AadhaarNo.errors
+                            }"
+                          />
+                          <div
+                            *ngIf="submitted && f.AadhaarNo.errors"
+                            class="invalid-feedback"
+                          >
+                            <div *ngIf="f.AadhaarNo.errors.required">
+                              Aadhaar no is required
+                            </div>
+                            <div *ngIf="f.AadhaarNo.errors.pattern">
+                              Only numbers Allowed.
+                            </div>
+                            <div *ngIf="f.AadhaarNo.errors.minlength">
+                              Aadhaar no must have 12 digits.
+                            </div>
+                          </div>
+                        </mat-form-field>
+                      </div>
+
+                      <mat-action-row>
+                        <button mat-raised-button color="primary" type="submit">
+                          Save
+                        </button>
+                        <a
+                          mat-button
+                          color="primary"
+                          (click)="nextStep()"
+                          href="javascript:void();"
+                        >
+                          Next
+                        </a>
+                      </mat-action-row>
+                    </div>
+                  </div>
+                </form>
+              </mat-expansion-panel>
+
+              <mat-expansion-panel
+                [expanded]="step === 1"
+                (opened)="setStep(1)"
+                hideToggle
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Education & Specialization
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Fill Your education details
+                    <mat-icon>workspace_premium</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <form [formGroup]="educationForm" (ngSubmit)="onSubmitEdu()">
+                  <span formGroupName="graduation">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Graduation</mat-label>
+                            <mat-select
+                              formControlName="Graduation"
+                              (selectionChange)="eduformAddPg($event)"
+                            >
+                              <mat-option
+                                *ngFor="let value of gradeOption"
+                                [value]="value"
+                                >{{ value }}</mat-option
+                              >
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Doctor Type</mat-label>
+                            <mat-select
+                              formControlName="DoctorType"
+                              [compareWith]="compareWith"
+                            >
+                              <mat-option
+                                *ngFor="let option of doctorType"
+                                [value]="option"
+                              >
+                                {{ option.name }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div
+                          class="row"
+                          *ngIf="
+                            g.get('graduation.Graduation').value == 'UG' ||
+                            g.get('graduation.Graduation').value == 'PG'
+                          "
+                        >
+                          <h5>Under Graduation</h5>
+                          <!-- {{ userData.graduation.qualificationUG | json }} -->
+                          <div class="col-md-5">
+                            <mat-form-field
+                              appearance="fill"
+                              class="example-full-width"
+                              appearance="fill"
+                            >
+                              <mat-label>Qualification</mat-label>
+                              <input
+                                type="text"
+                                matInput
+                                [formControl]="qualificationCtrl"
+                                [matAutocomplete]="auto"
+                              />
+                              <mat-autocomplete
+                                autoActiveFirstOption
+                                #auto="matAutocomplete"
+                                [displayWith]="displayFn.bind(this)"
+                              >
+                                <mat-option
+                                  *ngFor="
+                                    let option of qualificationOptions | async
+                                  "
+                                  [value]="option"
+                                >
+                                  {{ option.name }}
+                                </mat-option>
+                              </mat-autocomplete>
+                            </mat-form-field>
+                          </div>
+
+                          <div class="col-md-3">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Year Of Completion</mat-label>
+                              <mat-select
+                                formControlName="CompletionYearUG"
+                                [compareWith]="compareArr"
+                              >
+                                <mat-option
+                                  *ngFor="let option of yearOfPassing"
+                                  [value]="option"
+                                >
+                                  {{ option }}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-3">
+                            <mat-form-field appearance="fill">
+                              <mat-label>College</mat-label>
+                              <input
+                                type="text"
+                                matInput
+                                formControlName="CollegeUG"
+                                maxlength="300"
+                              />
+                            </mat-form-field>
+                          </div>
+
+                          <div class="col-md-3">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Medical Registration No</mat-label>
+                              <input
+                                type="text"
+                                matInput
+                                formControlName="MedicalRegistrationNoUG"
+                                maxlength="20"
+                              />
+                            </mat-form-field>
+                          </div>
+
+                          <div class="col-md-3">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Medical Council Name</mat-label>
+                              <input
+                                type="text"
+                                matInput
+                                formControlName="MedicalCouncilNameUG"
+                                maxlength="200"
+                              />
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div
+                          class="row"
+                          *ngIf="g.get('graduation.Graduation').value == 'PG'"
+                        >
+                          <h5>Post Graduation</h5>
+                          <div class="col-md-3">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Qualification</mat-label>
+                              <mat-select
+                                formControlName="qualificationPG"
+                                [compareWith]="compareWith"
+                              >
+                                <mat-option
+                                  *ngFor="let option of PGList"
+                                  [value]="option"
+                                >
+                                  {{ option.name }}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-3">
+                            <mat-form-field
+                              class="example-full-width"
+                              appearance="fill"
+                            >
+                              <mat-label>Specialisation</mat-label>
+                              <input
+                                type="text"
+                                matInput
+                                [formControl]="specialisationCtrl"
+                                [matAutocomplete]="auto"
+                              />
+                              <mat-autocomplete
+                                autoActiveFirstOption
+                                #auto="matAutocomplete"
+                                [displayWith]="displayFn.bind(this)"
+                              >
+                                <mat-option
+                                  *ngFor="
+                                    let option of specialisationOptions | async
+                                  "
+                                  [value]="option"
+                                >
+                                  {{ option.name }}
+                                </mat-option>
+                              </mat-autocomplete>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-3">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Year Of Completion</mat-label>
+                              <mat-select
+                                formControlName="CompletionYearPG"
+                                [compareWith]="compareArr"
+                              >
+                                <mat-option
+                                  *ngFor="let option of yearOfPassing"
+                                  [value]="option"
+                                >
+                                  {{ option }}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-3">
+                            <mat-form-field appearance="fill">
+                              <mat-label>College</mat-label>
+                              <input
+                                type="text"
+                                matInput
+                                formControlName="CollegePG"
+                                maxlength="300"
+                              />
+                            </mat-form-field>
+                          </div>
+
+                          <div class="col-md-3">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Medical Registration No</mat-label>
+                              <input
+                                type="text"
+                                matInput
+                                formControlName="MedicalRegistrationNoPG"
+                                maxlength="20"
+                              />
+                            </mat-form-field>
+                          </div>
+
+                          <div class="col-md-3">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Medical Council Name</mat-label>
+                              <input
+                                type="text"
+                                matInput
+                                formControlName="MedicalCouncilNamePG"
+                                maxlength="200"
+                              />
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <mat-action-row>
+                          <a
+                            mat-button
+                            color="warn"
+                            (click)="prevStep()"
+                            href="javascript:void();"
+                          >
+                            Previous
+                          </a>
+                          <a
+                            mat-button
+                            color="primary"
+                            (click)="nextStep()"
+                            href="javascript:void();"
+                          >
+                            Next
+                          </a>
+                          <button
+                            mat-raised-button
+                            color="primary"
+                            type="submit"
+                          >
+                            Save
+                          </button>
+                        </mat-action-row>
+                      </div>
+                    </div></span
+                  >
+                </form>
+              </mat-expansion-panel>
+              <mat-expansion-panel
+                [expanded]="step === 2"
+                (opened)="setStep(2)"
+                hideToggle
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title> Establishment </mat-panel-title>
+                  <mat-panel-description>
+                    Details of establishment You are practicing at
+                    <mat-icon>date_range</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="container">
+                  <div class="row">
+                    <div class="card">
+                      <div class="header">
+                        <h2>Enter Clinic details</h2>
+                      </div>
+                      <div class="body">
+                        <clinic1></clinic1>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="container">
+                  <div class="row">
+                    <mat-action-row>
+                      <a
+                        mat-button
+                        color="warn"
+                        (click)="prevStep()"
+                        href="javascript:void();"
+                      >
+                        Previous
+                      </a>
+                      <a
+                        mat-button
+                        color="primary"
+                        (click)="nextStep()"
+                        href="javascript:void();"
+                      >
+                        Next</a
+                      >
+                    </mat-action-row>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+              <mat-expansion-panel
+                [expanded]="step === 3"
+                (opened)="setStep(3)"
+                hideToggle
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title> Services </mat-panel-title>
+                  <mat-panel-description>
+                    Write about your Services & Experience
+                    <mat-icon>medical_services</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <form [formGroup]="ServicesForm" (ngSubmit)="onSubmitSer()">
+                  <div class="container">
+                    <div class="row clearfix">
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <ckeditor
+                          [editor]="Editor"
+                          [config]="config"
+                          formControlName="services"
+                        ></ckeditor>
+                      </div>
+                      <div class="float-start">
+                        <a
+                          mat-raised-button
+                          color="primary"
+                          href="javascript:void();"
+                          (click)="resetformSer()"
+                        >
+                          Reset </a
+                        >&nbsp;
+                        <button mat-raised-button color="primary" type="submit">
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <mat-action-row>
+                  <a
+                    mat-button
+                    color="warn"
+                    (click)="prevStep()"
+                    href="javascript:void();"
+                  >
+                    Previous
+                  </a>
+                  <a
+                    mat-button
+                    color="primary"
+                    (click)="nextStep()"
+                    href="javascript:void();"
+                  >
+                    End
+                  </a>
+                </mat-action-row>
+              </mat-expansion-panel>
+              <mat-expansion-panel
+                [expanded]="step === 4"
+                (opened)="setStep(4)"
+                hideToggle
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Upload Registration Documents
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Upload Your registered documents
+                    <mat-icon>upload_file</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <mat-action-row>
+                  <a
+                    mat-button
+                    color="warn"
+                    (click)="prevStep()"
+                    href="javascript:void();"
+                  >
+                    Previous
+                  </a>
+                  <a
+                    mat-button
+                    color="primary"
+                    (click)="nextStep()"
+                    href="javascript:void();"
+                  >
+                    Next
+                  </a>
+                </mat-action-row>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
