@@ -26,9 +26,6 @@
               <mat-label>Clinic Location</mat-label>
               <input
                 type="text"
-                ngx-google-places-autocomplete
-                [options]="options"
-                (onAddressChange)="AddressChange($event)"
                 matInput
                 maxlength="300"
                 formControlName="ClinicLocation"

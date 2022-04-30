@@ -17,7 +17,15 @@ export class ApiService {
       .post<IDoctor[]>(`${environment.apiUrl}/doctors/register`, data)
       .pipe(catchError(this.handleError));
   }
+  uploadFile(profileImage): Observable<any> {
+    var formData: any = new FormData();
+    formData.append("files", profileImage);
 
+    return this.http.put(`${environment.apiUrl}/doctors/uploadFile`, formData, {
+      reportProgress: true,
+      observe: "events",
+    });
+  }
   private handleError(err) {
     //console.log("error caught in service");
     //console.error(err);

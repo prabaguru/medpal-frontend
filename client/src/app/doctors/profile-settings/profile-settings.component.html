@@ -219,11 +219,12 @@
                           </div>
                         </mat-form-field>
                       </div>
-
-                      <mat-action-row>
+                      <div class="float-start mb-3">
                         <button mat-raised-button color="primary" type="submit">
                           Save
                         </button>
+                      </div>
+                      <mat-action-row>
                         <a
                           mat-button
                           color="primary"
@@ -627,7 +628,13 @@
                     <mat-icon>upload_file</mat-icon>
                   </mat-panel-description>
                 </mat-expansion-panel-header>
-
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <app-file-upload></app-file-upload>
+                    </div>
+                  </div>
+                </div>
                 <mat-action-row>
                   <a
                     mat-button

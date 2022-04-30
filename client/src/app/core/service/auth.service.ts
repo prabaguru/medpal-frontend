@@ -9,7 +9,7 @@ import { environment } from "src/environments/environment";
   providedIn: "root",
 })
 export class AuthService {
-  private currentUserSubject: BehaviorSubject<User>;
+  public currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
   constructor(private http: HttpClient) {
@@ -21,6 +21,10 @@ export class AuthService {
 
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
+  }
+
+  updateUserObjOnSave(user) {
+    this.currentUserSubject.next(user);
   }
 
   login(email: string, password: string) {

@@ -334,6 +334,7 @@ export class establishmentComponent
             "center"
           );
           //this.router.navigate(["/authentication/signin"]);
+          this.updateLocalStorage(obj);
         },
         error: (error) => {
           this.sharedDataService.showNotification(
@@ -370,6 +371,7 @@ export class establishmentComponent
         "center"
       );
     }
+    return;
   }
   changeTimeUnit(e: string, day: string) {
     let minval = "";
@@ -734,5 +736,12 @@ export class establishmentComponent
         ? (this.userData.ClinicOneTimings.Saturday = false)
         : dayEnd.setValue(false);
     }
+  }
+  updateLocalStorage(obj) {
+    const oldInfo = JSON.parse(localStorage.getItem("currentUser"));
+    localStorage.setItem("currentUser", JSON.stringify({ ...oldInfo, ...obj }));
+    this.authService.updateUserObjOnSave(
+      JSON.parse(localStorage.getItem("currentUser"))
+    );
   }
 }

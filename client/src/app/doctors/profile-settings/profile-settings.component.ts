@@ -63,7 +63,7 @@ export class ProfileSettingsComponent
   userData;
   submitted = false;
   gradeOption = ["UG", "PG"];
-  step = 3;
+  step = 4;
   selected = new FormControl(0);
   timeFormat: number = 24;
   preventOverlayClick: boolean = true;
@@ -265,6 +265,7 @@ export class ProfileSettingsComponent
             "center"
           );
           //this.router.navigate(["/authentication/signin"]);
+          this.updateLocalStorage(this.preliminaryForm.value);
         },
         error: (error) => {
           this.sharedDataService.showNotification(
@@ -365,6 +366,7 @@ export class ProfileSettingsComponent
             "center"
           );
           //this.router.navigate(["/authentication/signin"]);
+          this.updateLocalStorage(this.educationForm.value);
         },
         error: (error) => {
           this.sharedDataService.showNotification(
@@ -410,6 +412,7 @@ export class ProfileSettingsComponent
             "center"
           );
           //this.router.navigate(["/authentication/signin"]);
+          this.updateLocalStorage(this.ServicesForm.value);
         },
         error: (error) => {
           this.sharedDataService.showNotification(
@@ -422,5 +425,13 @@ export class ProfileSettingsComponent
         },
         complete: () => {},
       });
+  }
+
+  updateLocalStorage(obj) {
+    const oldInfo = JSON.parse(localStorage.getItem("currentUser"));
+    localStorage.setItem("currentUser", JSON.stringify({ ...oldInfo, ...obj }));
+    this.authService.updateUserObjOnSave(
+      JSON.parse(localStorage.getItem("currentUser"))
+    );
   }
 }
