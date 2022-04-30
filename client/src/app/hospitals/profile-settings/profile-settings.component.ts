@@ -117,8 +117,53 @@ export class ProfileSettingsComponent
           Validators.minLength(12),
         ],
       ],
+
+      // education form     
+      // id: [this.userData._id, []],
+      graduation: this.formBuilder.group({
+        id: [this.userData._id, []],
+        Graduation: [
+          this.userData.graduation.Graduation,
+          [Validators.required],
+        ],
+        DoctorType: [
+          this.userData.graduation.DoctorType,
+          [Validators.required],
+        ],
+        qualificationUG: ["", []],
+        CollegeUG: [
+          this.userData.graduation.CollegeUG,
+          [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
+        ],
+        CompletionYearUG: [
+          this.userData.graduation.CompletionYearUG,
+          [Validators.required],
+        ],
+        MedicalRegistrationNoUG: [
+          this.userData.graduation.MedicalRegistrationNoUG,
+          [Validators.required, Validators.pattern("^[a-zA-Z0-9 '-]+$")],
+        ],
+        MedicalCouncilNameUG: [
+          this.userData.graduation.MedicalCouncilNameUG,
+          [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
+        ],
+        qualificationPG: [this.userData.graduation.qualificationPG, []],
+        specialisationPG: ["", []],
+        CollegePG: [this.userData.graduation.CollegePG, []],
+        CompletionYearPG: [this.userData.graduation.CompletionYearPG, []],
+        MedicalRegistrationNoPG: [
+          this.userData.graduation.MedicalRegistrationNoPG,
+          [],
+        ],
+        MedicalCouncilNamePG: [
+          this.userData.graduation.MedicalCouncilNamePG,
+          [],
+        ],
+      }),
+
+      services: [this.userData.services, [Validators.required]],
     });
-    this.educationForm = this.formBuilder.group({
+    /* this.educationForm = this.formBuilder.group({
       id: [this.userData._id, []],
       graduation: this.formBuilder.group({
         id: [this.userData._id, []],
@@ -160,11 +205,11 @@ export class ProfileSettingsComponent
           [],
         ],
       }),
-    });
-    this.ServicesForm = this.formBuilder.group({
+    }); */
+    /* this.ServicesForm = this.formBuilder.group({
       id: [this.userData._id, []],
       services: [this.userData.services, [Validators.required]],
-    });
+    }); */
     this.preliminaryForm.controls.mobile.disable();
     this.preliminaryForm.controls.email.disable();
     //this.establishmentForm.controls.sundayStartTimeCtrl.disable();
