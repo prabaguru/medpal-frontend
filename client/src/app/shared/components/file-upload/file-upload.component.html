@@ -1,10 +1,32 @@
-<div class="file-drop-area">
-  <button mat-raised-button color="primary">Choose file</button>
-  <span class="ms-2" *ngIf="myFiles.length == 0">{{
-    "or drag and drop file here"
-  }}</span>
-  <span class="file-msg" *ngFor="let file of myFiles">
-    <div class="me-2">{{ file.name }}</div>
-  </span>
-  <input class="file-input" type="file" (change)="getFileDetails($event)" />
+<div class="progress form-group" *ngIf="percentDone">
+  <div
+    class="progress-bar progress-bar-striped bg-success"
+    role="progressbar"
+    [style.width.%]="percentDone"
+  ></div>
 </div>
+
+<form [formGroup]="form" (ngSubmit)="submitForm()">
+  <div class="form-group">
+    <img
+      [src]="userData.image.imageUrl"
+      alt="DP"
+      class="img-thumbnail"
+      width="70"
+    />
+    <div class="preview" *ngIf="preview && preview !== null">
+      <img [src]="preview" alt="DP" class="img-thumbnail" width="70" />
+    </div>
+  </div>
+  <div class="file-drop-area">
+    <button mat-raised-button color="primary">Choose file</button>
+    <span class="ms-2" *ngIf="myFiles.length == 0">{{
+      "or drag and drop file here"
+    }}</span>
+    <span class="file-msg" *ngFor="let file of myFiles">
+      <div class="me-2">{{ file.name }}</div>
+    </span>
+    <input class="file-input" type="file" (change)="uploadFile($event)" />
+  </div>
+  <button mat-raised-button color="primary">Upload</button>
+</form>

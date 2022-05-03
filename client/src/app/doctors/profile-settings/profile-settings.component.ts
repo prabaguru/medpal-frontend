@@ -181,7 +181,7 @@ export class ProfileSettingsComponent
     );
 
     this.qualificationCtrl.setValue(this.userData.graduation.qualificationUG);
-    this.specialisationCtrl.setValue(this.userData.graduation.qualificationPG);
+    this.specialisationCtrl.setValue(this.userData.graduation.specialisationPG);
   }
   compareWith(o1: any, o2: any) {
     if (o1.name === o2.name && o1.id === o2.id) return true;
