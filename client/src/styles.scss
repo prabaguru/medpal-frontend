@@ -1,8 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
-/* You can add global styles to this file, and also import other style files */
 @charset 'UTF-8';
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap");
 $base-color: #7c4bd2;
+$base-color2: #ff8a00;
+$text-color: #626262;
+$font-size12: 12px;
+$font-size14: 14px;
+$font-size16: 16px;
+$font-size18: 18px;
 
 html {
   line-height: 1.15;
@@ -19,7 +24,11 @@ body {
   text-align: left;
   overflow-x: hidden;
 }
-
+a {
+  color: #000;
+  outline: 0px none;
+  text-decoration: none;
+}
 .mat-toolbar.mat-primary,
 .mat-flat-button.mat-primary,
 .mat-raised-button.mat-primary,
@@ -115,7 +124,7 @@ a:hover {
 }
 
 .mt {
-  margin-top: 15% !important;
+  margin-top: 5% !important;
 }
 .auth-content {
   height: auto !important;
@@ -143,8 +152,938 @@ a:hover {
 .timepicker-button {
   color: $base-color !important;
 }
+.aon-med-team-area.aon-med-team-area1 {
+  padding-top: 60px;
+}
+.aon-med-team-area {
+  padding: 90px 0px;
+  align-items: flex-start;
+}
+.bg-light-gray {
+  background-color: #f6fbf8;
+}
+.section-head.center {
+  text-align: center;
+  margin: 0px auto 60px;
+  max-width: 650px;
+}
+.section-head {
+  position: relative;
+}
+.text-black {
+  color: $text-color !important;
+}
+.aon-sub-title {
+  color: $base-color2;
+  text-transform: uppercase;
+  font-size: 20px;
+  letter-spacing: 5px;
+  font-weight: 600;
+}
+.aon-med-team {
+  background-color: #fff;
+  margin-bottom: 30px;
+  border: 1px solid #ebebeb;
+  border-radius: 4px;
+  padding: 30px;
+  display: flex;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+.aon-med-team .aon-med-team-pic {
+  width: 180px;
+  margin-right: 20px;
+  position: relative;
+}
+.aon-med-team .aon-med-team-discription {
+  margin-bottom: 5px;
+  color: $text-color;
+  font-size: 15px;
+}
+.aon-med-team .aon-med-team-position {
+  display: block;
+  color: $base-color2;
+  font-size: $font-size16;
+  margin-bottom: 5px;
+}
+.aon-med-team .aon-med-team-location {
+  margin-bottom: 5px;
+  display: block;
+  color: $text-color;
+  font-size: $font-size14;
+}
+.aon-title,
+.aon-title a {
+  color: #000 !important;
+}
+.aon-med-team {
+  background-color: #fff;
+  margin-bottom: 30px;
+  border: 1px solid #ebebeb;
+  border-radius: 4px;
+  padding: 30px;
+  display: flex;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.aon-med-team .aon-med-team-pic {
+  width: 180px;
+  margin-right: 20px;
+  position: relative;
+}
+.aon-med-team .aon-med-team-discription {
+  margin-bottom: 5px;
+}
+.aon-med-team .aon-med-team-position {
+  display: block;
+  color: $base-color2;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+.aon-med-team .aon-med-team-location {
+  margin-bottom: 5px;
+  display: block;
+}
+.aon-med-team .aon-med-team-location i {
+  margin-right: 5px;
+  color: #000;
+}
+
+.aon-med-team:hover .aon-med-team-pic {
+  border-radius: 100%;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.aon-med-team:hover .aon-med-team-pic img {
+  border-radius: 100%;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.aon-df-rating span {
+  display: inline-block;
+  padding-right: 2px;
+  color: $base-color2;
+  font-size: 16px;
+}
+.aon-med-team .aon-med-team-pic:after {
+  opacity: 0;
+  content: "";
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  transform: rotate(10deg);
+  border-radius: 50%;
+  padding: 27px;
+  border-left: 3px solid $base-color2;
+  border-right: 3px solid $base-color2;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+.aon-med-team:hover .aon-med-team-pic:after {
+  opacity: 1;
+}
+.aon-med-team:hover .aon-med-team-pic:after {
+  animation: rotate 1.5s infinite linear;
+}
+.aon-med-team:hover {
+  box-shadow: 0 0 25px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid transparent;
+}
+.aon-med-srv-cat-area {
+  padding: 90px 0px;
+}
+.section-head {
+  position: relative;
+}
+.section-head.center {
+  text-align: center;
+  margin: 0px auto 60px;
+  max-width: 650px;
+}
+.aon-sub-title {
+  color: $base-color2;
+  text-transform: uppercase;
+  font-size: 16px;
+  letter-spacing: 5px;
+  font-weight: 600;
+}
+.aon-med-srv-cat-section {
+  margin-bottom: 30px;
+}
+.aon-med-srv-cat-section ul {
+  margin-bottom: 0px;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  border-top: 1px solid #ebebeb;
+  border-right: 1px solid #ebebeb;
+}
+.aon-med-srv-cat-section ul li {
+  width: 20%;
+  border-left: 1px solid #ebebeb;
+  border-bottom: 1px solid #ebebeb;
+}
+.aon-med-sevices-cat {
+  padding: 50px 30px;
+  text-align: center;
+  -webkit-transition: all 0.5s linear;
+  -moz-transition: all 0.5s linear;
+  -ms-transition: all 0.5s linear;
+  -o-transition: all 0.5s linear;
+  transition: all 0.5s linear;
+}
+.aon-med-sevices-cat .media {
+  height: 120px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.aon-icon {
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  display: block;
+  margin: auto;
+}
+.aon-med-sevices-cat .media:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  z-index: -1;
+  opacity: 0;
+  -webkit-transition: all 0.5s linear;
+  -moz-transition: all 0.5s linear;
+  -ms-transition: all 0.5s linear;
+  -o-transition: all 0.5s linear;
+  transition: all 0.5s linear;
+}
+.aon-med-sevices-cat p {
+  margin-bottom: 0px;
+}
+.aon-med-sevices-cat .media img {
+  height: 64px;
+}
+.aon-med-sevices-cat:hover {
+  background-color: $base-color;
+  box-shadow: 10px 10px 0px 0px rgb(0 0 0 / 10%);
+}
+.aon-med-sevices-cat:hover .media:after {
+  opacity: 1;
+}
+.aon-icon-effect:hover .aon-icon {
+  -webkit-animation: toTopFromBottom 0.3s forwards;
+  -moz-animation: toTopFromBottom 0.3s forwards;
+  animation: toTopFromBottom 0.3s forwards;
+}
+.aon-med-sevices-cat:hover .aon-med-serices-cat-info a,
+.aon-med-sevices-cat:hover .aon-med-serices-cat-info p {
+  color: #fff;
+}
+.aon-med-serices-cat-info a {
+  color: #000;
+}
+.aon-med-serices-cat-info p {
+  color: $text-color;
+}
+.aon-med-working-area {
+  border-top: 1px solid #ebebeb;
+  padding: 90px 0px;
+}
+.section-head.center {
+  text-align: center;
+  margin: 0px auto 60px;
+  max-width: 650px;
+}
+.aon-med-working {
+  padding: 0px 60px;
+  text-align: center;
+}
+.aon-med-working-info h4 {
+  color: $base-color;
+  margin-bottom: 10px;
+}
+.aon-icon-effect:hover .aon-icon {
+  -webkit-animation: toTopFromBottom 0.3s forwards;
+  -moz-animation: toTopFromBottom 0.3s forwards;
+  animation: toTopFromBottom 0.3s forwards;
+}
+.aon-med-working .media span {
+  width: 170px;
+  height: 160px;
+  background-color: #fff;
+  margin: 0px auto 30px;
+  box-shadow: 0px 0px 10px rgb(0 0 0 / 10%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 2px solid $base-color2;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.aon-med-working-info p {
+  color: $text-color !important;
+  font-size: $font-size14;
+  line-height: 23px;
+}
+.aon-icon-effect:hover .aon-icon {
+  -webkit-animation: toTopFromBottom 0.3s forwards;
+  -moz-animation: toTopFromBottom 0.3s forwards;
+  animation: toTopFromBottom 0.3s forwards;
+}
+
+@-webkit-keyframes toTopFromBottom {
+  49% {
+    -webkit-transform: translateY(-100%);
+  }
+  50% {
+    opacity: 0;
+    -webkit-transform: translateY(100%);
+  }
+  51% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes toTopFromBottom {
+  49% {
+    -moz-transform: translateY(-100%);
+  }
+  50% {
+    opacity: 0;
+    -moz-transform: translateY(100%);
+  }
+  51% {
+    opacity: 1;
+  }
+}
+
+@keyframes toTopFromBottom {
+  49% {
+    transform: translateY(-100%);
+  }
+  50% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  51% {
+    opacity: 1;
+  }
+}
+.aon-med-appoint-area {
+  padding: 90px 0px;
+  background-image: url("./assets/images/bg2.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.section-head.center.white {
+  color: #fff;
+}
+.aon-med-appoint-area .section-head.center.white .aon-title {
+  margin-bottom: 30px;
+}
+.section-head.center.white .aon-title {
+  color: #fff;
+}
+.aon-med-appoint-area .section-head.center.white p {
+  margin-bottom: 30px;
+}
+.section-head.center.white .aon-title {
+  color: #fff !important;
+}
+.aon-titleh2 {
+  font-size: 3rem;
+  letter-spacing: 2px;
+}
+.aon-med-appoint-area .section-head.center.white .aon-title {
+  margin-bottom: 30px;
+}
+.site-button {
+  outline: none;
+  color: #fff;
+  padding: 10px 20px;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  display: inline-table;
+  background-color: $base-color2;
+  border: none;
+  font-size: 15px;
+  transition: 0.5s all ease;
+  border-radius: 5px;
+}
+.paragrapfont {
+  font-size: $font-size14;
+  line-height: 23px;
+}
+.animate-v {
+  -webkit-animation: upNdown1 5s infinite linear;
+  animation: upNdown1 2s infinite linear;
+}
+.aon-med-appoint-area .media img {
+  position: absolute;
+  left: calc(100% - 20%);
+  bottom: -140px;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+.animate-v {
+  -webkit-animation: upNdown1 5s infinite linear;
+  animation: upNdown1 2s infinite linear;
+}
+@-webkit-keyframes upNdown1 {
+  0% {
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+  100% {
+  }
+}
+@keyframes upNdown1 {
+  0% {
+  }
+  50% {
+    transform: translateY(30px);
+  }
+  100% {
+  }
+}
+
+.animate-curve:after {
+  -webkit-animation: upNdown2 5s infinite linear;
+  animation: upNdown2 2s infinite linear;
+}
+@-webkit-keyframes upNdown2 {
+  0% {
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+  }
+}
+@keyframes upNdown2 {
+  0% {
+  }
+  50% {
+    transform: translateY(10px);
+  }
+  100% {
+  }
+}
+
+.animate-curve:after {
+  -webkit-animation: upNdown2 5s infinite linear;
+  animation: upNdown2 2s infinite linear;
+}
+@-webkit-keyframes upNdown2 {
+  0% {
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+  }
+}
+@keyframes upNdown2 {
+  0% {
+  }
+  50% {
+    transform: translateY(10px);
+  }
+  100% {
+  }
+}
+
+/* Animate Up Down 2*/
+.animate-v2 {
+  -webkit-animation: upNdown11 5s infinite linear;
+  animation: upNdown11 2s infinite linear;
+}
+@-webkit-keyframes upNdown11 {
+  0% {
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+  }
+}
+@keyframes upNdown11 {
+  0% {
+  }
+  50% {
+    transform: translateY(5px);
+  }
+  100% {
+  }
+}
+
+/* Animate Up Down 2*/
+.animate-v3 {
+  -webkit-animation: upNdown12 5s infinite linear;
+  animation: upNdown12 2s infinite linear;
+}
+@-webkit-keyframes upNdown12 {
+  0% {
+  }
+  50% {
+    transform: translateY(5px);
+  }
+  100% {
+  }
+}
+@keyframes upNdown12 {
+  0% {
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+  }
+}
+.aon-med-faq-area {
+  padding: 90px 0px;
+}
+.aon-med-faq-section {
+  max-width: 780px;
+  margin: 0px auto;
+}
+.aon-med-faq .accordion-item {
+  border: 1px solid $base-color;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.aon-med-faq .accordion-item .accordion-button {
+  font-size: 20px;
+  color: $base-color;
+  padding: 8px 16px 8px 16px;
+}
+.accordion-item:first-of-type .accordion-button {
+  border-top-left-radius: calc(0.25rem - 1px);
+  border-top-right-radius: calc(0.25rem - 1px);
+}
+.accordion-body {
+  color: $text-color;
+  font-size: $font-size14;
+}
+.site-footer.footer-light {
+  background-color: $base-color;
+  border-top: 1px solid #647772;
+  color: #fff !important;
+}
+.footer-top-newsletter {
+  padding-top: 80px;
+}
+.footer-light {
+  background-color: #f8f5ff;
+  color: #000;
+}
+.footer-light .logo-footer {
+  margin-bottom: 25px;
+  max-width: 240px;
+}
+.footer-light .footer-top {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+@media only screen and (max-width: 640px) {
+  .footer-light .footer-top {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+}
+
+.footer-light .widget-title {
+  font-family: "Mulish", sans-serif;
+  color: #000;
+  font-weight: 800;
+  font-size: 20px;
+  margin-bottom: 30px;
+  padding-bottom: 10px;
+  position: relative;
+}
+.footer-light .widget-title:before {
+  content: "";
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  background-color: #000;
+  width: 20px;
+  height: 2px;
+}
+.footer-light .call-us {
+  padding: 10px 20px 10px 0px;
+  display: flex;
+  align-items: center;
+}
+@media (max-width: 991px) {
+  .footer-light .call-us {
+    margin: 15px 0px;
+  }
+}
+.footer-light .call-us i {
+  display: block;
+  font-size: 42px;
+  line-height: 42px;
+  margin-right: 10px;
+}
+.footer-light .call-us a {
+  display: block;
+  color: $base-color2;
+  font-size: 28px;
+  line-height: 28px;
+  font-weight: 800;
+}
+.footer-light .social-icons {
+  margin: 30px 0px 0px 0px;
+}
+.footer-light .social-icons li {
+  display: inline-block;
+}
+.footer-light .social-icons li a {
+  height: 30px;
+  width: 30px;
+  background-color: #000;
+  line-height: 30px;
+  padding: 0px;
+  color: #fff;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 50%;
+  margin-right: 3px;
+}
+.footer-light .social-icons li a:hover {
+  color: #fff;
+  background-color: $base-color2;
+}
+.footer-light .footer-bottom {
+  color: #fff;
+  position: relative;
+  z-index: 1;
+}
+.footer-light .footer-bottom .footer-bottom-info {
+  display: flex;
+  padding: 10px 0px;
+  justify-content: space-between;
+  align-items: center;
+}
+@media (max-width: 991px) {
+  .footer-light .footer-bottom .footer-bottom-info {
+    display: block;
+  }
+}
+.footer-light .footer-bottom .footer-bottom-info .call-us {
+  background-color: #000;
+  border-left: 4px solid $base-color2;
+  padding: 10px 20px;
+}
+@media (max-width: 991px) {
+  .footer-light .footer-bottom .footer-bottom-info .call-us {
+    margin: 15px 0px;
+  }
+}
+.footer-light .footer-bottom .footer-bottom-info .call-us span {
+  display: block;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.footer-light .footer-bottom .footer-bottom-info .call-us a {
+  display: block;
+  color: $base-color2;
+  font-size: 28px;
+  line-height: 28px;
+  font-weight: 700;
+}
+.footer-light .footer-bottom .footer-copy-right .copyrights-text {
+  color: #000;
+  font-size: 14px;
+}
+.footer-light .copyrights-nav {
+  list-style: none;
+  display: block;
+  margin-bottom: 0px;
+}
+.footer-light .copyrights-nav li {
+  display: inline-block;
+  margin-right: 8px;
+}
+.footer-light .copyrights-nav li:first-child {
+  margin-left: 0;
+}
+.footer-light .copyrights-nav li:last-child {
+  margin-right: 0;
+}
+.footer-light .copyrights-nav li:last-child:after {
+  display: none;
+}
+.footer-light .copyrights-nav li:after {
+  content: "/";
+  position: relative;
+  right: -8px;
+  color: #000;
+}
+.footer-light .copyrights-nav li a {
+  color: #000;
+  font-size: 14px;
+}
+.footer-light .copyrights-nav li a:hover {
+  color: $base-color2;
+}
+.footer-light .copyrights-nav li a:active {
+  color: $base-color2;
+}
+.footer-light .copyrights-nav li a:focus {
+  color: $base-color2;
+}
+.footer-light .copyrights-nav li.active a {
+  color: #fff;
+}
+.footer-light .widget_address li {
+  color: #000;
+}
+.footer-light .widget_address li i {
+  color: #000;
+  font-weight: normal;
+}
+.footer-light .widget_services ul li a {
+  color: #000;
+}
+.footer-light .widget_services ul li a:hover {
+  color: $base-color2;
+}
+.footer-light .recent-posts-entry .wt-post-info .wt-post-header a {
+  color: #000;
+}
+.footer-light .recent-posts-entry .wt-post-info .wt-post-header a:hover {
+  color: $base-color2;
+}
+.footer-light .recent-posts-entry .wt-post-info .wt-post-meta ul li {
+  color: #6a6a6a;
+}
+.sf-site-link ul {
+  list-style: none;
+  margin: 0px;
+}
+.sf-site-link ul li {
+  line-height: 30px;
+}
+
+.sf-site-link ul li a {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+@media only screen and (max-width: 767px) {
+  .sf-site-link {
+    margin-bottom: 20px;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .footer-top .row [class*="col-"]:last-child .sf-site-link {
+    margin-bottom: 0px;
+  }
+}
+.sf-footer-bottom-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-bottom {
+  padding-bottom: 30px;
+}
+.sf-f-copyright {
+  color: #535353;
+  font-size: 14px;
+  font-weight: 500;
+}
+.sf-footer-bottom-section .sf-f-social {
+  position: relative;
+  padding-left: 420px;
+}
+.sf-footer-bottom-section .sf-f-social:after {
+  content: "";
+  position: absolute;
+  left: 0px;
+  top: 50%;
+  height: 1px;
+  background-color: #022278;
+  width: 390px;
+}
+.sf-footer-bottom-section .sf-f-social .socila-box {
+  margin: 0px;
+}
+.sf-footer-bottom-section .sf-f-social .socila-box li {
+  display: inline-block;
+}
+.sf-footer-bottom-section .sf-f-social .socila-box li a {
+  color: #26418c;
+  font-size: 22px;
+  padding-right: 15px;
+}
+.sf-footer-bottom-section .sf-f-social .socila-box li:last-child a {
+  padding-right: 0px;
+}
+
+@media only screen and (max-width: 1100px) {
+  .sf-f-logo {
+    display: table;
+    margin: 0px auto 20px;
+  }
+  .sf-footer-bottom-section {
+    display: block;
+    text-align: center;
+  }
+  .sf-footer-bottom-section .sf-f-social::after {
+    left: 0%;
+    top: 0px;
+    height: 1px;
+    width: 100%;
+  }
+  .sf-footer-bottom-section .sf-f-social {
+    padding: 20px 0px 0px;
+    margin-top: 25px;
+  }
+}
+@media only screen and (max-width: 1800px) {
+  .aon-med-appoint-area .media img {
+    left: calc(100% - 30%);
+    max-width: 450px;
+  }
+}
+@media only screen and (max-width: 1600px) {
+  .aon-med-appoint-area .media img {
+    left: calc(100% - 30%);
+    max-width: 400px;
+  }
+}
+@media only screen and (max-width: 1280px) {
+  .aon-med-appoint-area .media img {
+    display: none;
+  }
+}
 @media (max-width: 768px) {
   .homedocBtn {
     margin-top: 20px !important;
   }
+}
+@media only screen and (max-width: 1200px) {
+  .aon-med-srv-cat-section ul li {
+    width: 25%;
+  }
+  .aon-med-srv-cat-section ul li:last-child {
+    border-right: 1px solid #ebebeb;
+  }
+}
+@media only screen and (max-width: 991px) {
+  .aon-med-srv-cat-section ul li {
+    width: 33.333%;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .aon-med-srv-cat-section ul li {
+    width: 50%;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .aon-med-sevices-cat {
+    padding: 20px 10px;
+  }
+  .aon-med-sevices-cat .media {
+    height: 105px;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .aon-med-working .media span img {
+    width: 50px;
+  }
+}
+@media only screen and (max-width: 420px) {
+  .aon-med-working .media span {
+    width: 100px;
+    height: 90px;
+  }
+  .aon-med-working .media span img {
+    width: 50px;
+  }
+}
+
+@media only screen and (max-width: 1280px) {
+  .aon-med-working {
+    padding: 0px 30px;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .aon-med-working {
+    margin-bottom: 30px;
+  }
+}
+.aon-f-title {
+  padding-bottom: 10px;
+  margin-bottom: 30px;
+  font-size: 22px;
+  position: relative;
+}
+.aon-f-title:after {
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  content: "";
+  width: 60px;
+  height: 2px;
+  background: $base-color2;
+  display: table;
+}
+.footeraddress {
+  font-size: $font-size14;
+  line-height: 23px;
+}
+.footer-light .footer-bottom {
+  color: #fff;
+  position: relative;
+  z-index: 1;
+}
+.aon-footer-bottom-area {
+  border-top: 1px solid #aabcb7;
+  color: #fff;
+  padding-top: 30px;
+}
+.aon-footer-bottom-area {
+  text-align: center;
 }

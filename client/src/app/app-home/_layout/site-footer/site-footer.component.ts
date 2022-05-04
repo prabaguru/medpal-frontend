@@ -5,5 +5,9 @@ declare var $: any;
   templateUrl: "./site-footer.component.html",
 })
 export class AppEntryFooterComponent implements OnInit {
-  ngOnInit(): void {}
+  year: any;
+  ngOnInit(): void {
+    const d = new Date();
+    this.year = d.getFullYear();
+  }
 }
