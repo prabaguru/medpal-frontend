@@ -8,6 +8,8 @@ import { MainLayoutComponent } from "./layout/app-layout/main-layout/main-layout
 //app-entry-components
 import { AppHomeComponent } from "./app-home/app-entry/app-home.component";
 import { AppEntryLayoutComponent } from "./app-home/_layout/app-layout/app-layout.component";
+import { doctorsListingComponent } from "./app-home/doctors-listing/doctors-listing.component";
+import { doctorsProfileComponent } from "./app-home/doctors-profile/doctors-profile.component";
 const routes: Routes = [
   {
     path: "",
@@ -18,6 +20,28 @@ const routes: Routes = [
     path: "home",
     component: AppEntryLayoutComponent,
     children: [{ path: "", component: AppHomeComponent, pathMatch: "full" }],
+  },
+  {
+    path: "doctorsListing",
+    component: AppEntryLayoutComponent,
+    children: [
+      {
+        path: "",
+        component: doctorsListingComponent,
+        pathMatch: "full",
+      },
+    ],
+  },
+  {
+    path: "doctorsProfile",
+    component: AppEntryLayoutComponent,
+    children: [
+      {
+        path: "",
+        component: doctorsProfileComponent,
+        pathMatch: "full",
+      },
+    ],
   },
   {
     path: "",

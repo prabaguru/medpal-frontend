@@ -1,0 +1,1091 @@
+$base-color: #7c4bd2;
+$base-color2: $base-color;
+$text-color: #626262;
+$font-size12: 12px;
+$font-size14: 14px;
+$font-size16: 16px;
+$font-size18: 18px;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.2;
+  color: #222;
+}
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: white;
+  border-radius: 5px;
+  border-width: 1px !important;
+}
+.mat-form-field-appearance-outline
+  .mat-form-field-outline-thick
+  .mat-form-field-outline-start,
+.mat-form-field-appearance-outline
+  .mat-form-field-outline-thick
+  .mat-form-field-outline-end,
+.mat-form-field-appearance-outline
+  .mat-form-field-outline-thick
+  .mat-form-field-outline-gap {
+  border-width: 1px !important;
+}
+/* Font color */
+input.mat-input-element {
+  color: #626262;
+}
+.full-width-field {
+  width: 100%;
+}
+.page-content {
+  background-color: #fff;
+}
+.aon-page-jobs-wrap {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+.aon-doctorAbout-wrap {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 50px;
+  padding-bottom: 10px;
+}
+
+.aon-doctorAbout-left {
+  position: relative;
+  text-align: center;
+}
+.aon-doctorAbout-pic {
+  width: 180px;
+  height: 180px;
+  padding: 8px;
+  border-radius: 100%;
+  position: relative;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  position: relative;
+}
+.aon-doctorAbout-pic img {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+}
+.aon-doctorAbout-pic .fa {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  background: #4ecd69;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  margin: 0px -15px;
+  text-align: center;
+  display: table;
+  border-radius: 30px;
+  z-index: 1;
+}
+
+.aon-doctorAbout-pic::after {
+  content: "";
+  width: 184px;
+  height: 184px;
+  border-radius: 100%;
+  margin: -2.5px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border-top: 5px solid #fe8900;
+  border-bottom: 5px solid #fe8900;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  opacity: 1;
+  transform: rotate(115deg);
+}
+.aon-doctorAbout-pic:after {
+  animation: rotate 1.5s ease linear;
+}
+.aon-doctorAbout-left:hover .aon-doctorAbout-pic:after {
+  opacity: 1;
+  animation: rotate 1.5s infinite linear;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes rotate {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.aon-doctorAbout-right {
+  display: flex;
+  flex-basis: auto;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  padding-left: 40px;
+  position: relative;
+}
+
+.aon-doctorAbout-name {
+  margin-bottom: 10px;
+}
+.aon-doctorAbout-type {
+  margin-bottom: 10px;
+}
+.aon-doctorAbout-rating {
+  margin-bottom: 10px;
+}
+
+.aon-doctorAbout-contat {
+  margin: 0px 0px 10px;
+  list-style: none;
+}
+.aon-doctorAbout-contat li {
+  display: inline-block;
+  margin-right: 10px;
+}
+.aon-doctorAbout-contat li i {
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+.aon-doctorAbout-rating {
+  display: inline-block;
+  padding-right: 2px;
+  color: #ff8a00;
+  font-size: 13px;
+}
+.aon-doctorAbout-rating .aon-rating-lable {
+  color: #00a900;
+  font-size: 14px;
+}
+
+.aon-doctorAbout-exper {
+  margin-bottom: 10px;
+}
+
+.aon-doctorAbout-text {
+  margin-bottom: 20px;
+}
+.aon-doctorAddto-share {
+  list-style: none;
+  margin-top: 10px;
+}
+.aon-doctorAddto-share li {
+  display: inline-block;
+  margin-right: 15px;
+}
+.aon-doctorAddto-share li a {
+  display: block;
+  border: 1px solid #ddd;
+  padding: 2px 12px;
+  border-radius: 5px;
+}
+
+.aon-doctorAbout-label {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #e3f4fa;
+  color: #3e8198;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+@media only screen and (max-width: 1199px) {
+  .aon-doctorAbout-label {
+    position: inherit;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .aon-doctorAbout-wrap {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+  .aon-doctorAbout-right {
+    padding-left: 0px;
+  }
+  .aon-doctorAbout-left {
+    margin-bottom: 30px;
+  }
+}
+
+.aon-doctoreducation-wrap {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 50px;
+  padding-bottom: 30px;
+}
+.aon-doctoreducation-wrap.bdr-none {
+  border: none;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+.aon-award-list {
+  list-style: none;
+  margin: 0px;
+}
+.aon-award-list li {
+  margin-bottom: 30px;
+}
+.aon-award-list li:last-child {
+  margin-bottom: 0px;
+}
+.aon-award-list .aon-award-pic {
+  margin-right: 20px;
+  float: left;
+}
+@media only screen and (max-width: 420px) {
+  .aon-award-list .aon-award-pic {
+    margin-bottom: 20px;
+    float: none;
+  }
+}
+.aon-docLocation-wrap {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 50px;
+  padding-bottom: 30px;
+}
+
+.aon-docPexpi-wrap {
+  margin-bottom: 50px;
+}
+
+.aon-side-bar {
+  background: #f4fcfb;
+  border: 1px solid #dce9e7;
+  border-radius: 10px;
+}
+
+.aon-siderbar-nav {
+  margin: 30px;
+  list-style: none;
+  position: relative;
+}
+@media only screen and (max-width: 420px) {
+  .aon-siderbar-nav {
+    margin: 20px;
+  }
+}
+.aon-siderbar-nav:before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 8px;
+  height: calc(100% - 22px);
+  width: 1px;
+  background: #5d908b;
+  margin: 11px 0px;
+}
+.aon-siderbar-nav li {
+  margin-bottom: 20px;
+  position: relative;
+  padding-left: 30px;
+}
+.aon-siderbar-nav li:after {
+  content: "";
+  position: absolute;
+  top: 11px;
+  left: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 10px;
+  background: #1b605b;
+}
+.aon-siderbar-nav li:last-child {
+  margin-bottom: 0px;
+}
+
+.aon-siderbar-nav li.active a {
+  color: #ff8a00;
+}
+.aon-siderbar-nav li.active:after {
+  background: #ff8a00;
+}
+
+.aon-consultancy-price {
+  font-size: 20px;
+}
+
+.aon-find-doctors-wrap {
+  border-top: 1px solid #ddd;
+}
+@media only screen and (max-width: 420px) {
+  .aon-find-doctors-wrap {
+    padding: 20px;
+  }
+}
+.aon-doctor-tabs {
+  margin-bottom: 30px !important;
+}
+
+.aon-doctorTotal-rating {
+  border: 2px solid #1b605b;
+  padding: 20px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.aon-doctorReview-wrap {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 50px;
+  padding-bottom: 30px;
+}
+
+.aon-docRating-title {
+  font-size: 15px;
+  text-align: center;
+}
+.aon-docRating-num {
+  font-size: 48px;
+  line-height: 1;
+}
+
+.aon-doctorReview-left {
+  position: relative;
+  text-align: center;
+  min-width: 140px;
+}
+.aon-doctorReview-right {
+  display: flex;
+  flex-basis: auto;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  padding-left: 40px;
+  position: relative;
+}
+@media only screen and (max-width: 460px) {
+  .aon-doctorReview-wrap {
+    display: block !important;
+  }
+  .aon-doctorReview-left {
+    margin-bottom: 20px;
+  }
+  .aon-doctorReview-right {
+    padding-left: 0px;
+  }
+}
+.aon-doctorInsuranc-tabline {
+  margin-bottom: 30px;
+}
+.aon-docReview-list {
+  list-style: none;
+  margin: 0px;
+}
+.aon-docReview-list li {
+  margin-bottom: 20px;
+}
+.aon-docReview-list p {
+  margin-bottom: 10px;
+}
+.aon-docReview-list .aon-docReview-more {
+  color: #ff8a00;
+}
+.aon-docReview-list .aon-docReview-meta {
+  color: #222;
+}
+
+.aon-doctorInsuranc-wrap {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 50px;
+  padding-bottom: 30px;
+}
+
+.aon-insuranc-logo {
+  border: 1px solid #ddd;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.aon-doctorSpecializ-wrap {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 50px;
+  padding-bottom: 30px;
+}
+.aon-insuranc-list {
+  display: -ms-flexbox;
+  display: flex;
+}
+.aon-insuranc-list .feather-check {
+  font-size: 18px;
+  color: #4ecd69;
+  padding-top: 5px;
+  padding-right: 5px;
+}
+
+.aon-doctorLang-wrap {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 50px;
+  padding-bottom: 30px;
+}
+.aon-doctorLang-title {
+  margin-bottom: 30px;
+}
+.aon-docLang-pic {
+  margin-right: 10px;
+}
+
+/*Doctor Detail*/
+
+@media only screen and (max-width: 991px) {
+  .aon-profile1-page-wrap {
+    padding-bottom: 10px;
+  }
+}
+.card-shadow-box {
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+}
+@media only screen and (max-width: 420px) {
+  .card-shadow-box {
+    padding: 20px;
+  }
+}
+.sf-dco-profile-card {
+  background-color: #1b6059;
+  padding: 30px;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 30px;
+}
+.sf-dco-profile-card:before {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 60px;
+  width: 200%;
+  height: 500px;
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: rotate(-10deg) translateY(-50%) translateX(-50%);
+  opacity: 0.4;
+}
+.sf-doc-pro-card-media {
+  width: 245px;
+  height: 245px;
+  margin: 0px auto 30px;
+  border: 2px solid rgba(204, 204, 204, 0.2);
+  border-radius: 50%;
+  padding: 27px;
+  position: relative;
+}
+
+.sf-doc-pro-card-media:after {
+  content: "";
+  position: absolute;
+  left: -4px;
+  top: -4px;
+  width: 248px;
+  height: 248px;
+  transform: rotate(10deg);
+  border-radius: 50%;
+  padding: 27px;
+  border-left: 6px solid #ff8a00;
+  border-right: 6px solid #ff8a00;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+}
+.sf-doc-pro-card-media:hover:after {
+  animation: rotate 1.5s infinite linear;
+}
+
+.sf-doc-pr-media-inner {
+  position: relative;
+  text-align: center;
+}
+.sf-doc-pr-media-inner img {
+  width: 187px;
+  height: 187px;
+  border-radius: 50%;
+}
+.sf-doc-pr-media-inner i {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 50%;
+  color: #fff;
+  position: absolute;
+  left: 50%;
+  bottom: -15px;
+  background-color: #59b153;
+  display: block;
+  transform: translateX(-50%);
+}
+
+.sf-doc-pro-card-name {
+  text-align: center;
+  color: #fff;
+  margin-bottom: 50px;
+}
+.sf-doc-pro-card-name h3 {
+  color: #fff;
+}
+
+.sf-doc-pro-card-info ul li {
+  margin-bottom: 10px;
+  position: relative;
+  color: #fff;
+  padding-left: 50px;
+  margin-bottom: 20px;
+}
+.sf-doc-pro-card-info ul li:last-child {
+  margin-bottom: 0px;
+}
+.sf-doc-pro-card-info ul li h4 {
+  color: #fff;
+  margin-bottom: 0px;
+}
+.sf-doc-pro-card-info ul li p {
+  margin-bottom: 0px;
+}
+
+.sf-doc-pro-card-info ul li img {
+  color: #fff;
+  position: absolute;
+  left: 0px;
+  top: 3px;
+  width: 32px;
+}
+.feather-check {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  background: #4ecd69;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  margin: 0px -15px;
+  text-align: center;
+  display: table;
+  border-radius: 30px;
+  z-index: 1;
+}
+/*timetable*/
+
+.sf-doc-timeing-card .nav-link span {
+  font-size: 14px;
+  display: block;
+  color: #9f9f9f;
+}
+@media only screen and (max-width: 1199px) {
+  .sf-doc-timeing-card {
+    padding: 20px;
+  }
+  .sf-doc-Photo-wrap {
+    padding: 20px;
+  }
+  .sf-doc-find-wrap {
+    padding: 20px;
+  }
+  .sf-doc-video-wrap {
+    padding: 20px;
+  }
+}
+
+.sf-doc-timeing-card-nav {
+  margin-bottom: 0px !important;
+}
+@media only screen and (max-width: 640px) {
+  .aon-custom-nav.sf-doc-timeing-card-nav {
+    display: flex;
+  }
+}
+@media only screen and (max-width: 420px) {
+  .sf-doc-timeing-card {
+    padding: 20px;
+  }
+}
+.sf-doc-timeing-card-nav .nav-item {
+  width: 33.333%;
+  display: flex;
+}
+.sf-doc-timeing-card-nav .nav-item > .nav-link {
+  padding: 15px 10px;
+}
+
+.sf-doc-timeing-card-nav > .nav-item > .nav-link.active::after {
+  background-color: #2fc0a1;
+}
+
+@media only screen and (max-width: 420px) {
+  .aon-custom-nav.sf-doc-timeing-card-nav {
+    display: block;
+  }
+  .sf-doc-timeing-card-nav .nav-item {
+    width: 100%;
+    display: block;
+  }
+  .sf-doc-timeing-card-nav .nav-item .nav-link {
+    width: 100%;
+    display: block;
+    background-color: #fff;
+    margin-top: 10px;
+  }
+}
+.sf-doc-timing-slots .sf-doc-timing-slots-detail {
+  background-color: #e2f7f2;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 20px;
+  text-align: center;
+  color: #2fc0a1;
+}
+.sf-doc-timing-slots .sf-doc-timing-slots-detail.active {
+  background-color: #fbe1e2;
+  color: #b5405b;
+}
+.sf-doc-timing-slots .sf-doc-timing-slots-detail span {
+  display: block;
+  font-weight: 600;
+  font-size: 16px;
+}
+.sf-doc-timing-slots .sf-doc-timing-slots-detail p {
+  margin-bottom: 0px;
+  font-size: 15px;
+}
+
+.sf-doc-timing-slots-btn {
+  border-top: 1px solid #ddd;
+  padding-top: 30px;
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.site-button.red {
+  background-color: #ef1b1a;
+}
+
+.aon-doctorAddto-share {
+  list-style: none;
+  margin-top: 10px;
+}
+.aon-doctorAddto-share li {
+  display: inline-block;
+  margin-right: 15px;
+  margin-bottom: 5px;
+}
+.aon-doctorAddto-share li a {
+  display: block;
+  border: 1px solid #ddd;
+  padding: 2px 12px;
+  border-radius: 5px;
+}
+
+/*exp-tabs*/
+.sf-doc-exp-list-detail {
+  list-style: none;
+  margin-bottom: 0px;
+}
+.sf-doc-exp-list-detail li {
+  padding-bottom: 15px;
+  border-bottom: 1px solid #dedfe1;
+  margin-bottom: 15px;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+@media only screen and (max-width: 767px) {
+  .sf-doc-exp-list-detail li {
+    display: block;
+  }
+}
+.sf-doc-exp-list-detail li:last-child {
+  border-bottom: 0px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.sf-doc-exp-list-detail li .list-title {
+  color: #2a2a2a;
+  margin-right: 10px;
+  font-weight: 600;
+}
+
+.sf-doc-full-detail.bdr-none {
+  border: none;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+.sf-doc-full-detail-head {
+  display: flex;
+  justify-content: space-between;
+}
+@media only screen and (max-width: 575px) {
+  .sf-doc-full-detail-head {
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+.sf-doc-full-detail-head .sf-doc-info-wrap {
+  margin-bottom: 20px;
+}
+.sf-doc-full-detail-head .sf-doc-info-wrap .sf-doct-info {
+  font-size: 16px;
+  color: #2a2a2a;
+  margin-bottom: 5px;
+}
+.sf-doc-full-detail-head .sf-doc-info-wrap .sf-medi-rate {
+  margin-bottom: 5px;
+}
+.sf-doc-full-detail-head .sf-doc-info-wrap .sf-medi-rate .sf-rating-lable {
+  color: #7b7b7b;
+}
+.sf-doc-full-detail-head .sf-doc-info-wrap .sf-doc-exp {
+  font-size: 16px;
+}
+.sf-doc-full-detail-head .sf-doc-info-wrap .sf-doc-exp span {
+  color: #2a2a2a;
+}
+
+.sf-doc-position span {
+  background-color: #e3f4fa;
+  color: #3e8198;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+
+.sf-doc-price-list-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: 600;
+  color: #434343;
+  padding-bottom: 10px;
+  margin-top: 20px;
+}
+
+.sf-doc-price-list {
+  margin-bottom: 0px;
+  list-style: none;
+  border: 1px solid #ebebeb;
+}
+.sf-doc-price-list li {
+  padding: 15px;
+  border-bottom: 1px solid #ebebeb;
+  display: flex;
+  justify-content: space-between;
+  color: #434343;
+  font-size: 16px;
+  font-weight: 600;
+}
+.sf-doc-price-list li:nth-child(even) {
+  background-color: #f5faf9;
+}
+.sf-doc-price-list li:last-child {
+  border-bottom: 0px;
+}
+
+/*Patient Exp*/
+
+.sf-patient-exp h3 {
+  margin-bottom: 10px;
+}
+.sf-patient-exp-list ul {
+  list-style: none;
+  margin-bottom: 0px;
+}
+.sf-patient-exp-list ul li {
+  margin-bottom: 30px;
+}
+.sf-patient-exp-list ul li:last-child {
+  margin-bottom: 0px;
+}
+
+.sf-patient-exp-body {
+  padding: 0px;
+  margin-left: 100px;
+  border: 0px;
+  position: relative;
+}
+.sf-patient-exp-body .sf-medi-rate .sf-rating-lable {
+  color: #7b7b7b;
+}
+
+.sf-patient-exp-body img {
+  position: absolute;
+  left: -100px;
+  top: 0px;
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+}
+
+.sf-patient-exp-head {
+  display: flex;
+  justify-content: space-between;
+}
+.sf-patient-exp-head .sf-pat-left {
+  display: flex;
+  justify-content: space-between;
+}
+.sf-patient-exp-head .sf-pat-left .sf-patient-exp-name {
+  padding-right: 20px;
+}
+.sf-patient-exp-name {
+  font-size: 18px;
+  color: #2a2a2a;
+}
+
+@media only screen and (max-width: 575px) {
+  .sf-patient-exp-head .sf-pat-left {
+    display: block;
+  }
+  .sf-patient-exp-head {
+    display: block;
+  }
+}
+@media only screen and (max-width: 420px) {
+  .sf-patient-exp-body {
+    margin-left: 0px;
+  }
+  .sf-patient-exp-body img {
+    position: inherit;
+    left: auto;
+  }
+}
+
+.sf-doc-contacts {
+  list-style: none;
+  margin-bottom: 0px;
+}
+.sf-doc-contacts li {
+  margin-bottom: 5px;
+}
+.sf-doc-contacts li:last-child {
+  margin-bottom: 0px;
+}
+.sf-doc-contacts li span {
+  font-size: 18px;
+  color: #2a2a2a;
+  display: block;
+}
+.sf-doc-contacts li p {
+  margin-bottom: 0px;
+}
+
+@media only screen and (max-width: 991px) {
+  .sf-doc-location-map {
+    margin-bottom: 30px;
+  }
+}
+
+.aon-article-list-inner {
+  padding-left: 128px;
+  border: 0px;
+  position: relative;
+}
+.aon-article-list-inner .aon-article-pic img {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 108px;
+  border-radius: 10px;
+}
+.aon-article-list {
+  list-style: none;
+  margin: 0px;
+}
+.aon-article-list li {
+  margin-bottom: 20px;
+}
+.aon-article-list li:last-child {
+  margin-bottom: 0px;
+}
+.aon-article-list-inner p {
+  margin-bottom: 0px;
+}
+.aon-article-list .aon-articles-time li {
+  font-size: 14px;
+  color: #000;
+  display: inline-block;
+  padding-right: 30px;
+}
+
+@media only screen and (max-width: 640px) {
+  .aon-article-list-inner {
+    padding-left: 128px;
+    border: 0px;
+    position: relative;
+  }
+}
+@media only screen and (max-width: 420px) {
+  .aon-article-list-inner {
+    padding-left: 0px;
+  }
+  .aon-article-pic {
+    margin-bottom: 10px;
+  }
+  .aon-article-list-inner .aon-article-pic img {
+    position: inherit;
+  }
+}
+.aon-pro-benner-area {
+  background: #1b605b;
+  margin-bottom: -80px;
+}
+.aon-pro-banner-content {
+  padding: 100px 0px;
+}
+
+.aon-doc-pro-location {
+  color: #fff;
+  margin-bottom: 20px;
+}
+.aon-doc-pro-conInfo {
+  color: #fff;
+  display: table;
+  margin: auto;
+}
+.aon-doc-pro-conInfo span {
+  display: table-cell;
+  padding: 0px 20px;
+  line-height: 1.2;
+}
+.aon-doc-pro-conInfo span + span {
+  position: relative;
+}
+.aon-doc-pro-conInfo span + span a {
+  color: #fff;
+}
+.aon-doc-pro-conInfo span + span:before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 1px;
+  background: #fff;
+  opacity: 0.2;
+}
+@media only screen and (max-width: 420px) {
+  .aon-doc-pro-conInfo {
+    display: block;
+  }
+  .aon-doc-pro-conInfo span {
+    display: block;
+    margin: 20px 0px;
+  }
+}
+.aon-doc-pro-card-name {
+  text-align: center;
+  color: #fff;
+}
+.aon-doc-pro-card-name h3 {
+  color: #fff;
+}
+
+.aon-siderbar-nav.m-a0 {
+  margin: 0px;
+}
+.aon-photo-gallery {
+  // background-image: url("../images/gallery.jpg");
+  height: 250px;
+  border-radius: 10px;
+  background-position: center;
+  background-size: cover;
+}
+
+.aon-photo-num {
+  width: 100%;
+  font-size: 40px;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+.aon-photo-num:hover {
+  color: #fff;
+}
+
+.aon-video-gallery {
+  // background-image: url("../images/video.jpg");
+  height: 250px;
+  border-radius: 10px;
+  background-position: center;
+  background-size: cover;
+}
+.aon-video-num {
+  width: 100%;
+  font-size: 40px;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+.aon-video-num:hover {
+  color: #fff;
+}
+.aon-custom-nav {
+  position: relative;
+}
+.aon-custom-nav:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: #ddd;
+}
+.aon-custom-nav > .nav-item > .nav-link {
+  color: #777;
+  border-radius: 0;
+  cursor: pointer;
+}
+.aon-custom-nav > .nav-item > .nav-link.active {
+  color: #222;
+  background: none;
+  position: relative;
+}
+.aon-custom-nav > .nav-item > .nav-link.active:after {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: #06328b;
+  opacity: 1;
+  position: absolute;
+  content: "";
+  z-index: 1;
+}
+
+@media only screen and (max-width: 767px) {
+  .aon-custom-nav > .nav-item > .nav-link > h3 {
+    font-size: 20px;
+  }
+}
+@media only screen and (max-width: 640px) {
+  .aon-newChart-list .aon-custom-nav {
+    display: flex;
+  }
+  .aon-custom-nav {
+    display: block;
+  }
+  .aon-custom-nav > .nav-item > .nav-link {
+    padding-left: 0px;
+  }
+}

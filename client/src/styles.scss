@@ -20,9 +20,9 @@ body {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: $base-color !important;
   text-align: left;
   overflow-x: hidden;
+  color: $text-color !important;
 }
 a {
   color: #000;
@@ -47,7 +47,9 @@ a {
 .text-med {
   color: $base-color !important;
 }
-
+.pointer {
+  cursor: pointer !important;
+}
 .text-primary a:hover {
   color: #fff !important;
 }

@@ -40,6 +40,8 @@ import { AppHomeComponent } from "./app-home/app-entry/app-home.component";
 import { AppEntryLayoutComponent } from "./app-home/_layout/app-layout/app-layout.component";
 import { AppEntryHeaderComponent } from "./app-home/_layout/app-header/app-header.component";
 import { AppEntryFooterComponent } from "./app-home/_layout/site-footer/site-footer.component";
+import { doctorsListingComponent } from "./app-home/doctors-listing/doctors-listing.component";
+import { doctorsProfileComponent } from "./app-home/doctors-profile/doctors-profile.component";
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, "assets/i18n/", ".json");
 }
@@ -57,6 +59,8 @@ export function createTranslateLoader(http: HttpClient): any {
     RightSidebarComponent,
     AuthLayoutComponent,
     MainLayoutComponent,
+    doctorsListingComponent,
+    doctorsProfileComponent,
   ],
   imports: [
     BrowserModule,

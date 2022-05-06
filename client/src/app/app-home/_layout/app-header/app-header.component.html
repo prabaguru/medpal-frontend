@@ -1,10 +1,17 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <mat-icon aria-hidden="false">medical_services</mat-icon>&nbsp;
-    <h1>Medpal.Live</h1>
+    <mat-icon aria-hidden="false" [routerLink]="['/home']" class="pointer"
+      >medical_services</mat-icon
+    >&nbsp;
+    <h1 [routerLink]="['/home']" class="pointer">Medpal.Live</h1>
     <span class="menu-spacer"></span>
     <div [style.margin-left]="'50px'">
-      <a href="javascript:void();" mat-button>Book Appointments</a>
+      <a
+        href="javascript:void();"
+        [routerLink]="['/doctorsListing/']"
+        mat-button
+        >Book Appointments</a
+      >
     </div>
     <button mat-button [matMenuTriggerFor]="animals">
       Login <mat-icon>expand_more</mat-icon>
@@ -15,3 +22,4 @@
     </mat-menu>
   </mat-toolbar-row>
 </mat-toolbar>
+<!-- https://stackblitz.com/angular/vjbpexepayj?file=src%2Fapp%2Fsidenav-responsive-example.html -->
