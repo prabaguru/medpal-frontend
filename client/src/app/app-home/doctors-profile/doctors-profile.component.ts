@@ -4,4 +4,8 @@ import { Component } from "@angular/core";
   templateUrl: "./doctors-profile.component.html",
   styleUrls: ["./doctors-profile.component.scss"],
 })
-export class doctorsProfileComponent {}
+export class doctorsProfileComponent {
+  scroll(el: HTMLElement) {
+    el.scrollIntoView({ behavior: "smooth" });
+  }
+}

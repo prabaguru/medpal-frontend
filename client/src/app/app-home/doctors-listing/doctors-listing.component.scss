@@ -1,5 +1,6 @@
 $base-color: #7c4bd2;
-$base-color2: $base-color;
+$base-color2: #c17bf8;
+$base-color3: #3f3d7c;
 $text-color: #626262;
 $font-size12: 12px;
 $font-size14: 14px;
@@ -80,7 +81,7 @@ input.mat-input-element {
 }
 .aon-search-btn .site-button {
   width: 100%;
-  background-color: $base-color;
+  background-color: $base-color2;
 }
 .aon-search-info-wrap {
   padding: 40px 0px 0px;
@@ -94,7 +95,7 @@ input.mat-input-element {
   line-height: 20px;
   text-align: center;
   border-radius: 10px;
-  background: #00a900;
+  background: $base-color3;
   color: #fff;
 }
 .aon-page-jobs-wrap {
@@ -131,13 +132,14 @@ input.mat-input-element {
   position: absolute;
   right: -10px;
   top: -10px;
-  background-color: #59b153;
+  background-color: $base-color3;
   display: block;
   box-shadow: -3px 5px 5px rgb(0 0 0 / 20%);
 }
 .sf-doc-profile-view {
   font-size: 14px;
-  color: #06328b;
+  color: $base-color3;
+  font-weight: bold;
 }
 .sf-listing-info {
   display: table-cell;
@@ -167,7 +169,7 @@ input.mat-input-element {
   overflow: hidden;
   cursor: pointer;
   display: inline-table;
-  background-color: $base-color;
+  background-color: $base-color2;
   border: none;
   font-size: 15px;
   transition: 0.5s all ease;
@@ -176,8 +178,8 @@ input.mat-input-element {
 .sf-medi-rate span {
   display: inline-block;
   padding-right: 2px;
-  color: $base-color;
-  font-size: 16px;
+  color: $base-color2;
+  font-size: 12px;
 }
 .sf-listing-media img {
   width: 100%;
@@ -185,7 +187,7 @@ input.mat-input-element {
   margin-bottom: 10px;
 }
 .sf-medi-rate span.sf-rating-lable {
-  color: #00a900;
+  color: $base-color3;
   font-size: 14px;
   display: inline-block;
   padding-right: 2px;
@@ -215,7 +217,7 @@ input.mat-input-element {
   font-size: 20px;
 }
 .sf-listing-con-timeing span.open {
-  color: #1c8315;
+  color: $base-color3;
 }
 .sf-listing-con-timeing span.close {
   color: #ff4444;
@@ -245,7 +247,7 @@ input.mat-input-element {
 }
 .bage-green {
   border-radius: 6px;
-  background-color: #1c8315;
+  background-color: $base-color3;
   color: #fff;
   padding: 2px 6px;
 }
@@ -257,7 +259,7 @@ input.mat-input-element {
 .sf-listing-right-footer p {
   font-style: italic;
   font-size: 12px;
-  color: #08a300;
+  color: $base-color3;
   margin-bottom: 0px;
 }
 .sf-listing-right-footer p span {
