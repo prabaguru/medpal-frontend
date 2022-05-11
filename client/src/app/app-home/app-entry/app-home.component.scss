@@ -1,5 +1,6 @@
 $base-color: #7c4bd2;
 $base-color2: #c17bf8;
+$base-color3: #3f3d7c;
 $text-color: #626262;
 $font-size12: 12px;
 $font-size14: 14px;
@@ -108,7 +109,7 @@ $font-size18: 18px;
 .aon-df-rating span {
   display: inline-block;
   padding-right: 2px;
-  color: $base-color2;
+  color: $base-color3;
   font-size: 16px;
 }
 .aon-med-team .aon-med-team-pic:after {
@@ -137,6 +138,75 @@ $font-size18: 18px;
 }
 .aon-med-team:hover .aon-med-team-pic:after {
   animation: rotate 1.5s infinite linear;
+}
+@keyframes rotate {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes rotate {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media only screen and (max-width: 1200px) {
+  .aon-med-team .aon-med-team-pic:after {
+    left: -2px;
+    top: -2px;
+  }
+}
+@media only screen and (max-width: 991px) {
+  .aon-med-team {
+    display: block;
+    padding: 20px;
+  }
+  .aon-med-team .aon-med-team-pic {
+    width: 131px;
+    margin-right: 0px;
+    margin-bottom: 30px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .aon-med-team {
+    display: flex;
+    padding: 20px;
+  }
+  .aon-med-team .aon-med-team-pic {
+    width: 131px;
+    margin-right: 20px;
+    margin-bottom: 30px;
+  }
+}
+@media only screen and (max-width: 575px) {
+  .aon-med-team .aon-med-team-pic {
+    width: 160px;
+    margin-right: 20px;
+    margin-bottom: 30px;
+  }
+}
+@media only screen and (max-width: 480px) {
+  .aon-med-team {
+    display: block;
+    padding: 20px;
+    text-align: center;
+  }
+  .aon-med-team .aon-med-team-pic {
+    width: 160px;
+    margin: 0px auto 30px;
+  }
+  .aon-med-team .aon-med-team-pic:after {
+    left: -2px;
+    top: -2px;
+    width: 165px;
+    height: 165px;
+  }
 }
 .aon-med-team:hover {
   box-shadow: 0 0 25px 10px rgba(0, 0, 0, 0.1);

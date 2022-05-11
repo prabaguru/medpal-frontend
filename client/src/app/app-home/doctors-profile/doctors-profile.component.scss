@@ -309,7 +309,7 @@ input.mat-input-element {
   width: 8px;
   height: 8px;
   border-radius: 10px;
-  background: #1b605b;
+  background: $base-color3;
 }
 .sf-medi-rate span {
   display: inline-block;
@@ -346,7 +346,7 @@ input.mat-input-element {
 }
 
 .aon-doctorTotal-rating {
-  border: 2px solid #1b605b;
+  border: 2px solid $base-color3;
   padding: 20px;
   border-radius: 10px;
   white-space: nowrap;
@@ -959,7 +959,7 @@ input.mat-input-element {
   }
 }
 .aon-pro-benner-area {
-  background: #1b605b;
+  background: $base-color3;
   margin-bottom: -80px;
 }
 .aon-pro-banner-content {
