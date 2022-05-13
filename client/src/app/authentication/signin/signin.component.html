@@ -13,16 +13,15 @@
               <div>
                 <div class="text-center">
                   <div>
-                    <!-- <a routerLink="" class="logo-full"
-                      ><img src="assets/images/logo-full.png" alt="logo-full"
-                    /></a> -->
                     <mat-icon aria-hidden="false" class="baseColor"
                       >medical_services</mat-icon
                     >&nbsp;
                     <h1 class="baseColor">Medpal.Live</h1>
                   </div>
 
-                  <h4 class="font-20 mt-4 baseColor">Doctors Login</h4>
+                  <h4 class="font-20 mt-4 baseColor">
+                    {{ f.loginType.value }} Login
+                  </h4>
                   <p class="text-muted">Sign in to continue to Medpal.</p>
                 </div>
 
@@ -30,6 +29,18 @@
                   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                     <div *ngIf="error" class="alert alert-danger mb-3 mt-0">
                       {{ error }}
+                    </div>
+                    <div class="form-group auth-form-group mb-1">
+                      <mat-form-field appearance="outline" style="width: 336px">
+                        <mat-label>Login As</mat-label>
+                        <select matNativeControl formControlName="loginType">
+                          <option value="Doctor">Doctor</option>
+                          <option value="Hospital Doctor">
+                            Hospital Doctor
+                          </option>
+                          <option value="Hospital">Hospital</option>
+                        </select>
+                      </mat-form-field>
                     </div>
                     <div class="form-group auth-form-group mb-4">
                       <mat-icon matSuffix class="auth-page-icon"
@@ -119,7 +130,7 @@
                 </div>
 
                 <div class="mt-5 text-center">
-                  <p>
+                  <p *ngIf="f.loginType.value === 'Doctor'">
                     Don't have an account ?
                     <a
                       routerLink="/authentication/signup"
@@ -128,6 +139,7 @@
                       Register
                     </a>
                   </p>
+
                   <!-- <ul class="list-unstyled social-icon mb-0 mt-3">
                     <li class="list-inline-item m-2">
                       <a href="javascript:void(0)" class="rounded">

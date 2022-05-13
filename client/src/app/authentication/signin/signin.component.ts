@@ -30,6 +30,7 @@ export class SigninComponent
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
     this.loginForm = this.formBuilder.group({
+      loginType: ["Doctor", Validators.required],
       email: [
         "yyyypraba.wg@gmail.com",
         [Validators.required, Validators.email, Validators.minLength(5)],

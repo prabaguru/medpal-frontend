@@ -93,8 +93,14 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
   }
 
   submitForm() {
+    let imgUnlink = this.userData.image.imageName
+      ? this.userData.image.imageName
+      : null;
+    let obj = {
+      imageName: imgUnlink,
+    };
     this.apiService
-      .uploadFile(this.userData._id, this.form.value.file)
+      .uploadFile(this.userData._id, this.form.value.file, imgUnlink)
       .subscribe(
         (event: HttpEvent<any>) => {
           switch (event.type) {
@@ -109,7 +115,11 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
               //console.log(`Uploaded! ${this.percentDone}%`);
               break;
             case HttpEventType.Response:
-              console.log("Upload successfull!", event.body);
+              //console.log("Upload successfull!", event.body.result);
+
+              let image = { image: event.body.result };
+              console.log(image);
+              this.updateLocalStorage(image);
               this.percentDone = false;
               this.sharedDataService.showNotification(
                 "snackbar-success",
@@ -133,5 +143,15 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
           );
         }
       );
+  }
+
+  updateLocalStorage(obj) {
+    const oldInfo = JSON.parse(localStorage.getItem("currentUser"));
+    localStorage.setItem("currentUser", JSON.stringify({ ...oldInfo, ...obj }));
+    this.authService.updateUserObjOnSave(
+      JSON.parse(localStorage.getItem("currentUser"))
+    );
+    this.userData = [];
+    this.userData = this.authService.currentUserValue;
   }
 }

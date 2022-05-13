@@ -17,10 +17,11 @@ export class ApiService {
       .post<IDoctor[]>(`${environment.apiUrl}/doctors/register`, data)
       .pipe(catchError(this.handleError));
   }
-  uploadFile(id, profileImage: File): Observable<any> {
+  uploadFile(id, profileImage: File, imgUnlink): Observable<any> {
     var formData: any = new FormData();
     formData.append("id", id);
     formData.append("file", profileImage);
+    formData.append("imgUnlink", imgUnlink);
     return this.http.put(`${environment.apiUrl}/doctors/uploadFile`, formData, {
       reportProgress: true,
       observe: "events",
