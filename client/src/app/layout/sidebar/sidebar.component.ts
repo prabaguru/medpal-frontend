@@ -29,7 +29,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   listMaxWidth: string;
   headerHeight = 60;
   routerObj = null;
-
+  userData: any = [];
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
@@ -93,6 +93,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     if (this.authService.currentUserValue) {
       this.sidebarItems = ROUTES.filter((sidebarItem) => sidebarItem);
     }
+    this.userData = this.authService.currentUserValue;
     this.initLeftSidebar();
     this.bodyTag = this.document.body;
   }

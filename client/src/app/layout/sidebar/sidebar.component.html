@@ -20,15 +20,22 @@
         <li>
           <div class="sidebar-profile clearfix">
             <div class="profile-img">
-              <img src="assets/images/usrbig.jpg" alt="profile" />
+              <img
+                *ngIf="userData.image.imageUrl == null"
+                src="assets/images/usrbig.jpg"
+                alt="profile"
+              />
+              <img
+                *ngIf="userData.image.imageUrl != null"
+                [src]="userData.image.imageUrl"
+                alt="profile"
+              />
             </div>
             <div class="profile-info">
               <h3>
-                {{
-                  (authService.currentUserValue.firstName | slice: 0:6) + ".."
-                }}
+                {{ (userData.firstName | slice: 0:6) + ".." }}
               </h3>
-              <p>Welcome {{ authService.currentUserValue.role }} !</p>
+              <p>Welcome {{ userData.role }} !</p>
             </div>
           </div>
         </li>

@@ -93,6 +93,15 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
   }
 
   submitForm() {
+    if (this.form.value.file === null) {
+      this.sharedDataService.showNotification(
+        "snackbar-danger",
+        "Select or drag drop image file.",
+        "top",
+        "center"
+      );
+      return;
+    }
     let imgUnlink = this.userData.image.imageName
       ? this.userData.image.imageName
       : null;
@@ -118,9 +127,12 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
               //console.log("Upload successfull!", event.body.result);
 
               let image = { image: event.body.result };
-              console.log(image);
+              //console.log(image);
               this.updateLocalStorage(image);
               this.percentDone = false;
+              this.form.value.file = null;
+              this.form.reset();
+              this.myFiles = [];
               this.sharedDataService.showNotification(
                 "snackbar-success",
                 "Upload Successfull...",
@@ -153,5 +165,6 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
     );
     this.userData = [];
     this.userData = this.authService.currentUserValue;
+    this.preview = null;
   }
 }

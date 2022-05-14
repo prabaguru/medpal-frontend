@@ -1,3 +1,4 @@
+$base-color: #7c4bd2;
 .file-drop-area {
   border: 1px dashed #7c7db3;
   border-radius: 3px;
@@ -23,4 +24,7 @@
   font-size: 12px;
   font-weight: 500;
   color: #5b5bff;
+}
+.bg-success {
+  background-color: $base-color !important;
 }

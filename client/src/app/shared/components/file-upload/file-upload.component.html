@@ -9,6 +9,7 @@
 <form [formGroup]="form" (ngSubmit)="submitForm()">
   <div class="form-group">
     <img
+      *ngIf="!preview && preview == null"
       [src]="userData.image.imageUrl"
       alt="DP"
       class="img-thumbnail"
