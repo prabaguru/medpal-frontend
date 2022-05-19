@@ -27,6 +27,17 @@ export class ApiService {
       observe: "events",
     });
   }
+  uploadFile2(id, docFile: File, fileUnlink, docType): Observable<any> {
+    var formData: any = new FormData();
+    formData.append("id", id);
+    formData.append("file", docFile);
+    formData.append("fileUnlink", fileUnlink);
+    formData.append("docType", docType);
+    return this.http.put(`${environment.apiUrl}/doctors/uploadDoc`, formData, {
+      reportProgress: true,
+      observe: "events",
+    });
+  }
   private handleError(err) {
     //console.log("error caught in service");
     //console.error(err);

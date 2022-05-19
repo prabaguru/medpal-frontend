@@ -480,6 +480,17 @@
                             </mat-form-field>
                           </div>
                         </div>
+                        <div class="row">
+                          <div class="col-md-3">
+                            <button
+                              mat-raised-button
+                              color="primary"
+                              type="submit"
+                            >
+                              Save
+                            </button>
+                          </div>
+                        </div>
                         <mat-action-row>
                           <a
                             mat-button
@@ -497,13 +508,6 @@
                           >
                             Next
                           </a>
-                          <button
-                            mat-raised-button
-                            color="primary"
-                            type="submit"
-                          >
-                            Save
-                          </button>
                         </mat-action-row>
                       </div>
                     </div></span
@@ -610,7 +614,7 @@
                     (click)="nextStep()"
                     href="javascript:void();"
                   >
-                    End
+                    Next
                   </a>
                 </mat-action-row>
               </mat-expansion-panel>
@@ -624,7 +628,7 @@
                     Upload Registration Documents
                   </mat-panel-title>
                   <mat-panel-description>
-                    Upload Your registered documents
+                    Upload documents
                     <mat-icon>upload_file</mat-icon>
                   </mat-panel-description>
                 </mat-expansion-panel-header>
@@ -633,6 +637,25 @@
                     <div class="col-md-4">
                       Upload Profile Pic<span class="mbdata"> (2MB Max)</span>
                       <app-file-upload></app-file-upload>
+                    </div>
+                    <div class="col-md-1">&nbsp;</div>
+                    <div class="col-md-4">
+                      Upload Adhaar doc<span class="mbdata"> (4MB Max)</span>
+                      <app-file-upload2
+                        docType="adhaar"
+                        [userdatas]="userData.doc1"
+                      ></app-file-upload2>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4 mt-5">
+                      Upload Medical Degree certificate<span class="mbdata">
+                        (4MB Max)</span
+                      >
+                      <app-file-upload2
+                        docType="MC"
+                        [userdatas]="userData.doc2"
+                      ></app-file-upload2>
                     </div>
                   </div>
                 </div>
@@ -651,7 +674,7 @@
                     (click)="nextStep()"
                     href="javascript:void();"
                   >
-                    Next
+                    End
                   </a>
                 </mat-action-row>
               </mat-expansion-panel>

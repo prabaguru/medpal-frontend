@@ -8,21 +8,22 @@
 
 <form [formGroup]="form" (ngSubmit)="submitForm()">
   <div class="form-group">
-    <img
-      *ngIf="!preview && preview == null"
-      [src]="userData.image.imageUrl"
-      alt="DP"
-      class="img-thumbnail"
-      width="70"
-    />
-    <div class="preview" *ngIf="preview && preview !== null">
+    <a
+      *ngIf="userdatas.docUrl"
+      href="{{ userdatas.docUrl }}"
+      class="img-thumbnail font12"
+      target="_blank"
+      >{{ userdatas.docName }}</a
+    >
+    <span *ngIf="!userdatas.docUrl">No records Found</span>
+    <!-- <div class="preview" *ngIf="preview && preview !== null">
       <img [src]="preview" alt="DP" class="img-thumbnail" width="70" />
-    </div>
+    </div> -->
   </div>
   <div class="file-drop-area">
-    <button mat-raised-button color="primary">Choose Image</button>
+    <button mat-raised-button color="primary">Choose file</button>
     <span class="ms-2" *ngIf="myFiles.length == 0">{{
-      "or drag and drop image here"
+      "or drag and drop file here"
     }}</span>
     <span class="file-msg" *ngFor="let file of myFiles">
       <div class="me-2">{{ file.name }}</div>

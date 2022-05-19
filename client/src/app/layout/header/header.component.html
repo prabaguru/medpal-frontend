@@ -129,7 +129,16 @@
             class="nav-notification-icons pt-0"
           >
             <img
+              *ngIf="userData.image.imageUrl == null"
               src="assets/images/user.jpg"
+              class="rounded-circle"
+              width="32"
+              height="32"
+              alt="User"
+            />
+            <img
+              *ngIf="userData.image.imageUrl != null"
+              [src]="userData.image.imageUrl"
               class="rounded-circle"
               width="32"
               height="32"

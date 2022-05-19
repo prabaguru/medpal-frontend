@@ -233,6 +233,7 @@ export class establishmentComponent
       return;
     }
     let obj = {
+      approved: true,
       id: this.userData._id,
       ClinicOneTimings: {
         id: this.userData._id,
