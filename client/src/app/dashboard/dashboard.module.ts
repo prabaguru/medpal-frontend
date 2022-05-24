@@ -11,9 +11,9 @@ import { MatButtonModule } from "@angular/material/button";
 import { FullCalendarModule } from "@fullcalendar/angular";
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
 import { NgApexchartsModule } from "ng-apexcharts";
-
+import { HospitalDashboardComponent } from "./hospital-dashboard/hospital-dashboard.component";
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [DashboardComponent, HospitalDashboardComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,

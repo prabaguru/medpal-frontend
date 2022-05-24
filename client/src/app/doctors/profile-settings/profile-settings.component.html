@@ -197,11 +197,12 @@
                           <input
                             matInput
                             formControlName="AadhaarNo"
-                            placeholder="Enter 12 digit Aadhaar no"
                             maxlength="12"
                             [ngClass]="{
                               'is-invalid': submitted && f.AadhaarNo.errors
                             }"
+                            placeholder="EX: 1253 8937 8354 "
+                            mask="separator"
                           />
                           <div
                             *ngIf="submitted && f.AadhaarNo.errors"
@@ -217,6 +218,19 @@
                               Aadhaar no must have 12 digits.
                             </div>
                           </div>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Gender</mat-label>
+                          <mat-select formControlName="gender">
+                            <mat-option
+                              *ngFor="let gen of gender"
+                              [value]="gen"
+                            >
+                              {{ gen }}
+                            </mat-option>
+                          </mat-select>
                         </mat-form-field>
                       </div>
                       <div class="float-start mb-3">

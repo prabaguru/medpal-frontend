@@ -3,20 +3,22 @@ import { RouteInfo } from "./sidebar.metadata";
 export const ROUTES: RouteInfo[] = [
   {
     path: "",
-    title: "MENUITEMS.MAIN.TEXT",
+    title: "MENU",
     moduleName: "",
     icon: "",
     class: "header",
     groupTitle: true,
     submenu: [],
+    role: "",
   },
   {
     path: "",
-    title: "MENUITEMS.HOME.TEXT",
+    title: "Home",
     moduleName: "dashboard",
     icon: "monitor",
     class: "menu-toggle",
     groupTitle: false,
+    role: "",
     submenu: [
       {
         path: "/dashboard/main",
@@ -26,25 +28,18 @@ export const ROUTES: RouteInfo[] = [
         class: "ml-menu",
         groupTitle: false,
         submenu: [],
+        role: "Doctor",
       },
-      // {
-      //   path: '/dashboard/dashboard2',
-      //   title: 'MENUITEMS.HOME.LIST.DASHBOARD2',
-      //   moduleName: 'dashboard',
-      //   icon: '',
-      //   class: 'ml-menu',
-      //   groupTitle: false,
-      //   submenu: []
-      // },
-      // {
-      //   path: '/dashboard/dashboard3',
-      //   title: 'MENUITEMS.HOME.LIST.DASHBOARD3',
-      //   moduleName: 'dashboard',
-      //   icon: '',
-      //   class: 'ml-menu',
-      //   groupTitle: false,
-      //   submenu: []
-      // }
+      {
+        path: "/dashboard/HospitalDashboard",
+        title: "Dashboard",
+        moduleName: "dashboard",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        submenu: [],
+        role: "Hospital",
+      },
     ],
   },
 
@@ -55,6 +50,7 @@ export const ROUTES: RouteInfo[] = [
     icon: "settings",
     class: "menu-toggle",
     groupTitle: false,
+    role: "",
     submenu: [
       {
         path: "doctors/profile-settings",
@@ -64,6 +60,7 @@ export const ROUTES: RouteInfo[] = [
         class: "ml-menu",
         groupTitle: false,
         submenu: [],
+        role: "Doctor",
       },
     ],
   },

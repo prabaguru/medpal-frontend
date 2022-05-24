@@ -37,6 +37,7 @@ export class SignupComponent
   submitted = false;
   hide = true;
   chide = true;
+  registerAs;
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
@@ -47,8 +48,13 @@ export class SignupComponent
     super();
   }
   ngOnInit() {
+    this.registerAs = this.route.snapshot.queryParamMap.get("loginType");
+    if (!this.registerAs) {
+      this.router.navigate(["/home"]);
+    }
     this.loginForm = this.formBuilder.group(
       {
+        loginType: [this.registerAs, Validators.required],
         firstName: [
           "",
           [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
@@ -60,7 +66,6 @@ export class SignupComponent
         mobile: ["", [Validators.required]],
         password: ["", [Validators.required, Validators.minLength(6)]],
         confirmPassword: ["", Validators.required],
-        role: ["Doctor", []],
       },
       {
         validator: MustMatch("password", "confirmPassword"),
@@ -81,9 +86,48 @@ export class SignupComponent
     // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
+      //this.loading = true;
     }
+    if (this.loginForm.value.loginType === "Doctor") {
+      this.doctorRegistration();
+    }
+    if (this.loginForm.value.loginType === "Hospital") {
+      this.hospitalRegistration();
+    }
+  }
 
-    //this.loading = true;
+  hospitalRegistration() {
+    this.subs.sink = this.apiService
+      .hospitalregister(this.loginForm.value)
+      .pipe(first())
+      .subscribe({
+        next: (data) => {
+          this.sharedDataService.showNotification(
+            "snackbar-success",
+            "Registration Successfull...",
+            "top",
+            "center"
+          );
+          this.router.navigate(["/authentication/signin"], {
+            queryParams: { loginType: "Hospital" },
+          });
+        },
+        error: (error) => {
+          this.sharedDataService.showNotification(
+            "snackbar-danger",
+            error,
+            "top",
+            "center"
+          );
+          this.submitted = false;
+        },
+        complete: () => {
+          //this.alertService.success("Registration successful", true);
+        },
+      });
+  }
+
+  doctorRegistration() {
     this.subs.sink = this.apiService
       .register(this.loginForm.value)
       .pipe(first())
@@ -95,7 +139,9 @@ export class SignupComponent
             "top",
             "center"
           );
-          this.router.navigate(["/authentication/signin"]);
+          this.router.navigate(["/authentication/signin"], {
+            queryParams: { loginType: "Doctor" },
+          });
         },
         error: (error) => {
           this.sharedDataService.showNotification(

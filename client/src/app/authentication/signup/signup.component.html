@@ -20,12 +20,24 @@
                   >&nbsp;
                   <h1 class="baseColor">Medpal.Live</h1>
                   <h4 class="font-20 mt-4 baseColor">
-                    New Doctor Registration
+                    New {{ f.loginType.value }} Registration
                   </h4>
                   <p class="text-muted">Lifetime Free Account.</p>
                 </div>
                 <div class="p-2 mt-5">
                   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group auth-form-group mb-1">
+                      <mat-form-field appearance="outline" style="width: 336px">
+                        <mat-label>Login As</mat-label>
+                        <select matNativeControl formControlName="loginType">
+                          <option value="Doctor">Doctor</option>
+                          <!-- <option value="Hospital Doctor">
+                            Hospital Doctor
+                          </option> -->
+                          <option value="Hospital">Hospital</option>
+                        </select>
+                      </mat-form-field>
+                    </div>
                     <div class="form-group auth-form-group mb-4">
                       <mat-icon matSuffix class="auth-page-icon">face</mat-icon>
                       <input
@@ -180,7 +192,7 @@
                       </div>
                     </div>
 
-                    <div class="flex-sb-m w-full p-t-15 p-b-20">
+                    <!-- <div class="flex-sb-m w-full p-t-15 p-b-20">
                       <div>
                         <span
                           >Already Registered?
@@ -192,7 +204,7 @@
                           </a></span
                         >
                       </div>
-                    </div>
+                    </div> -->
 
                     <div class="container-login100-form-btn">
                       <button

@@ -36,6 +36,24 @@ export class AuthService {
       .pipe(
         map((user) => {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
+          this.deleteLS();
+          localStorage.setItem("currentUser", JSON.stringify(user));
+          this.currentUserSubject.next(user);
+          return user;
+        })
+      );
+  }
+
+  hospitallogin(email: string, password: string) {
+    return this.http
+      .post<any>(`${environment.apiUrl}/hospitals/authenticate`, {
+        email,
+        password,
+      })
+      .pipe(
+        map((user) => {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          this.deleteLS();
           localStorage.setItem("currentUser", JSON.stringify(user));
           this.currentUserSubject.next(user);
           return user;
@@ -48,5 +66,13 @@ export class AuthService {
     localStorage.removeItem("currentUser");
     this.currentUserSubject.next(null);
     return of({ success: false });
+  }
+
+  deleteLS() {
+    if ("currentUser" in localStorage) {
+      localStorage.removeItem("currentUser");
+    } else {
+      //alert("no");
+    }
   }
 }

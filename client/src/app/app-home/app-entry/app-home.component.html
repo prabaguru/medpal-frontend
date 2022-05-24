@@ -19,6 +19,7 @@
         class="homedocBtn"
         color="primary"
         [routerLink]="['/authentication/signin']"
+        [queryParams]="{ loginType: 'Doctor' }"
       >
         I am a Doctor <i class="fa fa-user-md icosize"></i>
       </button>

@@ -8,15 +8,18 @@ import { IDoctor } from "../index";
 export class ApiService {
   constructor(private http: HttpClient) {}
 
-  // register(user: IDoctor) {
-  //   return this.http.post(`${environment.apiUrl}/doctors/register`, user);
-  // }
+  hospitalregister(data: IDoctor): Observable<IDoctor[]> {
+    return this.http
+      .post<IDoctor[]>(`${environment.apiUrl}/hospitals/register`, data)
+      .pipe(catchError(this.handleError));
+  }
 
   register(data: IDoctor): Observable<IDoctor[]> {
     return this.http
       .post<IDoctor[]>(`${environment.apiUrl}/doctors/register`, data)
       .pipe(catchError(this.handleError));
   }
+
   uploadFile(id, profileImage: File, imgUnlink): Observable<any> {
     var formData: any = new FormData();
     formData.append("id", id);
@@ -49,10 +52,6 @@ export class ApiService {
   //   return this.http.get<User[]>(`${environment.apiUrl}/doctors`);
   // }
 
-  // CallWAppMBird(user: User) {
-  //   return this.http.post(`${environment.apiUrl}/doctors/callWhataapmB`, user);
-  // }
-
   // getAllByIdWeis(searchParams: string) {
   //   //const headers = new HttpHeaders().append('header', 'value');
   //   const params = new HttpParams().append("id", searchParams);
@@ -68,10 +67,6 @@ export class ApiService {
   //     options
   //   );
   // }
-
-  SendReport(mes) {
-    return this.http.put(`${environment.apiUrl}/doctors/Sendreport`, mes);
-  }
 
   update(user) {
     return this.http.put(`${environment.apiUrl}/doctors/update`, user);
@@ -90,11 +85,5 @@ export class ApiService {
 
   delete(id: number) {
     return this.http.delete(`${environment.apiUrl}/doctors/${id}`);
-  }
-  sendSMSandRegister(param) {
-    return this.http.post(
-      `${environment.apiUrl}/customers/registerCustomers`,
-      param
-    );
   }
 }

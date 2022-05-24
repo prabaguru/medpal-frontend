@@ -13,12 +13,52 @@
         >Book Appointments</a
       >
     </div>
-    <button mat-button [matMenuTriggerFor]="animals">
+    <button mat-button [matMenuTriggerFor]="register">
+      Register as <mat-icon>expand_more</mat-icon>
+    </button>
+    <mat-menu #register="matMenu">
+      <button mat-menu-item>Care Seeker</button>
+      <button
+        mat-menu-item
+        [routerLink]="['/authentication/signup']"
+        [queryParams]="{ loginType: 'Doctor' }"
+      >
+        Doctor
+      </button>
+      <button
+        mat-menu-item
+        [routerLink]="['/authentication/signup']"
+        [queryParams]="{ loginType: 'Hospital' }"
+      >
+        Hospital
+      </button>
+    </mat-menu>
+    <button mat-button [matMenuTriggerFor]="login">
       Login <mat-icon>expand_more</mat-icon>
     </button>
-    <mat-menu #animals="matMenu">
-      <button mat-menu-item>Doctors Login</button>
+    <mat-menu #login="matMenu">
       <button mat-menu-item>Care Seeker Login</button>
+      <button
+        mat-menu-item
+        [routerLink]="['/authentication/signin']"
+        [queryParams]="{ loginType: 'Doctor' }"
+      >
+        Doctor Login
+      </button>
+      <button
+        mat-menu-item
+        [routerLink]="['/authentication/signin']"
+        [queryParams]="{ loginType: 'Hospital Doctor' }"
+      >
+        Hospital Doctor Login
+      </button>
+      <button
+        mat-menu-item
+        [routerLink]="['/authentication/signin']"
+        [queryParams]="{ loginType: 'Hospital' }"
+      >
+        Hospital Login
+      </button>
     </mat-menu>
   </mat-toolbar-row>
 </mat-toolbar>

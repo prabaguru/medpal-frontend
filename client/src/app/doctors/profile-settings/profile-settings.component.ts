@@ -63,6 +63,7 @@ export class ProfileSettingsComponent
   userData;
   submitted = false;
   gradeOption = ["UG", "PG"];
+  gender = ["Male", "Female", "Others"];
   step = 4;
   selected = new FormControl(0);
   timeFormat: number = 24;
@@ -109,6 +110,7 @@ export class ProfileSettingsComponent
       age: [this.userData.age, []],
       address: [this.userData.address, []],
       bloodGroup: [this.userData.bloodGroup, [Validators.required]],
+      gender: [this.userData.gender, []],
       AadhaarNo: [
         this.userData.AadhaarNo,
         [

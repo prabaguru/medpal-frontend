@@ -62,7 +62,7 @@
               [name]="sidebarItem.icon"
               class="sidebarIcon"
             ></i-feather>
-            <span class="hide-menu">{{ sidebarItem.title | translate }} </span>
+            <span class="hide-menu">{{ sidebarItem.title | translate }}</span>
           </a>
           <!-- First level menu -->
           <ul class="ml-menu" *ngIf="sidebarItem.submenu.length > 0">
@@ -70,12 +70,13 @@
               [ngClass]="
                 level2Menu === sidebarSubItem.moduleName ? 'activeSub' : ''
               "
-              *ngFor="let sidebarSubItem of sidebarItem.submenu"
+              *ngFor="let sidebarSubItem of sidebarItem.submenu; let i = index"
               [routerLinkActive]="
                 sidebarSubItem.submenu.length > 0 ? '' : 'active'
               "
             >
               <a
+                *ngIf="userData.role == sidebarItem.submenu[i].role"
                 [routerLink]="
                   sidebarSubItem.submenu.length > 0
                     ? null
@@ -100,6 +101,7 @@
                   "
                 >
                   <a
+                    *ngIf="userData.role == sidebarItem.submenu[i].role"
                     [routerLink]="
                       sidebarSubsubItem.submenu.length > 0
                         ? null
