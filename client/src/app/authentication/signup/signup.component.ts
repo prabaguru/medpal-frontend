@@ -104,12 +104,12 @@ export class SignupComponent
         next: (data) => {
           this.sharedDataService.showNotification(
             "snackbar-success",
-            "Registration Successfull...",
+            "Registration Successfull. Login with your password...",
             "top",
             "center"
           );
           this.router.navigate(["/authentication/signin"], {
-            queryParams: { loginType: "Hospital" },
+            queryParams: { loginType: "Hospital", email: this.f.email.value },
           });
         },
         error: (error) => {
@@ -135,12 +135,12 @@ export class SignupComponent
         next: (data) => {
           this.sharedDataService.showNotification(
             "snackbar-success",
-            "Registration Successfull...",
+            "Registration Successfull. Login with your password...",
             "top",
             "center"
           );
           this.router.navigate(["/authentication/signin"], {
-            queryParams: { loginType: "Doctor" },
+            queryParams: { loginType: "Doctor", email: this.f.email.value },
           });
         },
         error: (error) => {

@@ -112,7 +112,8 @@
                       <div>
                         <a
                           class="txt1"
-                          routerLink="/authentication/forgot-password"
+                          [routerLink]="['/authentication/forgot-password']"
+                          [queryParams]="{ loginType: f.loginType.value }"
                           >Forgot Password?</a
                         >
                       </div>

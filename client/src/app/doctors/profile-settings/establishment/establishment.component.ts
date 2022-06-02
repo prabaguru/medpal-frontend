@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+} from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import {
   FormBuilder,
@@ -41,12 +48,14 @@ export class establishmentComponent
   mintimeSat = "00:00 am";
   mintimeCBT = "13:00";
   maxtimeCBT = "16:00";
-  formattedaddress = " ";
   options = {
     componentRestrictions: {
-      country: ["IND"],
+      country: ["in", "ua"],
     },
+    fields: ["place_id", "name", "formatted_address", "geometry"],
   };
+  clinicAddress: string = "";
+  cliniclocation = {};
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
@@ -58,10 +67,6 @@ export class establishmentComponent
     super();
   }
 
-  public AddressChange(address: any) {
-    //setting address from API to local variable
-    this.formattedaddress = address.formatted_address;
-  }
   ngOnInit() {
     this.userData = this.authService.currentUserValue;
 
@@ -92,7 +97,7 @@ export class establishmentComponent
           [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
         ],
         ClinicLocation: [
-          this.userData.ClinicOneTimings.ClinicLocation,
+          "",
           [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
         ],
         SunStarttime: [
@@ -225,10 +230,26 @@ export class establishmentComponent
     this.enableDayFri(false, "Fri");
     this.enableDaySat(false, "Sat");
   }
+  public AddressChange(address: any) {
+    //setting address from API to local variable
+    this.clinicAddress = "";
+    this.clinicAddress = address.formatted_address;
+    this.cliniclocation = {
+      placeID: address.place_id,
+      address: address.formatted_address,
+      name: address.geometry.name,
+      loc: {
+        x: address.geometry.location.lng(),
+        y: address.geometry.location.lat(),
+      },
+    };
+    //console.log(this.cliniclocation);
+    //console.log(address);
+  }
   onSubmitEst() {
     this.submitted = true;
     this.ValidateTimeEntered();
-    console.log(this.establishmentForm.value);
+    //console.log(this.establishmentForm.value);
     if (this.establishmentForm.invalid) {
       return;
     }
@@ -240,8 +261,8 @@ export class establishmentComponent
         ClinicName: this.ec1.get("ClinicOneTimings.ClinicName").value
           ? this.ec1.get("ClinicOneTimings.ClinicName").value
           : this.userData.ClinicOneTimings.ClinicName,
-        ClinicLocation: this.ec1.get("ClinicOneTimings.ClinicLocation").value
-          ? this.ec1.get("ClinicOneTimings.ClinicLocation").value
+        ClinicLocation: this.clinicAddress
+          ? this.cliniclocation
           : this.userData.ClinicOneTimings.ClinicLocation,
         ComBrEndtime: this.ec1.get("ClinicOneTimings.ComBrEndtime").value
           ? this.ec1.get("ClinicOneTimings.ComBrEndtime").value

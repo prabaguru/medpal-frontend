@@ -7,16 +7,23 @@ import { IDoctor } from "../index";
 @Injectable({ providedIn: "root" })
 export class ApiService {
   constructor(private http: HttpClient) {}
-
+  //hopital
   hospitalregister(data: IDoctor): Observable<IDoctor[]> {
     return this.http
       .post<IDoctor[]>(`${environment.apiUrl}/hospitals/register`, data)
       .pipe(catchError(this.handleError));
   }
 
+  //doctor
   register(data: IDoctor): Observable<IDoctor[]> {
     return this.http
       .post<IDoctor[]>(`${environment.apiUrl}/doctors/register`, data)
+      .pipe(catchError(this.handleError));
+  }
+
+  forgotPassWordSendEmail(data: any) {
+    return this.http
+      .post(`${environment.apiUrl}/doctors/forgotPasswordEmail`, data)
       .pipe(catchError(this.handleError));
   }
 
@@ -70,6 +77,9 @@ export class ApiService {
 
   update(user) {
     return this.http.put(`${environment.apiUrl}/doctors/update`, user);
+  }
+  updatePassword(user) {
+    return this.http.put(`${environment.apiUrl}/doctors/changePassWord`, user);
   }
 
   updateSingle(id) {

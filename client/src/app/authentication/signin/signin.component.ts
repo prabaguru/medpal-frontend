@@ -19,7 +19,8 @@ export class SigninComponent
   error = "";
   hide = true;
   returnUrl: string;
-  loginAs;
+  loginAs: string;
+  userEmail: string;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -31,16 +32,17 @@ export class SigninComponent
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
     this.loginAs = this.route.snapshot.queryParamMap.get("loginType");
+    this.userEmail = this.route.snapshot.queryParamMap.get("email");
     if (!this.loginAs) {
       this.router.navigate(["/home"]);
     }
     this.loginForm = this.formBuilder.group({
       loginType: [this.loginAs, Validators.required],
       email: [
-        "yyyypraba.wg@gmail.com",
+        this.userEmail ? this.userEmail : "",
         [Validators.required, Validators.email, Validators.minLength(5)],
       ],
-      password: ["qwqwqw", Validators.required],
+      password: ["", Validators.required],
     });
   }
   get f() {

@@ -41,12 +41,14 @@ export class establishment2Component
   mintimeSat = "00:00 am";
   mintimeCBT = "13:00";
   maxtimeCBT = "16:00";
-  formattedaddress = " ";
   options = {
     componentRestrictions: {
-      country: ["IND"],
+      country: ["in", "ua"],
     },
+    fields: ["place_id", "name", "formatted_address", "geometry"],
   };
+  clinicAddress: string = "";
+  cliniclocation = {};
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
@@ -58,10 +60,6 @@ export class establishment2Component
     super();
   }
 
-  public AddressChange(address: any) {
-    //setting address from API to local variable
-    this.formattedaddress = address.formatted_address;
-  }
   ngOnInit() {
     this.userData = this.authService.currentUserValue;
 
@@ -92,7 +90,7 @@ export class establishment2Component
           [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
         ],
         ClinicLocation: [
-          this.userData.ClinicTwoTimings.ClinicLocation,
+          "",
           [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
         ],
         SunStarttime: [
@@ -225,6 +223,22 @@ export class establishment2Component
     this.enableDayFri(false, "Fri");
     this.enableDaySat(false, "Sat");
   }
+  public AddressChange(address: any) {
+    //setting address from API to local variable
+    this.clinicAddress = "";
+    this.clinicAddress = address.formatted_address;
+    this.cliniclocation = {
+      placeID: address.place_id,
+      address: address.formatted_address,
+      name: address.geometry.name,
+      loc: {
+        x: address.geometry.location.lng(),
+        y: address.geometry.location.lat(),
+      },
+    };
+    //console.log(this.cliniclocation);
+    //console.log(address);
+  }
   onSubmitEst2() {
     this.submitted = true;
     this.ValidateTimeEntered();
@@ -239,8 +253,8 @@ export class establishment2Component
         ClinicName: this.ec1.get("ClinicTwoTimings.ClinicName").value
           ? this.ec1.get("ClinicTwoTimings.ClinicName").value
           : this.userData.ClinicTwoTimings.ClinicName,
-        ClinicLocation: this.ec1.get("ClinicTwoTimings.ClinicLocation").value
-          ? this.ec1.get("ClinicTwoTimings.ClinicLocation").value
+        ClinicLocation: this.clinicAddress
+          ? this.cliniclocation
           : this.userData.ClinicTwoTimings.ClinicLocation,
         ComBrEndtime: this.ec1.get("ClinicTwoTimings.ComBrEndtime").value
           ? this.ec1.get("ClinicTwoTimings.ComBrEndtime").value

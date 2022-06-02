@@ -22,14 +22,27 @@
           <input
             type="text"
             matInput
-            maxlength="300"
+            ngx-google-places-autocomplete
+            [options]="options"
+            (onAddressChange)="AddressChange($event)"
             formControlName="ClinicLocation"
             [ngClass]="{
               'is-invalid':
                 submitted && ec1.get('ClinicTwoTimings.ClinicLocation').errors
             }"
-          />
+          /><mat-icon
+            matSuffix
+            matTooltip="Address selction from dropdown is mandatory. Do not typein the address directly..."
+            matTooltipPosition="above"
+            >info</mat-icon
+          >
         </mat-form-field>
+        <span *ngIf="!clinicAddress">{{
+          userData.ClinicTwoTimings.ClinicLocation.address
+            ? userData.ClinicTwoTimings.ClinicLocation.address
+            : ""
+        }}</span>
+        <span *ngIf="clinicAddress">{{ clinicAddress }}</span>
       </div>
       <div class="col-md-3">
         <mat-form-field appearance="fill">
