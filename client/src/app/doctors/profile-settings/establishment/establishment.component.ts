@@ -32,7 +32,7 @@ export class establishmentComponent
   establishmentForm: FormGroup;
   @Output() timeSet = new EventEmitter<string>();
   consultationDuration = CONSULTATIONDURATION;
-  timeFormat = 24;
+  timeFormat = 12;
   userData;
   submitted = false;
   selected = new FormControl(0);
@@ -234,10 +234,13 @@ export class establishmentComponent
     //setting address from API to local variable
     this.clinicAddress = "";
     this.clinicAddress = address.formatted_address;
+    let name: string;
+    name = address.name.split(" ");
+    name = name[0];
     this.cliniclocation = {
       placeID: address.place_id,
       address: address.formatted_address,
-      name: address.geometry.name,
+      name: name ? name : "",
       loc: {
         x: address.geometry.location.lng(),
         y: address.geometry.location.lat(),
@@ -257,6 +260,7 @@ export class establishmentComponent
       approved: true,
       id: this.userData._id,
       ClinicOneTimings: {
+        active: true,
         id: this.userData._id,
         ClinicName: this.ec1.get("ClinicOneTimings.ClinicName").value
           ? this.ec1.get("ClinicOneTimings.ClinicName").value
@@ -383,6 +387,7 @@ export class establishmentComponent
       mon == "" &&
       tue == "" &&
       wed == "" &&
+      thu == "" &&
       fri == "" &&
       sat == ""
     ) {

@@ -25,7 +25,7 @@ export class establishment2Component
   establishmentForm2: FormGroup;
   @Output() timeSet = new EventEmitter<string>();
   consultationDuration = CONSULTATIONDURATION;
-  timeFormat = 24;
+  timeFormat = 12;
   userData;
   submitted = false;
   selected = new FormControl(0);
@@ -66,6 +66,7 @@ export class establishment2Component
     this.establishmentForm2 = this.formBuilder.group({
       id: [this.userData._id, []],
       ClinicTwoTimings: this.formBuilder.group({
+        active: [this.userData.ClinicTwoTimings.active, []],
         Sunday: [this.userData.ClinicTwoTimings.Sunday, []],
         Monday: [this.userData.ClinicTwoTimings.Monday, []],
         Tuesday: [this.userData.ClinicTwoTimings.Tuesday, []],
@@ -227,10 +228,13 @@ export class establishment2Component
     //setting address from API to local variable
     this.clinicAddress = "";
     this.clinicAddress = address.formatted_address;
+    let name: string;
+    name = address.name.split(" ");
+    name = name[0];
     this.cliniclocation = {
       placeID: address.place_id,
       address: address.formatted_address,
-      name: address.geometry.name,
+      name: name ? name : "",
       loc: {
         x: address.geometry.location.lng(),
         y: address.geometry.location.lat(),
@@ -249,6 +253,9 @@ export class establishment2Component
     let obj = {
       id: this.userData._id,
       ClinicTwoTimings: {
+        active: this.ec1.get("ClinicTwoTimings.active").value
+          ? this.ec1.get("ClinicTwoTimings.active").value
+          : this.userData.ClinicTwoTimings.active,
         id: this.userData._id,
         ClinicName: this.ec1.get("ClinicTwoTimings.ClinicName").value
           ? this.ec1.get("ClinicTwoTimings.ClinicName").value
@@ -375,6 +382,7 @@ export class establishment2Component
       mon == "" &&
       tue == "" &&
       wed == "" &&
+      thu == "" &&
       fri == "" &&
       sat == ""
     ) {

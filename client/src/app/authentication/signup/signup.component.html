@@ -74,6 +74,7 @@
                       <input
                         type="email"
                         formControlName="email"
+                        maxlength="200"
                         class="form-control auth-control"
                         id="email"
                         placeholder="Email"
@@ -148,6 +149,7 @@
                       <input
                         type="password"
                         formControlName="password"
+                        maxlength="15"
                         class="form-control auth-control"
                         id="password"
                         [ngClass]="{
@@ -177,6 +179,7 @@
                         formControlName="confirmPassword"
                         class="form-control auth-control"
                         id="confirmPassword"
+                        maxlength="15"
                         [ngClass]="{
                           'is-invalid': submitted && f.confirmPassword.errors
                         }"

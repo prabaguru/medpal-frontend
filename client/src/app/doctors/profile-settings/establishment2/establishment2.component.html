@@ -138,6 +138,16 @@
           ></ngx-material-timepicker
         ></mat-form-field>
       </div>
+      <div class="col-md-3">
+        <mat-checkbox class="example-margin" formControlName="active"
+          >Clinic2 Online Visibility:</mat-checkbox
+        ><mat-label *ngIf="ec1.get('ClinicTwoTimings.active').value === true"
+          ><strong>Active</strong></mat-label
+        >
+        <mat-label *ngIf="ec1.get('ClinicTwoTimings.active').value === false"
+          ><strong>Inactive</strong></mat-label
+        >
+      </div>
       <div class="row">
         <div class="col-md-1">
           <mat-checkbox

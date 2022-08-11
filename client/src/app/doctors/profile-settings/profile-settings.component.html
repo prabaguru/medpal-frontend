@@ -202,7 +202,6 @@
                               'is-invalid': submitted && f.AadhaarNo.errors
                             }"
                             placeholder="EX: 1253 8937 8354 "
-                            mask="separator"
                           />
                           <div
                             *ngIf="submitted && f.AadhaarNo.errors"
@@ -298,6 +297,19 @@
                                 [value]="option"
                               >
                                 {{ option.name }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Overall Experience</mat-label>
+                            <mat-select formControlName="overallExperience">
+                              <mat-option
+                                *ngFor="let num of experience"
+                                [value]="num"
+                              >
+                                {{ num }} - Years
                               </mat-option>
                             </mat-select>
                           </mat-form-field>

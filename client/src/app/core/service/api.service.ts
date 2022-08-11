@@ -7,7 +7,7 @@ import { IDoctor } from "../index";
 @Injectable({ providedIn: "root" })
 export class ApiService {
   constructor(private http: HttpClient) {}
-  //hopital
+  //hospital
   hospitalregister(data: IDoctor): Observable<IDoctor[]> {
     return this.http
       .post<IDoctor[]>(`${environment.apiUrl}/hospitals/register`, data)

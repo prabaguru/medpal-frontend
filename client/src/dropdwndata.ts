@@ -3,6 +3,12 @@ export interface IFspecialisation {
   name: string;
 }
 
+export interface IFspecialisationSN {
+  id: string;
+  name: string;
+  sName: string;
+}
+
 export const CONSULTATIONDURATION = [15, 20, 30, 45, 60];
 export const DOCTORTYPE = [
   {
@@ -46,23 +52,44 @@ export const DOCTORTYPE = [
     name: "Sports Medicine",
   },
 ];
-export const UG: IFspecialisation[] = [
-  { id: "1", name: "MBBS-Bachelor of Medicine, Bachelor of Surgery" },
-  { id: "2", name: "BDS-Bachelor of Dental Surgery" },
-  { id: "3", name: "BAMS-Bachelor of Ayurvedic Medicine and Surgery" },
-  { id: "4", name: "BUMS-Bachelor of Unani Medicine and Surgery" },
-  { id: "5", name: "BHMS-Bachelor of Homeopathy Medicine and Surgery" },
-  { id: "6", name: "BYNS-Bachelor of Yoga and Naturopathy Sciences" },
+export const UG: IFspecialisationSN[] = [
+  {
+    id: "1",
+    name: "MBBS-Bachelor of Medicine, Bachelor of Surgery",
+    sName: "MBBS",
+  },
+  { id: "2", name: "BDS-Bachelor of Dental Surgery", sName: "MBBS" },
+  {
+    id: "3",
+    name: "BAMS-Bachelor of Ayurvedic Medicine and Surgery",
+    sName: "BAMS",
+  },
+  {
+    id: "4",
+    name: "BUMS-Bachelor of Unani Medicine and Surgery",
+    sName: "MBBS",
+  },
+  {
+    id: "5",
+    name: "BHMS-Bachelor of Homeopathy Medicine and Surgery",
+    sName: "BHMS",
+  },
+  {
+    id: "6",
+    name: "BYNS-Bachelor of Yoga and Naturopathy Sciences",
+    sName: "BYNS",
+  },
   {
     id: "7",
     name: "B.V.Sc & AH Bachelor of Veterinary Sciences and Animal Husbandry",
+    sName: "B.V.Sc & AH",
   },
 ];
 
-export const PG: IFspecialisation[] = [
-  { id: "1", name: "MD-Doctor of Medicine" },
-  { id: "2", name: "MS-Master of Surgery" },
-  { id: "3", name: "DNB-Diplomate of National Board" },
+export const PG: IFspecialisationSN[] = [
+  { id: "1", name: "MD-Doctor of Medicine", sName: "MD" },
+  { id: "2", name: "MS-Master of Surgery", sName: "MS" },
+  { id: "3", name: "DNB-Diplomate of National Board", sName: "DNB" },
 ];
 
 export const YEAROFPASSING = generateArrayOfYears();
@@ -78,6 +105,7 @@ function generateArrayOfYears() {
 }
 
 export const BLOODGROUP = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
+export const EXPERIENCE = Array.from({ length: 60 }, (v, k) => k + 1);
 export const SPECIALISATION: IFspecialisation[] = [
   {
     id: "1",

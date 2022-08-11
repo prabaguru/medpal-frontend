@@ -21,6 +21,7 @@ import {
   CONSULTATIONDURATION,
   YEAROFPASSING,
   EDITORCONFIG,
+  EXPERIENCE,
 } from "../../../dropdwndata";
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
@@ -39,6 +40,7 @@ export class ProfileSettingsComponent
   ServicesForm: FormGroup;
   public Editor = ClassicEditor;
   config = EDITORCONFIG;
+  experience = EXPERIENCE;
   @Output() dateChange: EventEmitter<MatDatepickerInputEvent<any>>;
   @Output() timeSet = new EventEmitter<string>();
   consultationDuration = CONSULTATIONDURATION;
@@ -130,6 +132,10 @@ export class ProfileSettingsComponent
         ],
         DoctorType: [
           this.userData.graduation.DoctorType,
+          [Validators.required],
+        ],
+        overallExperience: [
+          this.userData.graduation.overallExperience,
           [Validators.required],
         ],
         qualificationUG: ["", []],
