@@ -32,7 +32,7 @@ export class establishmentComponent
   establishmentForm: FormGroup;
   @Output() timeSet = new EventEmitter<string>();
   consultationDuration = CONSULTATIONDURATION;
-  timeFormat = 12;
+  timeFormat = 24;
   userData;
   submitted = false;
   selected = new FormControl(0);
@@ -48,6 +48,14 @@ export class establishmentComponent
   mintimeSat = "00:00 am";
   mintimeCBT = "13:00";
   maxtimeCBT = "16:00";
+  BreakTimeStops = [];
+  sunSlots: any;
+  monSlots: any;
+  tueSlots: any;
+  wedSlots: any;
+  thuSlots: any;
+  friSlots: any;
+  satSlots: any;
   options = {
     componentRestrictions: {
       country: ["in", "ua"],
@@ -80,6 +88,7 @@ export class establishmentComponent
         Thursday: [this.userData.ClinicOneTimings.Thursday, []],
         Friday: [this.userData.ClinicOneTimings.Friday, []],
         Saturday: [this.userData.ClinicOneTimings.Saturday, []],
+        Cbt: [this.userData.ClinicOneTimings.Cbt, []],
         ConsultationDurationC1: [
           this.userData.ClinicOneTimings.ConsultationDurationC1,
           [Validators.required],
@@ -249,6 +258,121 @@ export class establishmentComponent
     //console.log(this.cliniclocation);
     //console.log(address);
   }
+  getTimeStops(start, end) {
+    if (this.ec1.get("ClinicOneTimings.ConsultationDurationC1").value == "") {
+      this.sharedDataService.showNotification(
+        "snackbar-danger",
+        "Select Consultation Duration...",
+        "top",
+        "center"
+      );
+      return;
+    }
+    let startTime = moment(start, "hh:mm a");
+    let endTime = moment(end, "hh:mm a");
+
+    let timeStops = [];
+
+    while (startTime <= endTime) {
+      timeStops.push(moment(startTime).format("hh:mm a"));
+      startTime.add(
+        this.ec1.get("ClinicOneTimings.ConsultationDurationC1").value,
+        "minutes"
+      );
+    }
+    return timeStops;
+  }
+  getBreakTimeStops(start, end) {
+    if (this.ec1.get("ClinicOneTimings.ConsultationDurationC1").value == "") {
+      this.sharedDataService.showNotification(
+        "snackbar-danger",
+        "Select Consultation Duration...",
+        "top",
+        "center"
+      );
+      return;
+    }
+    let startTime = moment(start, "hh:mm a");
+    let endTime = moment(end, "hh:mm a");
+
+    endTime.subtract(
+      this.ec1.get("ClinicOneTimings.ConsultationDurationC1").value,
+      "minutes"
+    );
+    this.BreakTimeStops = [];
+
+    while (startTime <= endTime) {
+      this.BreakTimeStops.push(moment(startTime).format("hh:mm a"));
+      startTime.add(
+        this.ec1.get("ClinicOneTimings.ConsultationDurationC1").value,
+        "minutes"
+      );
+    }
+    return this.BreakTimeStops;
+  }
+  generateSlots(st, et, d) {
+    let bst = this.ec1.get("ClinicOneTimings.ComBrStarttime").value;
+    let bet = this.ec1.get("ClinicOneTimings.ComBrEndtime").value;
+    let breakslot: any;
+    if (bst && bet) {
+      breakslot = this.getBreakTimeStops(bst, bet);
+      console.log("breakslot" + breakslot);
+    } else {
+      breakslot = [];
+    }
+    let timeslot = this.getTimeStops(st, et);
+    //console.log("timeslot" + timeslot);
+    if (breakslot?.length > 0 && d === "Mon") {
+      this.monSlots = timeslot.filter((o) => breakslot.indexOf(o) === -1);
+      //console.log("mondaySlotsmaa-" + this.monSlots);
+    }
+    if (breakslot?.length == 0 && d === "Mon") {
+      this.monSlots = timeslot;
+      //console.log("mondaySlots-" + this.monSlots);
+    }
+    if (breakslot?.length > 0 && d === "Tue") {
+      this.tueSlots = timeslot.filter((o) => breakslot.indexOf(o) === -1);
+      //console.log("tueSlots-" + this.tueSlots);
+    }
+    if (breakslot?.length == 0 && d === "Tue") {
+      this.tueSlots = timeslot;
+    }
+    if (breakslot?.length > 0 && d === "Wed") {
+      this.wedSlots = timeslot.filter((o) => breakslot.indexOf(o) === -1);
+      //console.log("wedSlots-" + this.wedSlots);
+    }
+    if (breakslot?.length == 0 && d === "Wed") {
+      this.wedSlots = timeslot;
+    }
+    if (breakslot?.length > 0 && d === "Thu") {
+      this.thuSlots = timeslot.filter((o) => breakslot.indexOf(o) === -1);
+      //console.log("thuSlots-" + this.thuSlots);
+    }
+    if (breakslot?.length == 0 && d === "Thu") {
+      this.thuSlots = timeslot;
+    }
+    if (breakslot?.length > 0 && d === "Fri") {
+      this.friSlots = timeslot.filter((o) => breakslot.indexOf(o) === -1);
+      //console.log("friSlots-" + this.friSlots);
+    }
+    if (breakslot?.length == 0 && d === "Fri") {
+      this.friSlots = timeslot;
+    }
+    if (breakslot?.length > 0 && d === "Sat") {
+      this.satSlots = timeslot.filter((o) => breakslot.indexOf(o) === -1);
+      //console.log("satSlots-" + this.satSlots);
+    }
+    if (breakslot?.length == 0 && d === "Sat") {
+      this.satSlots = timeslot;
+    }
+    if (breakslot?.length > 0 && d === "Sun") {
+      this.sunSlots = timeslot.filter((o) => breakslot.indexOf(o) === -1);
+      //console.log("sunSlots-" + this.sunSlots);
+    }
+    if (breakslot?.length == 0 && d === "Sun") {
+      this.sunSlots = timeslot;
+    }
+  }
   onSubmitEst() {
     this.submitted = true;
     this.ValidateTimeEntered();
@@ -256,6 +380,56 @@ export class establishmentComponent
     if (this.establishmentForm.invalid) {
       return;
     }
+    if (this.ec1.get("ClinicOneTimings.Sunday").value) {
+      this.generateSlots(
+        this.ec1.get("ClinicOneTimings.SunStarttime").value,
+        this.ec1.get("ClinicOneTimings.SunEndtime").value,
+        "Sun"
+      );
+    }
+    if (this.ec1.get("ClinicOneTimings.Monday").value) {
+      this.generateSlots(
+        this.ec1.get("ClinicOneTimings.MonStarttime").value,
+        this.ec1.get("ClinicOneTimings.MonEndtime").value,
+        "Mon"
+      );
+    }
+    if (this.ec1.get("ClinicOneTimings.Tuesday").value) {
+      this.generateSlots(
+        this.ec1.get("ClinicOneTimings.TueStarttime").value,
+        this.ec1.get("ClinicOneTimings.TueEndtime").value,
+        "Tue"
+      );
+    }
+    if (this.ec1.get("ClinicOneTimings.Wednesday").value) {
+      this.generateSlots(
+        this.ec1.get("ClinicOneTimings.WedStarttime").value,
+        this.ec1.get("ClinicOneTimings.WedEndtime").value,
+        "Wed"
+      );
+    }
+    if (this.ec1.get("ClinicOneTimings.Thursday").value) {
+      this.generateSlots(
+        this.ec1.get("ClinicOneTimings.ThuStarttime").value,
+        this.ec1.get("ClinicOneTimings.ThuEndtime").value,
+        "Thu"
+      );
+    }
+    if (this.ec1.get("ClinicOneTimings.Friday").value) {
+      this.generateSlots(
+        this.ec1.get("ClinicOneTimings.FriStarttime").value,
+        this.ec1.get("ClinicOneTimings.FriEndtime").value,
+        "Fri"
+      );
+    }
+    if (this.ec1.get("ClinicOneTimings.Saturday").value) {
+      this.generateSlots(
+        this.ec1.get("ClinicOneTimings.SatStarttime").value,
+        this.ec1.get("ClinicOneTimings.SatEndtime").value,
+        "Sat"
+      );
+    }
+
     let obj = {
       approved: true,
       id: this.userData._id,
@@ -346,6 +520,27 @@ export class establishmentComponent
         Wednesday: this.ec1.get("ClinicOneTimings.Wednesday").value
           ? this.ec1.get("ClinicOneTimings.Wednesday").value
           : this.userData.ClinicOneTimings.Wednesday,
+        SundaySlots: this.sunSlots
+          ? this.sunSlots
+          : this.userData.ClinicOneTimings.sunSlots,
+        MondaySlots: this.monSlots
+          ? this.monSlots
+          : this.userData.ClinicOneTimings.monSlots,
+        TuesdaySlots: this.tueSlots
+          ? this.tueSlots
+          : this.userData.ClinicOneTimings.tueSlots,
+        WednesdaySlots: this.wedSlots
+          ? this.wedSlots
+          : this.userData.ClinicOneTimings.wedSlots,
+        ThursdaySlots: this.thuSlots
+          ? this.thuSlots
+          : this.userData.ClinicOneTimings.thuSlots,
+        FridaySlots: this.friSlots
+          ? this.friSlots
+          : this.userData.ClinicOneTimings.friSlots,
+        SaturdaySlots: this.satSlots
+          ? this.satSlots
+          : this.userData.ClinicOneTimings.satSlots,
       },
     };
     this.subs.sink = this.apiService
@@ -374,6 +569,8 @@ export class establishmentComponent
         complete: () => {},
       });
   }
+
+  getWeekTimeSlots() {}
   ValidateTimeEntered() {
     let sun = this.ec1.get("ClinicOneTimings.Sunday").value;
     let mon = this.ec1.get("ClinicOneTimings.Monday").value;
@@ -557,6 +754,7 @@ export class establishmentComponent
     if (o1 === o2) return true;
     else return false;
   }
+
   enableDaySun(e, d: String) {
     let dayStart;
     let dayEnd;
