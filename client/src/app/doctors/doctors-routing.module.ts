@@ -1,21 +1,33 @@
 import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { Routes, RouterModule } from "@angular/router";
+import { DashboardComponent } from "./dashboard/dashboard.component";
 import { ProfileSettingsComponent } from "./profile-settings/profile-settings.component";
+import { DoctorAppointmentsComponent } from "./appointments/appointments.component";
 
 const routes: Routes = [
   // {
   //   path: "",
-  //   redirectTo: "profile-settings",
+  //   redirectTo: "main",
   //   pathMatch: "full",
   // },
+  {
+    path: "main",
+    component: DashboardComponent,
+  },
   {
     path: "profile-settings",
     component: ProfileSettingsComponent,
   },
+  {
+    path: "appointments",
+    component: DoctorAppointmentsComponent,
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  declarations: [],
+  imports: [RouterModule.forChild(routes), CommonModule],
   exports: [RouterModule],
 })
 export class DoctorsRoutingModule {}

@@ -66,7 +66,7 @@ export class ProfileSettingsComponent
   submitted = false;
   gradeOption = ["UG", "PG"];
   gender = ["Male", "Female", "Others"];
-  step = 4;
+  step = null;
   selected = new FormControl(0);
   timeFormat: number = 24;
   preventOverlayClick: boolean = true;

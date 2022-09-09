@@ -67,13 +67,21 @@ export class ApiService {
   //   });
   // }
 
-  // getAllById(searchParams) {
-  //   const options = { params: new HttpParams({ fromString: searchParams }) };
-  //   return this.http.get<User[]>(
-  //     `${environment.apiUrl}/doctors/getById`,
-  //     options
-  //   );
-  // }
+  getAllDoctorAppoinmentsById(data: any) {
+    let params = new HttpParams({ fromObject: data });
+    return this.http.get(
+      `${environment.apiUrl}/patient_appointments/getDocAppById`,
+      {
+        params,
+      }
+    );
+  }
+  closeDoctorappointment(user) {
+    return this.http.put(
+      `${environment.apiUrl}/patient_appointments/update`,
+      user
+    );
+  }
 
   update(user) {
     return this.http.put(`${environment.apiUrl}/doctors/update`, user);

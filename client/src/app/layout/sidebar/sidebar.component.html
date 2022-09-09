@@ -21,20 +21,18 @@
           <div class="sidebar-profile clearfix">
             <div class="profile-img">
               <img
-                *ngIf="userData.image.imageUrl == null"
+                *ngIf="!userData.image.imageUrl"
                 src="assets/images/usrbig.jpg"
                 alt="profile"
               />
               <img
-                *ngIf="userData.image.imageUrl != null"
+                *ngIf="userData.image.imageUrl"
                 [src]="userData.image.imageUrl"
                 alt="profile"
               />
             </div>
             <div class="profile-info">
-              <h3>
-                {{ (userData.firstName | slice: 0:6) + ".." }}
-              </h3>
+              <h3>Dr. {{ userData.firstName | slice: 0:6 }}</h3>
               <p>Welcome {{ userData.role }} !</p>
             </div>
           </div>
@@ -53,7 +51,7 @@
           </div>
           <a
             [routerLink]="sidebarItem.class === '' ? [sidebarItem.path] : null"
-            *ngIf="!sidebarItem.groupTitle"
+            *ngIf="!sidebarItem.groupTitle && userData.role == sidebarItem.role"
             [ngClass]="[sidebarItem.class]"
             (click)="callLevel1Toggle($event, sidebarItem.moduleName)"
             class="menu-top"
@@ -88,7 +86,7 @@
                 {{ sidebarSubItem.title | translate }}
               </a>
               <!-- Second level menu -->
-              <ul class="ml-menu-2" *ngIf="sidebarSubItem.submenu.length > 0">
+              <!-- <ul class="ml-menu-2" *ngIf="sidebarSubItem.submenu.length > 0">
                 <li
                   *ngFor="let sidebarSubsubItem of sidebarSubItem.submenu"
                   [ngClass]="
@@ -115,7 +113,7 @@
                     {{ sidebarSubsubItem.title | translate }}
                   </a>
                 </li>
-              </ul>
+              </ul> -->
             </li>
           </ul>
         </li>

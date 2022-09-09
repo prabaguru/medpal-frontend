@@ -37,7 +37,8 @@ export class ChangePasswordComponent
     this.userId = this.route.snapshot.queryParamMap.get("_id");
     this.timestamp = this.route.snapshot.queryParamMap.get("stamp");
     if (!this.registerAs) {
-      this.router.navigate(["/home"]);
+      //this.router.navigate(["/home"]);
+      this.registerAs = "Doctor";
     }
     let datenow = Date.now();
     let diff = (datenow - this.timestamp) / 1000 / 60;
@@ -56,7 +57,10 @@ export class ChangePasswordComponent
 
     this.loginForm = this.formBuilder.group(
       {
-        loginType: [this.registerAs, Validators.required],
+        loginType: [
+          { value: this.registerAs, disabled: true },
+          Validators.required,
+        ],
         id: [this.userId, Validators.required],
         password: ["", [Validators.required, Validators.minLength(6)]],
         confirmPassword: ["", Validators.required],

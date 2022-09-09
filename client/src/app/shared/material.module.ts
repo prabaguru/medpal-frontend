@@ -20,7 +20,8 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatExpansionModule } from "@angular/material/expansion";
-
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatTableModule } from "@angular/material/table";
 const materialModules = [
   MatButtonModule,
   MatInputModule,
@@ -43,6 +44,8 @@ const materialModules = [
   MatCheckboxModule,
   MatAutocompleteModule,
   MatTabsModule,
+  MatPaginatorModule,
+  MatTableModule,
 ];
 
 @NgModule({

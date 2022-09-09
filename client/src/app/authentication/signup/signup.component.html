@@ -3,11 +3,11 @@
     <div class="col-lg-4">
       <div class="auth-content p-4 d-flex align-items-center">
         <div class="w-100">
-          <div class="d-flex flex-row-reverse bd-highlight bld7">
+          <!-- <div class="d-flex flex-row-reverse bd-highlight bld7">
             <a [routerLink]="['../../home']" class="logo-full text-med"
               ><i class="fa fa-home"></i> Go Home</a
             >
-          </div>
+          </div> -->
           <div class="row justify-content-center">
             <div class="col-lg-9">
               <div>
@@ -45,6 +45,7 @@
                       <mat-icon matSuffix class="auth-page-icon">face</mat-icon>
                       <input
                         type="text"
+                        autocomplete="off"
                         formControlName="firstName"
                         class="form-control auth-control"
                         id="firstName"
@@ -73,6 +74,7 @@
                       >
                       <input
                         type="email"
+                        autocomplete="off"
                         formControlName="email"
                         maxlength="200"
                         class="form-control auth-control"
@@ -148,6 +150,7 @@
                       >
                       <input
                         type="password"
+                        autocomplete="off"
                         formControlName="password"
                         maxlength="15"
                         class="form-control auth-control"
@@ -176,6 +179,7 @@
                       >
                       <input
                         type="password"
+                        autocomplete="off"
                         formControlName="confirmPassword"
                         class="form-control auth-control"
                         id="confirmPassword"
@@ -198,7 +202,7 @@
                       </div>
                     </div>
 
-                    <!-- <div class="flex-sb-m w-full p-t-15 p-b-20">
+                    <div class="flex-sb-m w-full p-t-15 p-b-20">
                       <div>
                         <span
                           >Already Registered?
@@ -210,7 +214,7 @@
                           </a></span
                         >
                       </div>
-                    </div> -->
+                    </div>
 
                     <div class="container-login100-form-btn">
                       <button

@@ -28,10 +28,14 @@ export class ForgotPasswordComponent
   ngOnInit() {
     this.registerAs = this.route.snapshot.queryParamMap.get("loginType");
     if (!this.registerAs) {
-      this.router.navigate(["/home"]);
+      //this.router.navigate(["/home"]);
+      this.registerAs = "Doctor";
     }
     this.loginForm = this.formBuilder.group({
-      loginType: [this.registerAs, Validators.required],
+      loginType: [
+        { value: this.registerAs, disabled: true },
+        Validators.required,
+      ],
       email: [
         "",
         [Validators.required, Validators.email, Validators.minLength(5)],

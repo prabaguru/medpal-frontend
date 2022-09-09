@@ -50,11 +50,12 @@ export class SignupComponent
   ngOnInit() {
     this.registerAs = this.route.snapshot.queryParamMap.get("loginType");
     if (!this.registerAs) {
-      this.router.navigate(["/home"]);
+      //this.router.navigate(["/home"]);
+      this.registerAs = "Doctor";
     }
     this.loginForm = this.formBuilder.group(
       {
-        loginType: [this.registerAs, Validators.required],
+        loginType: [{ value: this.registerAs }, Validators.required],
         firstName: [
           "",
           [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],

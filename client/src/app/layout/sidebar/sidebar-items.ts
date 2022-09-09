@@ -11,19 +11,20 @@ export const ROUTES: RouteInfo[] = [
     submenu: [],
     role: "",
   },
+  // Doctor dashboard
   {
     path: "",
     title: "Home",
-    moduleName: "dashboard",
+    moduleName: "doctors",
     icon: "monitor",
     class: "menu-toggle",
     groupTitle: false,
-    role: "",
+    role: "Doctor",
     submenu: [
       {
-        path: "/dashboard/main",
+        path: "doctors/main",
         title: "Dashboard",
-        moduleName: "dashboard",
+        moduleName: "doctors",
         icon: "",
         class: "ml-menu",
         groupTitle: false,
@@ -31,18 +32,18 @@ export const ROUTES: RouteInfo[] = [
         role: "Doctor",
       },
       {
-        path: "/dashboard/HospitalDashboard",
-        title: "Dashboard",
-        moduleName: "dashboard",
+        path: "doctors/appointments",
+        title: "Manage Appointments",
+        moduleName: "doctors",
         icon: "",
         class: "ml-menu",
         groupTitle: false,
         submenu: [],
-        role: "Hospital",
+        role: "Doctor",
       },
     ],
   },
-
+  // doctor prof,app...
   {
     path: "",
     title: "Profile Settings",
@@ -50,7 +51,7 @@ export const ROUTES: RouteInfo[] = [
     icon: "settings",
     class: "menu-toggle",
     groupTitle: false,
-    role: "",
+    role: "Doctor",
     submenu: [
       {
         path: "doctors/profile-settings",
@@ -61,6 +62,29 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         submenu: [],
         role: "Doctor",
+      },
+    ],
+  },
+
+  // Hospital dashboard
+  {
+    path: "",
+    title: "Home",
+    moduleName: "hospitals",
+    icon: "monitor",
+    class: "menu-toggle",
+    groupTitle: false,
+    role: "Hospital",
+    submenu: [
+      {
+        path: "/hospitals/HospitalDashboard",
+        title: "Dashboard",
+        moduleName: "hospitals",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        submenu: [],
+        role: "Hospital",
       },
     ],
   },

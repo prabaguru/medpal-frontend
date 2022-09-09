@@ -98,10 +98,7 @@ export class establishment2Component
           this.userData.ClinicTwoTimings.ClinicName,
           [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
         ],
-        ClinicLocation: [
-          "",
-          [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
-        ],
+        ClinicLocation: ["", []],
         SunStarttime: [
           {
             value: this.userData.ClinicTwoTimings.SunStarttime,
@@ -376,6 +373,16 @@ export class establishment2Component
     this.submitted = true;
     this.ValidateTimeEntered();
     // console.log(this.establishmentForm2.value);
+    if (this.userData?.ClinicTwoTimings.ClinicLocation.address != "") {
+      this.ec1.get("ClinicTwoTimings.ClinicLocation").clearValidators();
+    } else {
+      this.ec1
+        .get("ClinicTwoTimings.ClinicLocation")
+        .addValidators([
+          Validators.required,
+          Validators.pattern("^[a-zA-Z '-]+$"),
+        ]);
+    }
     if (this.establishmentForm2.invalid) {
       return;
     }

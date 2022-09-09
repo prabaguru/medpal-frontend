@@ -34,10 +34,11 @@ export class SigninComponent
     this.loginAs = this.route.snapshot.queryParamMap.get("loginType");
     this.userEmail = this.route.snapshot.queryParamMap.get("email");
     if (!this.loginAs) {
-      this.router.navigate(["/home"]);
+      //this.router.navigate(["/home"]);
+      this.loginAs = "Doctor";
     }
     this.loginForm = this.formBuilder.group({
-      loginType: [this.loginAs, Validators.required],
+      loginType: [{ value: this.loginAs, disabled: true }, Validators.required],
       email: [
         this.userEmail ? this.userEmail : "",
         [Validators.required, Validators.email, Validators.minLength(5)],
@@ -76,7 +77,7 @@ export class SigninComponent
           if (res) {
             const token = this.authService.currentUserValue.token;
             if (token) {
-              this.router.navigate(["/dashboard/main"]);
+              this.router.navigate(["/doctors/main"]);
             }
           } else {
             this.error = "Invalid Login";
@@ -100,7 +101,7 @@ export class SigninComponent
           if (res) {
             const token = this.authService.currentUserValue.token;
             if (token) {
-              this.router.navigate(["/dashboard/HospitalDashboard"]);
+              this.router.navigate(["/hospitals/HospitalDashboard"]);
             }
           } else {
             this.error = "Invalid Login";
