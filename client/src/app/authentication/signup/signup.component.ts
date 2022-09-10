@@ -51,11 +51,14 @@ export class SignupComponent
     this.registerAs = this.route.snapshot.queryParamMap.get("loginType");
     if (!this.registerAs) {
       //this.router.navigate(["/home"]);
-      this.registerAs = "Doctor";
+      //this.registerAs = "Doctor";
     }
     this.loginForm = this.formBuilder.group(
       {
-        loginType: [{ value: this.registerAs }, Validators.required],
+        loginType: [
+          { value: this.registerAs, disabled: true },
+          Validators.required,
+        ],
         firstName: [
           "",
           [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
