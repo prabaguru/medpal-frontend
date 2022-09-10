@@ -29,9 +29,9 @@ export class SignupComponent
   PhoneNumberFormat = PhoneNumberFormat;
   preferredCountries: CountryISO[] = [
     CountryISO.India,
-    CountryISO.UnitedArabEmirates,
-    CountryISO.UnitedStates,
-    CountryISO.UnitedKingdom,
+    // CountryISO.UnitedArabEmirates,
+    // CountryISO.UnitedStates,
+    // CountryISO.UnitedKingdom,
   ];
   loginForm: FormGroup;
   submitted = false;
@@ -86,16 +86,16 @@ export class SignupComponent
   }
   onSubmit() {
     this.submitted = true;
-
+    this.loginForm.controls.loginType.setValue(this.registerAs);
     // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
       //this.loading = true;
     }
-    if (this.loginForm.value.loginType === "Doctor") {
+    if (this.loginForm.controls.loginType.value === "Doctor") {
       this.doctorRegistration();
     }
-    if (this.loginForm.value.loginType === "Hospital") {
+    if (this.loginForm.controls.loginType.value === "Hospital") {
       this.hospitalRegistration();
     }
   }

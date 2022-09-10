@@ -112,10 +112,10 @@
                       /> -->
                       <ngx-intl-tel-input
                         [cssClass]="'custom'"
-                        [preferredCountries]="preferredCountries"
+                        [onlyCountries]="preferredCountries"
                         [enableAutoCountrySelect]="true"
                         [enablePlaceholder]="true"
-                        [searchCountryFlag]="true"
+                        [searchCountryFlag]="false"
                         [searchCountryField]="[
                           SearchCountryField.Iso2,
                           SearchCountryField.Name
