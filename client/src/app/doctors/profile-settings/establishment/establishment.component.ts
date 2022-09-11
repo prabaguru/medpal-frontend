@@ -64,6 +64,7 @@ export class establishmentComponent
   };
   clinicAddress: string = "";
   cliniclocation = {};
+  coordinates: any;
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
@@ -106,6 +107,7 @@ export class establishmentComponent
           [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
         ],
         ClinicLocation: ["", []],
+        location: ["", []],
         SunStarttime: [
           {
             value: this.userData.ClinicOneTimings.SunStarttime,
@@ -252,6 +254,14 @@ export class establishmentComponent
         y: address.geometry.location.lat(),
       },
     };
+    this.coordinates = {
+      type: "Point",
+      coordinates: [
+        address.geometry.location.lng(),
+        address.geometry.location.lat(),
+      ],
+    };
+
     //console.log(this.cliniclocation);
     //console.log(address);
   }
@@ -449,6 +459,9 @@ export class establishmentComponent
         ClinicLocation: this.clinicAddress
           ? this.cliniclocation
           : this.userData.ClinicOneTimings.ClinicLocation,
+        location: this.coordinates
+          ? this.coordinates
+          : this.userData.ClinicOneTimings.location,
         ComBrEndtime: this.ec1.get("ClinicOneTimings.ComBrEndtime").value
           ? this.ec1.get("ClinicOneTimings.ComBrEndtime").value
           : this.userData.ClinicOneTimings.ComBrEndtime,
