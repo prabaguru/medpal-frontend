@@ -80,7 +80,7 @@ export class DoctorAppointmentsComponent
       .pipe(first())
       .subscribe({
         next: (data) => {
-          console.log(data);
+          //console.log(data);
           this.getAppointments = [];
           this.getAppointments = data;
           if (this.getAppointments.length > 0) {
