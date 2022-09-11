@@ -29,7 +29,7 @@ export class ForgotPasswordComponent
     this.registerAs = this.route.snapshot.queryParamMap.get("loginType");
     if (!this.registerAs) {
       //this.router.navigate(["/home"]);
-      this.registerAs = "Doctor";
+      //this.registerAs = "Doctor";
     }
     this.loginForm = this.formBuilder.group({
       loginType: [
@@ -47,12 +47,14 @@ export class ForgotPasswordComponent
   }
   onSubmit() {
     this.submitted = true;
+
+    let obj = this.loginForm.getRawValue();
     // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
     } else {
       this.subs.sink = this.apiService
-        .forgotPassWordSendEmail(this.loginForm.value)
+        .forgotPassWordSendEmail(obj)
         .pipe(first())
         .subscribe({
           next: (res) => {

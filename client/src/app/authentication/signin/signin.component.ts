@@ -14,6 +14,7 @@ export class SigninComponent
   extends UnsubscribeOnDestroyAdapter
   implements OnInit
 {
+  public showPassword: boolean = false;
   loginForm: FormGroup;
   submitted = false;
   error = "";
@@ -114,5 +115,8 @@ export class SigninComponent
         },
         complete: () => {},
       });
+  }
+  public togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 }

@@ -24,6 +24,7 @@ export class SignupComponent
   implements OnInit
 {
   separateDialCode = true;
+  public showPassword: boolean = false;
   SearchCountryField = SearchCountryField;
   CountryISO = CountryISO;
   PhoneNumberFormat = PhoneNumberFormat;
@@ -38,6 +39,7 @@ export class SignupComponent
   hide = true;
   chide = true;
   registerAs;
+  returnUrl: any;
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
@@ -53,6 +55,7 @@ export class SignupComponent
       //this.router.navigate(["/home"]);
       //this.registerAs = "Doctor";
     }
+
     this.loginForm = this.formBuilder.group(
       {
         loginType: [
@@ -160,5 +163,8 @@ export class SignupComponent
           //this.alertService.success("Registration successful", true);
         },
       });
+  }
+  public togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 }
