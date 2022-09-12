@@ -86,6 +86,11 @@ export class ApiService {
   update(user) {
     return this.http.put(`${environment.apiUrl}/doctors/update`, user);
   }
+
+  hopitalPasswordUpdate(user) {
+    return this.http.put(`${environment.apiUrl}/hospitals/update`, user);
+  }
+
   updatePassword(user) {
     return this.http.put(`${environment.apiUrl}/doctors/changePassWord`, user);
   }

@@ -146,7 +146,7 @@
               <ul class="menu">
                 <li class="body">
                   <ul class="user_dw_menu">
-                    <li>
+                    <li *ngIf="userData.role === 'Doctor'">
                       <a
                         href="javascript:void(0)"
                         [routerLink]="['/doctors/profile-settings']"
@@ -156,8 +156,28 @@
                         >Profile Settings
                       </a>
                     </li>
-                    <li>
-                      <a href="javascript:void(0);" (click)="logout()">
+                    <li *ngIf="userData.role === 'Hospital'">
+                      <a
+                        href="javascript:void(0)"
+                        [routerLink]="['/hospitals/updateProfile']"
+                      >
+                        <mat-icon aria-hidden="false" class="msr-2"
+                          >person</mat-icon
+                        >Manage Profile
+                      </a>
+                    </li>
+                    <li *ngIf="userData.role === 'Hospital'">
+                      <a
+                        href="javascript:void(0);"
+                        (click)="logout('Hospital')"
+                      >
+                        <mat-icon aria-hidden="false" class="msr-2"
+                          >power_settings_new</mat-icon
+                        >Logout
+                      </a>
+                    </li>
+                    <li *ngIf="userData.role === 'Doctor'">
+                      <a href="javascript:void(0);" (click)="logout('Doctor')">
                         <mat-icon aria-hidden="false" class="msr-2"
                           >power_settings_new</mat-icon
                         >Logout

@@ -24,6 +24,7 @@ export class ChangePasswordComponent
   registerAs;
   userId;
   timestamp;
+  useremail: string;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -37,6 +38,7 @@ export class ChangePasswordComponent
     this.registerAs = this.route.snapshot.queryParamMap.get("loginType");
     this.userId = this.route.snapshot.queryParamMap.get("_id");
     this.timestamp = this.route.snapshot.queryParamMap.get("stamp");
+    this.useremail = this.route.snapshot.queryParamMap.get("email");
     if (!this.registerAs) {
       //this.router.navigate(["/home"]);
       this.registerAs = "Doctor";
@@ -58,6 +60,7 @@ export class ChangePasswordComponent
 
     this.loginForm = this.formBuilder.group(
       {
+        resetPass: ["forgot"],
         loginType: [
           { value: this.registerAs, disabled: true },
           Validators.required,
@@ -95,7 +98,7 @@ export class ChangePasswordComponent
             this.router.navigate(["/authentication/signin"], {
               queryParams: {
                 loginType: this.registerAs,
-                email: "yyyypraba.wg@gmail.com",
+                email: this.useremail,
               },
             });
           },

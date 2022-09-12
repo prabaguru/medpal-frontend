@@ -32,7 +32,11 @@
               />
             </div>
             <div class="profile-info">
-              <h3>Dr. {{ userData.firstName | slice: 0:6 }}</h3>
+              <h3>
+                <span *ngIf="userData.role === 'Doctor'">Dr.</span>
+                <span *ngIf="userData.role === 'Hospital'">Mr.</span>
+                {{ userData.firstName | slice: 0:6 }}
+              </h3>
               <p>Welcome {{ userData.role }} !</p>
             </div>
           </div>

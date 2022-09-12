@@ -36,6 +36,10 @@ a {
 .text-med :hover {
   color: none !important;
 }
+.mat-form-field-appearance-outline .mat-form-field-outline-thick {
+  color: #eee !important;
+  border-width: 1px !important;
+}
 .mat-toolbar.mat-primary,
 .mat-flat-button.mat-primary,
 .mat-raised-button.mat-primary,
@@ -568,4 +572,14 @@ a:hover {
 }
 .aon-footer-bottom-area {
   text-align: center;
+}
+.custom-error {
+  color: red !important;
+  margin-top: -15px;
+}
+
+@media only screen and (max-width: 600px) {
+  .hm {
+    display: none !important;
+  }
 }

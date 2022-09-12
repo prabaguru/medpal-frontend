@@ -1,0 +1,232 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <h2>
+              <strong>Hospital - </strong> Profile Update -
+              <mat-label class="fw-bold my-4"
+                >Last Login: {{ lastLogin }}</mat-label
+              >
+            </h2>
+            <form
+              [formGroup]="profileForm"
+              class="profile-form"
+              autocomplete="off"
+            >
+              <div class="row mt-5">
+                <div class="col-md-3">
+                  <mat-form-field
+                    appearance="outline"
+                    class="example-full-width"
+                  >
+                    <mat-label>Hospital name</mat-label>
+                    <input
+                      matInput
+                      formControlName="firstName"
+                      minlength="3"
+                      maxlength="50"
+                      [ngClass]="{
+                        'is-invalid': submitted && f.firstName.errors
+                      }"
+                    />
+                    <mat-icon
+                      matSuffix
+                      matTooltip="Name is not editable..."
+                      matTooltipPosition="above"
+                      >info</mat-icon
+                    >
+                  </mat-form-field>
+                  <div
+                    *ngIf="submitted && f.firstName.errors"
+                    class="custom-error mb-3"
+                  >
+                    <div *ngIf="f.firstName.errors.required" class="text-start">
+                      Hospital name is required.
+                    </div>
+                    <div *ngIf="f.firstName.errors.pattern">
+                      Nos & special characters is not allowed.
+                    </div>
+                    <div *ngIf="f.firstName.errors.minlength">
+                      Hospital name requires 3 characters.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-3">
+                  <mat-form-field
+                    appearance="outline"
+                    class="example-full-width"
+                  >
+                    <mat-label>Email</mat-label>
+                    <mat-icon matPrefix class="form-icon">email</mat-icon>
+
+                    <input
+                      type="email"
+                      matInput
+                      formControlName="email"
+                      autocomplete="off"
+                    />
+                    <mat-icon
+                      matSuffix
+                      matTooltip="Email is not editable..."
+                      matTooltipPosition="above"
+                      >info</mat-icon
+                    >
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <mat-form-field
+                    appearance="outline"
+                    class="example-full-width"
+                  >
+                    <mat-label>Mobile</mat-label>
+                    <mat-icon matPrefix class="form-icon">face</mat-icon>
+
+                    <input
+                      type="text"
+                      matInput
+                      formControlName="mobile"
+                      autocomplete="off"
+                      maxlength="10"
+                    />
+                    <mat-icon
+                      matSuffix
+                      matTooltip="Mobile is not editable..."
+                      matTooltipPosition="above"
+                      >info</mat-icon
+                    >
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <mat-label class="fw-bold">Current Password</mat-label>
+                  <mat-form-field
+                    appearance="outline"
+                    class="example-full-width"
+                  >
+                    <mat-label>Current Password</mat-label>
+                    <mat-icon
+                      matSuffix
+                      class="auth-page-icon"
+                      (click)="togglePasswordVisibility2()"
+                      >{{
+                        showPassword2 ? "visibility" : "visibility_off"
+                      }}</mat-icon
+                    >
+                    <input
+                      [type]="showPassword2 ? 'text' : 'password'"
+                      formControlName="currentPwd"
+                      matInput
+                      autocomplete="off"
+                      maxlength="10"
+                    />
+                  </mat-form-field>
+                  <div
+                    *ngIf="submitted && f.currentPwd.errors"
+                    class="custom-error mb-3"
+                  >
+                    <div *ngIf="f.currentPwd.errors.required">
+                      Current Password is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <mat-label class="fw-bold">Change Password</mat-label>
+                  <mat-form-field
+                    appearance="outline"
+                    class="example-full-width"
+                  >
+                    <mat-label>Password</mat-label>
+                    <mat-icon
+                      matSuffix
+                      class="auth-page-icon"
+                      (click)="togglePasswordVisibility()"
+                      >{{
+                        showPassword ? "visibility" : "visibility_off"
+                      }}</mat-icon
+                    >
+                    <input
+                      [type]="showPassword ? 'text' : 'password'"
+                      formControlName="password"
+                      matInput
+                      autocomplete="off"
+                      maxlength="10"
+                    />
+                  </mat-form-field>
+                  <div
+                    *ngIf="submitted && f.password.errors"
+                    class="custom-error mb-3"
+                  >
+                    <div *ngIf="f.password.errors.required">
+                      Password is required
+                    </div>
+                    <div *ngIf="f.password.errors.minlength">
+                      Password must be at least 6 characters
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <mat-form-field
+                    appearance="outline"
+                    class="example-full-width"
+                  >
+                    <mat-label>Confirm Password</mat-label>
+                    <mat-icon
+                      matSuffix
+                      class="auth-page-icon"
+                      (click)="togglePasswordVisibility()"
+                      >{{
+                        showPassword ? "visibility" : "visibility_off"
+                      }}</mat-icon
+                    >
+                    <input
+                      [type]="showPassword ? 'text' : 'password'"
+                      formControlName="confirmPassword"
+                      matInput
+                      autocomplete="off"
+                      maxlength="10"
+                    />
+                  </mat-form-field>
+                  <div
+                    *ngIf="submitted && f.confirmPassword.errors"
+                    class="custom-error mb-3"
+                  >
+                    <div *ngIf="f.confirmPassword.errors.required">
+                      Confirm Password is required
+                    </div>
+                    <div *ngIf="f.confirmPassword.errors.mustMatch">
+                      Password and confirm password do not match
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <button
+                    mat-raised-button
+                    class="matbutton"
+                    color="primary"
+                    (click)="saveChanges()"
+                  >
+                    Update Profile
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

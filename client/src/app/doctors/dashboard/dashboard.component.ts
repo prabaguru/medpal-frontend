@@ -32,7 +32,9 @@ export type ChartOptions = {
   labels: string[];
   responsive: ApexResponsive | ApexResponsive[];
 };
-
+import { Router, ActivatedRoute } from "@angular/router";
+import { AuthService, sharedDataService, ApiService } from "../../core";
+import * as moment from "moment";
 @Component({
   selector: "app-dashboard",
   templateUrl: "./dashboard.component.html",
@@ -42,8 +44,15 @@ export class DashboardComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
   public pieChartOptions: Partial<ChartOptions>;
-
-  constructor() {
+  userData: any;
+  lastLogin: string = "";
+  constructor(
+    private authService: AuthService,
+    private apiService: ApiService,
+    private sharedDataService: sharedDataService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
     this.chartOptions = {
       series: [
         {
@@ -224,5 +233,9 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.smallChart2();
+    this.userData = this.authService.currentUserValue;
+    this.lastLogin = moment(this.userData.lastLogin).format(
+      "DD/MM/YYYY hh.mm a"
+    );
   }
 }

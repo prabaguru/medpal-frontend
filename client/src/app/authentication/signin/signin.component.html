@@ -33,7 +33,10 @@
                       {{ error }}
                     </div>
                     <div class="form-group auth-form-group mb-1">
-                      <mat-form-field appearance="outline" style="width: 336px">
+                      <mat-form-field
+                        appearance="outline"
+                        class="example-full-width"
+                      >
                         <mat-label>Login As</mat-label>
                         <select matNativeControl formControlName="loginType">
                           <option value="Doctor">Doctor</option>
@@ -177,7 +180,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-8">
+    <div class="col-lg-8 hm">
       <div class="auth-bg d-flex align-items-center justify-content-center">
         <img
           src="../../../assets/images/doctorloginimg.png"

@@ -52,50 +52,6 @@ export class HeaderComponent
     { text: "Spanish", flag: "assets/images/flags/spain.jpg", lang: "es" },
     { text: "German", flag: "assets/images/flags/germany.jpg", lang: "de" },
   ];
-  notifications: Object[] = [
-    {
-      userImg: "assets/images/user/user1.jpg",
-      userName: "Sarah Smith",
-      time: "14 mins ago",
-      message: "Please check your mail",
-    },
-    {
-      userImg: "assets/images/user/user2.jpg",
-      userName: "Airi Satou",
-      time: "22 mins ago",
-      message: "Work Completed !!!",
-    },
-    {
-      userImg: "assets/images/user/user3.jpg",
-      userName: "John Doe",
-      time: "3 hours ago",
-      message: "kindly help me for code.",
-    },
-    {
-      userImg: "assets/images/user/user4.jpg",
-      userName: "Ashton Cox",
-      time: "5 hours ago",
-      message: "Lets break for lunch...",
-    },
-    {
-      userImg: "assets/images/user/user5.jpg",
-      userName: "Sarah Smith",
-      time: "14 mins ago",
-      message: "Please check your mail",
-    },
-    {
-      userImg: "assets/images/user/user6.jpg",
-      userName: "Airi Satou",
-      time: "22 mins ago",
-      message: "Work Completed !!!",
-    },
-    {
-      userImg: "assets/images/user/user7.jpg",
-      userName: "John Doe",
-      time: "3 hours ago",
-      message: "kindly help me for code.",
-    },
-  ];
 
   ngOnInit() {
     this.userData = this.authService.currentUserValue;
@@ -214,13 +170,13 @@ export class HeaderComponent
       this.renderer.addClass(this.document.body, "submenu-closed");
     }
   }
-  logout() {
+  logout(e: string) {
     this.subs.sink = this.authService.logout().subscribe((res) => {
       if (!res.success) {
         //this.router.navigate(["/authentication/signin"]);
         this.router.navigate(["/authentication/signin"], {
           queryParams: {
-            loginType: "Doctor",
+            loginType: e,
           },
         });
       }
