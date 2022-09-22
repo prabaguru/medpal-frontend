@@ -39,8 +39,9 @@ export class establishment2Component
   mintimeThu = "00:00 am";
   mintimeFri = "00:00 am";
   mintimeSat = "00:00 am";
-  mintimeCBT = "13:00";
-  maxtimeCBT = "16:00";
+  mintimeCBTS = "12:00 pm";
+  mintimeCBT = "12:00 pm";
+  maxtimeCBT = "16:00 pm";
   BreakTimeStops = [];
   sunSlots: any;
   monSlots: any;
@@ -83,6 +84,7 @@ export class establishment2Component
         Thursday: [this.userData.ClinicTwoTimings.Thursday, []],
         Friday: [this.userData.ClinicTwoTimings.Friday, []],
         Saturday: [this.userData.ClinicTwoTimings.Saturday, []],
+        Cbt: [this.userData.ClinicTwoTimings.Cbt, []],
         ConsultationDurationC1: [
           this.userData.ClinicTwoTimings.ConsultationDurationC1,
           [Validators.required],
@@ -126,7 +128,13 @@ export class establishment2Component
           { value: this.userData.ClinicTwoTimings.MonEndtime, disabled: true },
           [],
         ],
-        ComBrStarttime: [this.userData.ClinicTwoTimings.ComBrStarttime, []],
+        ComBrStarttime: [
+          {
+            value: this.userData.ClinicTwoTimings.ComBrStarttime,
+            disabled: true,
+          },
+          [],
+        ],
         ComBrEndtime: [
           {
             value: this.userData.ClinicTwoTimings.ComBrEndtime,
@@ -230,6 +238,7 @@ export class establishment2Component
     this.enableDayThu(false, "Thu");
     this.enableDayFri(false, "Fri");
     this.enableDaySat(false, "Sat");
+    this.enableDayCbt(false, "Cbt");
   }
   public AddressChange(address: any) {
     //setting address from API to local variable
@@ -612,7 +621,7 @@ export class establishment2Component
   }
   changeTimeUnit(e: string, day: string) {
     let minval = "";
-    minval = moment(e, "HH.mm").add(1, "hours").format("HH:mm");
+    minval = moment(e, "HH.mm").add(30, "minutes").format("HH:mm");
     if (day === "ComBrStarttime") {
       let getAcc = this.establishmentForm2.get("ClinicTwoTimings.ComBrEndtime");
       getAcc.addValidators(Validators.required);
@@ -762,10 +771,50 @@ export class establishment2Component
       dayStart.setValue(this.ec1.get("ClinicTwoTimings.SatStarttime").value);
       dayEnd.setValue(this.ec1.get("ClinicTwoTimings.SatEndtime").value);
     }
+    if (
+      d === "Cbt" &&
+      this.ec1.get("ClinicTwoTimings.ComBrStarttime").value !== "" &&
+      this.ec1.get("ClinicTwoTimings.ComBrEndtime").value !== ""
+    ) {
+      this.changeTimeUnit(
+        this.ec1.get("ClinicTwoTimings.ComBrStarttime").value,
+        d
+      );
+      dayStart.setValue(this.ec1.get("ClinicTwoTimings.ComBrStarttime").value);
+      dayEnd.setValue(this.ec1.get("ClinicTwoTimings.ComBrEndtime").value);
+    }
   }
   compareArr(o1: any, o2: any) {
     if (o1 === o2) return true;
     else return false;
+  }
+  enableDayCbt(e, d) {
+    let dayStart;
+    let dayEnd;
+    if (e.checked === true && d === "Cbt") {
+      dayStart = this.ec1.get("ClinicTwoTimings.ComBrStarttime");
+      dayEnd = this.ec1.get("ClinicTwoTimings.ComBrEndtime");
+      dayStart.addValidators(Validators.required);
+      dayStart.enable();
+      this.SetAllTime(dayStart, dayEnd, d);
+    } else {
+      dayStart = this.ec1.get("ClinicTwoTimings.ComBrStarttime");
+      dayEnd = this.ec1.get("ClinicTwoTimings.ComBrEndtime");
+      this.userData.ClinicTwoTimings.ComBrStarttime
+        ? (this.userData.ClinicTwoTimings.ComBrStarttime = "")
+        : dayStart.setValue("");
+      this.userData.ClinicTwoTimings.ComBrEndtime
+        ? (this.userData.ClinicTwoTimings.ComBrEndtime = "")
+        : dayEnd.setValue("");
+      this.userData.ClinicTwoTimings.Cbt
+        ? (this.userData.ClinicTwoTimings.Cbt = false)
+        : dayEnd.setValue(false);
+      dayStart.clearValidators();
+      dayStart.disable();
+      dayEnd.disable();
+      dayStart.setValue("");
+      dayEnd.setValue("");
+    }
   }
   enableDaySun(e, d: String) {
     let dayStart;

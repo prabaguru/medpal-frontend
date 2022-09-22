@@ -8,7 +8,6 @@ import {
 } from "@angular/forms";
 import { AuthService, sharedDataService, ApiService } from "../../core";
 import { MatDatepickerInputEvent } from "@angular/material/datepicker";
-import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
 import { Observable } from "rxjs";
 import { map, startWith, first } from "rxjs/operators";
 import {
@@ -83,7 +82,10 @@ export class ProfileSettingsComponent
   }
 
   ngOnInit() {
-    this.userData = this.authService.currentUserValue;
+    //this.userData = this.authService.currentUserValue;
+    this.authService.currentUser.subscribe((x) => {
+      this.userData = x;
+    });
     this.cage = this.userData.age ? this.userData.age : "";
     this.preliminaryForm = this.formBuilder.group({
       id: [this.userData._id, []],
@@ -121,8 +123,10 @@ export class ProfileSettingsComponent
           Validators.minLength(12),
         ],
       ],
+      tab2: [true],
     });
     this.educationForm = this.formBuilder.group({
+      tab3: [true],
       id: [this.userData._id, []],
       graduation: this.formBuilder.group({
         id: [this.userData._id, []],
@@ -172,6 +176,7 @@ export class ProfileSettingsComponent
     this.ServicesForm = this.formBuilder.group({
       id: [this.userData._id, []],
       services: [this.userData.services, [Validators.required]],
+      tab5: [true],
     });
     this.preliminaryForm.controls.mobile.disable();
     this.preliminaryForm.controls.email.disable();

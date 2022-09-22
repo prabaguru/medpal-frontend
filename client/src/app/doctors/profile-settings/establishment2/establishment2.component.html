@@ -105,12 +105,20 @@
           </div>
         </mat-form-field>
       </div>
+      <div class="col-md-1">
+        <mat-checkbox
+          class="example-margin"
+          (change)="enableDayCbt($event, 'Cbt')"
+          formControlName="Cbt"
+          >Break</mat-checkbox
+        >
+      </div>
       <div class="col-md-3">
         <mat-form-field appearance="fill">
           <mat-label>Common Break Start Time</mat-label>
           <input
             [ngxTimepicker]="COBST"
-            [min]="mintimeCBT"
+            [min]="mintimeCBTS"
             [max]="maxtimeCBT"
             [format]="timeFormat"
             formControlName="ComBrStarttime"

@@ -7,9 +7,33 @@
             <h2 translate><strong>Profile</strong> Settings</h2>
           </div>
           <div class="body">
+            <div
+              class="alert alert-danger"
+              *ngIf="
+                !userData.tab2 ||
+                !userData.tab3 ||
+                !userData.tab4 ||
+                !userData.tab5
+              "
+            >
+              <strong>Hi Doctor!</strong> Your Profile is not verified. Please
+              fill the mandatory information and upload Profile Pic to get
+              verified and online bookings.
+              <mat-icon>error</mat-icon>
+            </div>
+            <div
+              class="alert alert-success"
+              *ngIf="
+                userData.tab2 && userData.tab3 && userData.tab4 && userData.tab5
+              "
+            >
+              <strong>Hi Doctor!</strong> Your Profile is verified with us. Good
+              day. <mat-icon>check_circle</mat-icon>
+            </div>
             <mat-accordion class="example-headers-align">
               <mat-expansion-panel
                 [expanded]="step === 0"
+                [disabled]="!userData?.tab1"
                 (opened)="setStep(0)"
                 hideToggle
               >
@@ -237,12 +261,12 @@
                           Save
                         </button>
                       </div>
-                      <mat-action-row>
+                      <mat-action-row *ngIf="userData?.tab2">
                         <a
                           mat-button
                           color="primary"
                           (click)="nextStep()"
-                          href="javascript:void();"
+                          href="javascript:void(0)"
                         >
                           Next
                         </a>
@@ -254,6 +278,7 @@
 
               <mat-expansion-panel
                 [expanded]="step === 1"
+                [disabled]="!userData?.tab2"
                 (opened)="setStep(1)"
                 hideToggle
               >
@@ -517,12 +542,12 @@
                             </button>
                           </div>
                         </div>
-                        <mat-action-row>
+                        <mat-action-row *ngIf="userData?.tab3">
                           <a
                             mat-button
                             color="warn"
                             (click)="prevStep()"
-                            href="javascript:void();"
+                            href="javascript:void(0)"
                           >
                             Previous
                           </a>
@@ -530,7 +555,7 @@
                             mat-button
                             color="primary"
                             (click)="nextStep()"
-                            href="javascript:void();"
+                            href="javascript:void(0)"
                           >
                             Next
                           </a>
@@ -543,6 +568,7 @@
               <mat-expansion-panel
                 [expanded]="step === 2"
                 (opened)="setStep(2)"
+                [disabled]="!userData?.tab3"
                 hideToggle
               >
                 <mat-expansion-panel-header>
@@ -566,12 +592,12 @@
                 </div>
                 <div class="container">
                   <div class="row">
-                    <mat-action-row>
+                    <mat-action-row *ngIf="userData?.tab4">
                       <a
                         mat-button
                         color="warn"
                         (click)="prevStep()"
-                        href="javascript:void();"
+                        href="javascript:void(0)"
                       >
                         Previous
                       </a>
@@ -579,7 +605,7 @@
                         mat-button
                         color="primary"
                         (click)="nextStep()"
-                        href="javascript:void();"
+                        href="javascript:void(0)"
                       >
                         Next</a
                       >
@@ -590,6 +616,7 @@
               <mat-expansion-panel
                 [expanded]="step === 3"
                 (opened)="setStep(3)"
+                [disabled]="!userData?.tab4"
                 hideToggle
               >
                 <mat-expansion-panel-header>
@@ -613,7 +640,7 @@
                         <a
                           mat-raised-button
                           color="primary"
-                          href="javascript:void();"
+                          href="javascript:void(0)"
                           (click)="resetformSer()"
                         >
                           Reset </a
@@ -625,12 +652,12 @@
                     </div>
                   </div>
                 </form>
-                <mat-action-row>
+                <mat-action-row *ngIf="userData?.tab5">
                   <a
                     mat-button
                     color="warn"
                     (click)="prevStep()"
-                    href="javascript:void();"
+                    href="javascript:void(0)"
                   >
                     Previous
                   </a>
@@ -638,7 +665,7 @@
                     mat-button
                     color="primary"
                     (click)="nextStep()"
-                    href="javascript:void();"
+                    href="javascript:void(0)"
                   >
                     Next
                   </a>
@@ -647,6 +674,7 @@
               <mat-expansion-panel
                 [expanded]="step === 4"
                 (opened)="setStep(4)"
+                [disabled]="!userData?.tab5"
                 hideToggle
               >
                 <mat-expansion-panel-header>
@@ -690,7 +718,7 @@
                     mat-button
                     color="warn"
                     (click)="prevStep()"
-                    href="javascript:void();"
+                    href="javascript:void(0)"
                   >
                     Previous
                   </a>
@@ -698,7 +726,7 @@
                     mat-button
                     color="primary"
                     (click)="nextStep()"
-                    href="javascript:void();"
+                    href="javascript:void(0)"
                   >
                     End
                   </a>

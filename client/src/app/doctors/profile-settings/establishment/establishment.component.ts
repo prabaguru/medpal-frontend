@@ -46,8 +46,9 @@ export class establishmentComponent
   mintimeThu = "00:00 am";
   mintimeFri = "00:00 am";
   mintimeSat = "00:00 am";
-  mintimeCBT = "13:00";
-  maxtimeCBT = "16:00";
+  mintimeCBTS = "12:00 pm";
+  mintimeCBT = "12:00 pm";
+  maxtimeCBT = "16:00 pm";
   BreakTimeStops = [];
   sunSlots: any;
   monSlots: any;
@@ -77,8 +78,9 @@ export class establishmentComponent
   }
 
   ngOnInit() {
-    this.userData = this.authService.currentUserValue;
-
+    this.authService.currentUser.subscribe((x) => {
+      this.userData = x;
+    });
     this.establishmentForm = this.formBuilder.group({
       id: [this.userData._id, []],
       ClinicOneTimings: this.formBuilder.group({
@@ -133,7 +135,13 @@ export class establishmentComponent
           { value: this.userData.ClinicOneTimings.MonEndtime, disabled: true },
           [],
         ],
-        ComBrStarttime: [this.userData.ClinicOneTimings.ComBrStarttime, []],
+        ComBrStarttime: [
+          {
+            value: this.userData.ClinicOneTimings.ComBrStarttime,
+            disabled: true,
+          },
+          [],
+        ],
         ComBrEndtime: [
           {
             value: this.userData.ClinicOneTimings.ComBrEndtime,
@@ -237,6 +245,7 @@ export class establishmentComponent
     this.enableDayThu(false, "Thu");
     this.enableDayFri(false, "Fri");
     this.enableDaySat(false, "Sat");
+    this.enableDayCbt(false, "Cbt");
   }
   public AddressChange(address: any) {
     //setting address from API to local variable
@@ -451,6 +460,7 @@ export class establishmentComponent
 
     let obj = {
       approved: true,
+      tab4: true,
       id: this.userData._id,
       ClinicOneTimings: {
         active: true,
@@ -621,7 +631,7 @@ export class establishmentComponent
   }
   changeTimeUnit(e: string, day: string) {
     let minval = "";
-    minval = moment(e, "HH.mm").add(1, "hours").format("HH:mm");
+    minval = moment(e, "HH.mm").add(30, "minutes").format("HH:mm");
     if (day === "ComBrStarttime") {
       let getAcc = this.establishmentForm.get("ClinicOneTimings.ComBrEndtime");
       getAcc.addValidators(Validators.required);
@@ -771,6 +781,19 @@ export class establishmentComponent
       dayStart.setValue(this.ec1.get("ClinicOneTimings.SatStarttime").value);
       dayEnd.setValue(this.ec1.get("ClinicOneTimings.SatEndtime").value);
     }
+
+    if (
+      d === "Cbt" &&
+      this.ec1.get("ClinicOneTimings.ComBrStarttime").value !== "" &&
+      this.ec1.get("ClinicOneTimings.ComBrEndtime").value !== ""
+    ) {
+      this.changeTimeUnit(
+        this.ec1.get("ClinicOneTimings.ComBrStarttime").value,
+        d
+      );
+      dayStart.setValue(this.ec1.get("ClinicOneTimings.ComBrStarttime").value);
+      dayEnd.setValue(this.ec1.get("ClinicOneTimings.ComBrEndtime").value);
+    }
   }
   compareArr(o1: any, o2: any) {
     if (o1 === o2) return true;
@@ -803,6 +826,35 @@ export class establishmentComponent
       this.userData.ClinicOneTimings.Sunday
         ? (this.userData.ClinicOneTimings.Sunday = false)
         : dayEnd.setValue(false);
+    }
+  }
+
+  enableDayCbt(e, d) {
+    let dayStart;
+    let dayEnd;
+    if (e.checked === true && d === "Cbt") {
+      dayStart = this.ec1.get("ClinicOneTimings.ComBrStarttime");
+      dayEnd = this.ec1.get("ClinicOneTimings.ComBrEndtime");
+      dayStart.addValidators(Validators.required);
+      dayStart.enable();
+      this.SetAllTime(dayStart, dayEnd, d);
+    } else {
+      dayStart = this.ec1.get("ClinicOneTimings.ComBrStarttime");
+      dayEnd = this.ec1.get("ClinicOneTimings.ComBrEndtime");
+      this.userData.ClinicOneTimings.ComBrStarttime
+        ? (this.userData.ClinicOneTimings.ComBrStarttime = "")
+        : dayStart.setValue("");
+      this.userData.ClinicOneTimings.ComBrEndtime
+        ? (this.userData.ClinicOneTimings.ComBrEndtime = "")
+        : dayEnd.setValue("");
+      this.userData.ClinicOneTimings.Cbt
+        ? (this.userData.ClinicOneTimings.Cbt = false)
+        : dayEnd.setValue(false);
+      dayStart.clearValidators();
+      dayStart.disable();
+      dayEnd.disable();
+      dayStart.setValue("");
+      dayEnd.setValue("");
     }
   }
 

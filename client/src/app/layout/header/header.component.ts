@@ -54,7 +54,11 @@ export class HeaderComponent
   ];
 
   ngOnInit() {
-    this.userData = this.authService.currentUserValue;
+    //this.userData = this.authService.currentUserValue;
+    this.authService.currentUser.subscribe((x) => {
+      this.userData = x;
+    });
+
     this.config = this.configService.configData;
 
     this.langStoreValue = localStorage.getItem("lang");
@@ -115,6 +119,15 @@ export class HeaderComponent
         this.renderer.addClass(this.document.body, "side-closed");
         this.renderer.addClass(this.document.body, "submenu-closed");
       }
+    }
+
+    if (
+      !this.userData.tab2 ||
+      !this.userData.tab3 ||
+      !this.userData.tab4 ||
+      !this.userData.tab5
+    ) {
+      this.router.navigate(["/doctors/profile-settings"]);
     }
   }
 
