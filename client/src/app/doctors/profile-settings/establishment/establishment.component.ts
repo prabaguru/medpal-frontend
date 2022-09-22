@@ -240,6 +240,8 @@ export class establishmentComponent
   }
   public AddressChange(address: any) {
     //setting address from API to local variable
+
+    //console.log(address);
     this.clinicAddress = "";
     this.clinicAddress = address.formatted_address;
     let name: string;

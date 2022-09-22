@@ -447,9 +447,7 @@ export class establishment2Component
     let obj = {
       id: this.userData._id,
       ClinicTwoTimings: {
-        active: this.ec1.get("ClinicTwoTimings.active").value
-          ? this.ec1.get("ClinicTwoTimings.active").value
-          : this.userData.ClinicTwoTimings.active,
+        active: this.ec1.get("ClinicTwoTimings.active").value,
         id: this.userData._id,
         ClinicName: this.ec1.get("ClinicTwoTimings.ClinicName").value
           ? this.ec1.get("ClinicTwoTimings.ClinicName").value

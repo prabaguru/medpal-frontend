@@ -39,11 +39,16 @@
               />
               <mat-icon
                 matSuffix
-                matTooltip="Address selction from dropdown is mandatory. Do not typein the address directly..."
+                matTooltip="Address selction from dropdown is mandatory. Do not typein the address directly.."
                 matTooltipPosition="above"
                 >info</mat-icon
-              > </mat-form-field
-            ><span *ngIf="!clinicAddress">{{
+              >
+            </mat-form-field>
+            <mat-error class="mateloc"
+              >Select nearby location if your location is not found in the
+              dropdown</mat-error
+            >
+            <span *ngIf="!clinicAddress">{{
               userData.ClinicOneTimings.ClinicLocation.address
                 ? userData.ClinicOneTimings.ClinicLocation.address
                 : ""

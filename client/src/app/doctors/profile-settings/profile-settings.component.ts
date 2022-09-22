@@ -56,7 +56,7 @@ export class ProfileSettingsComponent
   qualificationOptions: Observable<IFspecialisation[]>;
   format = 24;
   tomorrow = new Date("01/01/2000");
-  minDate = new Date("01/01/1960");
+  minDate = new Date("01/01/1940");
   cyPickerStart = new Date("01/01/1980");
   cyPickerEnd = new Date();
   cage: any;

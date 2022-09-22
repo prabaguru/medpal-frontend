@@ -37,6 +37,10 @@
             >info</mat-icon
           >
         </mat-form-field>
+        <mat-error class="mateloc"
+          >Select nearby location if your location is not found in the
+          dropdown</mat-error
+        >
         <span *ngIf="!clinicAddress">{{
           userData.ClinicTwoTimings.ClinicLocation.address
             ? userData.ClinicTwoTimings.ClinicLocation.address
