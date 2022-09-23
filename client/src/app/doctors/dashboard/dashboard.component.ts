@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-
+import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import {
   ChartComponent,
   ApexAxisChartSeries,
@@ -34,18 +34,26 @@ export type ChartOptions = {
 };
 import { Router, ActivatedRoute } from "@angular/router";
 import { AuthService, sharedDataService, ApiService } from "../../core";
+import { first } from "rxjs/operators";
 import * as moment from "moment";
 @Component({
   selector: "app-dashboard",
   templateUrl: "./dashboard.component.html",
   styleUrls: ["./dashboard.component.scss"],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
   @ViewChild("chart") chart: ChartComponent;
-  public chartOptions: Partial<ChartOptions>;
+  //public chartOptions: Partial<ChartOptions>;
   public pieChartOptions: Partial<ChartOptions>;
   userData: any;
   lastLogin: string = "";
+  getAppointments: any = [];
+  pending: any = [];
+  closed: any = [];
+  cancelled: any = [];
   constructor(
     private authService: AuthService,
     private apiService: ApiService,
@@ -53,164 +61,15 @@ export class DashboardComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.chartOptions = {
-      series: [
-        {
-          name: "Angular",
-          data: [45, 52, 38, 24, 33, 26, 21],
-        },
-        {
-          name: "Wordpress",
-          data: [35, 41, 62, 42, 13, 18, 29],
-        },
-        {
-          name: "Java",
-          data: [87, 57, 74, 99, 75, 38, 62],
-        },
-      ],
-      chart: {
-        height: 300,
-        type: "line",
-        foreColor: "#9aa0ac",
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        width: 5,
-        curve: "straight",
-        dashArray: [0, 8, 5],
-      },
-
-      legend: {
-        tooltipHoverFormatter: function (val, opts) {
-          return (
-            val +
-            " - <strong>" +
-            opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
-            "</strong>"
-          );
-        },
-      },
-      markers: {
-        size: 0,
-        hover: {
-          sizeOffset: 6,
-        },
-      },
-      xaxis: {
-        labels: {
-          trim: false,
-        },
-        categories: ["2010", "2011", "2012", "2013", "2014", "2015", "2016"],
-      },
-      tooltip: {
-        theme: "dark",
-        y: [
-          {
-            title: {
-              formatter: function (val) {
-                return val + " (mins)";
-              },
-            },
-          },
-          {
-            title: {
-              formatter: function (val) {
-                return val + " per session";
-              },
-            },
-          },
-          {
-            title: {
-              formatter: function (val) {
-                return val;
-              },
-            },
-          },
-        ],
-      },
-      grid: {
-        borderColor: "#f1f1f1",
-      },
-    };
+    super();
   }
 
-  // Line chert start
-  public lineChartOptions = {
-    responsive: !0,
-    maintainAspectRatio: false,
-    legend: {
-      display: false,
-    },
-    scales: {
-      xAxes: [
-        {
-          display: true,
-          gridLines: {
-            display: false,
-            drawBorder: false,
-          },
-          ticks: {
-            fontColor: "#bdb5b5",
-          },
-        },
-      ],
-      yAxes: [
-        {
-          display: true,
-          ticks: {
-            padding: 10,
-            stepSize: 25,
-            max: 100,
-            min: 0,
-            fontColor: "#bdb5b5",
-          },
-          gridLines: {
-            display: true,
-            draw1Border: !1,
-            lineWidth: 0.5,
-            zeroLineColor: "transparent",
-            drawBorder: false,
-          },
-        },
-      ],
-    },
-  };
-  lineChartData = [
-    {
-      data: [20, 60, 25, 75, 90, 40, 43],
-      borderWidth: 3,
-      borderColor: "#D07BED",
-      pointBackgroundColor: "#D07BED",
-      pointBorderColor: "#D07BED",
-      pointHoverBackgroundColor: "#FFF",
-      pointHoverBorderColor: "#D07BED",
-      pointRadius: 5,
-      pointHoverRadius: 6,
-      fill: !1,
-    },
-    {
-      data: [25, 20, 70, 58, 35, 80, 80],
-      borderWidth: 3,
-      borderColor: "#51CCA9",
-      pointBackgroundColor: "#51CCA9",
-      pointBorderColor: "#51CCA9",
-      pointHoverBackgroundColor: "#FFF",
-      pointHoverBorderColor: "#51CCA9",
-      pointRadius: 5,
-      pointHoverRadius: 6,
-      fill: !1,
-    },
-  ];
-
-  lineChartLabels = ["2001", "2002", "2003", "2004", "2005", "2006", "2007"];
-
-  // Line chert end
-
   private smallChart2() {
+    let tot = this.getAppointments.length;
+    let pen = this.pending.length;
+    let clo = this.closed.length;
     this.pieChartOptions = {
-      series2: [44, 55, 13, 43, 22],
+      series2: [tot, pen, clo],
       chart: {
         type: "donut",
         width: 200,
@@ -221,21 +80,65 @@ export class DashboardComponent implements OnInit {
       dataLabels: {
         enabled: false,
       },
-      labels: ["Project 1", "Project 2", "Project 3", "Project 4", "Project 5"],
+      labels: ["Booked", "Pending", "Closed"],
       responsive: [
         {
           breakpoint: 480,
-          options: {},
         },
       ],
     };
   }
 
   ngOnInit() {
-    this.smallChart2();
     this.userData = this.authService.currentUserValue;
     this.lastLogin = moment(this.userData.lastLogin).format(
       "DD/MM/YYYY hh.mm a"
     );
+    this.getAllDoctorAppoinmentsById("Clinic1");
+  }
+
+  getAllDoctorAppoinmentsById(Clinic: string) {
+    // if (Clinic === "Clinic1") {
+    //   this.clinic1Flag = true;
+    //   this.clinic2Flag = false;
+    // } else {
+    //   this.clinic1Flag = false;
+    //   this.clinic2Flag = true;
+    // }
+    if (!this.userData?._id) {
+      return;
+    }
+    let obj = {};
+    obj = {
+      id: this.userData?._id,
+      clinic: Clinic,
+    };
+    this.subs.sink = this.apiService
+      .getAllDoctorAppoinmentsById(obj)
+      .pipe(first())
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+          this.getAppointments = [];
+          this.getAppointments = data;
+          this.pending = this.getAppointments.filter(
+            (x: any) => x.AppointmentStatus == "Booked"
+          );
+          this.closed = this.getAppointments.filter(
+            (x: any) => x.AppointmentStatus == "Closed"
+          );
+          this.smallChart2();
+        },
+        error: (error) => {
+          this.sharedDataService.showNotification(
+            "snackbar-danger",
+            error,
+            "top",
+            "center"
+          );
+          //this.submitted = false;
+        },
+        complete: () => {},
+      });
   }
 }
