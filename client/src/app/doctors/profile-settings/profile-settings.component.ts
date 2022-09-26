@@ -5,8 +5,14 @@ import {
   FormGroup,
   Validators,
   FormControl,
+  AbstractControlOptions,
 } from "@angular/forms";
-import { AuthService, sharedDataService, ApiService } from "../../core";
+import {
+  AuthService,
+  sharedDataService,
+  ApiService,
+  MustMatch,
+} from "../../core";
 import { MatDatepickerInputEvent } from "@angular/material/datepicker";
 import { Observable } from "rxjs";
 import { map, startWith, first } from "rxjs/operators";
@@ -34,6 +40,7 @@ export class ProfileSettingsComponent
   extends UnsubscribeOnDestroyAdapter
   implements OnInit
 {
+  public profileFormPass: FormGroup = new FormGroup({});
   preliminaryForm: FormGroup;
   educationForm: FormGroup;
   ServicesForm: FormGroup;
@@ -69,7 +76,8 @@ export class ProfileSettingsComponent
   selected = new FormControl(0);
   timeFormat: number = 24;
   preventOverlayClick: boolean = true;
-
+  public showPassword: boolean = false;
+  public showPassword2: boolean = false;
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
@@ -178,6 +186,19 @@ export class ProfileSettingsComponent
       services: [this.userData.services, [Validators.required]],
       tab5: [true],
     });
+    this.profileFormPass = this.formBuilder.group(
+      {
+        id: new FormControl(this.userData._id ? this.userData._id : "", [
+          Validators.required,
+        ]),
+        currentPwd: ["", [Validators.required, Validators.minLength(6)]],
+        password: ["", [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ["", Validators.required],
+      },
+      {
+        validator: MustMatch("password", "confirmPassword"),
+      } as AbstractControlOptions
+    );
     this.preliminaryForm.controls.mobile.disable();
     this.preliminaryForm.controls.email.disable();
     //this.establishmentForm.controls.sundayStartTimeCtrl.disable();
@@ -234,6 +255,9 @@ export class ProfileSettingsComponent
   }
   get s() {
     return this.ServicesForm.controls;
+  }
+  get p() {
+    return this.profileFormPass.controls;
   }
   resetform() {
     this.educationForm.reset();
@@ -439,7 +463,59 @@ export class ProfileSettingsComponent
         complete: () => {},
       });
   }
-
+  public togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+  public togglePasswordVisibility2(): void {
+    this.showPassword2 = !this.showPassword2;
+  }
+  saveChanges() {
+    this.submitted = true;
+    if (this.profileFormPass.invalid) {
+      return;
+    } else {
+      let obj = {};
+      obj = {
+        id: this.p["id"].value,
+        resetPass: "reset",
+        currentPwd: this.p["currentPwd"].value,
+        password: this.p["password"].value,
+        confirmPassword: this.p["confirmPassword"].value,
+      };
+      console.log(obj);
+      return;
+      this.subs.sink = this.apiService
+        .hopitalPasswordUpdate(obj)
+        .pipe(first())
+        .subscribe({
+          next: (res) => {
+            this.submitted = false;
+            this.sharedDataService.showNotification(
+              "snackbar-success",
+              "Password change successful... Login with your new password",
+              "top",
+              "center"
+            );
+            this.router.navigate(["/authentication/signin"], {
+              queryParams: {
+                loginType: "Hospital",
+                email: this.f["email"].value,
+              },
+            });
+          },
+          error: (error) => {
+            this.submitted = false;
+            this.sharedDataService.showNotification(
+              "snackbar-danger",
+              error,
+              "top",
+              "center"
+            );
+          },
+          complete: () => {},
+        });
+    }
+  }
   updateLocalStorage(obj) {
     const oldInfo = JSON.parse(localStorage.getItem("currentUser"));
     localStorage.setItem("currentUser", JSON.stringify({ ...oldInfo, ...obj }));

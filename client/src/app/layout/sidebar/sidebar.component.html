@@ -35,7 +35,7 @@
               <h3>
                 <span *ngIf="userData.role === 'Doctor'">Dr.</span>
                 <span *ngIf="userData.role === 'Hospital'">Mr.</span>
-                {{ userData.firstName | slice: 0:6 }}
+                {{ userData.firstName | slice: 0:20 }}
               </h3>
               <p>Welcome {{ userData.role }} !</p>
             </div>

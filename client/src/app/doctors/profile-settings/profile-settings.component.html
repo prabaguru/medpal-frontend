@@ -50,6 +50,7 @@
                       <div class="col-md-3">
                         <mat-form-field appearance="fill">
                           <mat-label>First name</mat-label>
+                          Dr:
                           <input
                             matInput
                             formControlName="firstName"
@@ -731,6 +732,157 @@
                     End
                   </a>
                 </mat-action-row>
+              </mat-expansion-panel>
+
+              <mat-expansion-panel
+                [expanded]="step === 3"
+                (opened)="setStep(3)"
+                [disabled]="!userData?.tab4"
+                hideToggle
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title> Change Profile Password </mat-panel-title>
+                  <mat-icon>password</mat-icon>
+                </mat-expansion-panel-header>
+                <form
+                  [formGroup]="profileFormPass"
+                  class="profile-form"
+                  autocomplete="off"
+                  (ngSubmit)="saveChanges()"
+                >
+                  <div class="container">
+                    <div class="row clearfix">
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="row">
+                          <div class="col-md-3 mb-0">
+                            <mat-label class="fw-bold"
+                              >Current Password</mat-label
+                            >
+                            <mat-form-field
+                              appearance="outline"
+                              class="example-full-width"
+                            >
+                              <mat-label>Current Password</mat-label>
+                              <mat-icon
+                                matSuffix
+                                class="auth-page-icon"
+                                (click)="togglePasswordVisibility2()"
+                                >{{
+                                  showPassword2
+                                    ? "visibility"
+                                    : "visibility_off"
+                                }}</mat-icon
+                              >
+                              <input
+                                [type]="showPassword2 ? 'text' : 'password'"
+                                formControlName="currentPwd"
+                                matInput
+                                autocomplete="off"
+                                maxlength="10"
+                              />
+                            </mat-form-field>
+                            <div
+                              *ngIf="submitted && p.currentPwd.errors"
+                              class="custom-error mb-3"
+                            >
+                              <div *ngIf="p.currentPwd.errors.required">
+                                Current Password is required
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-3 mb-0">
+                            <mat-label class="fw-bold"
+                              >Change Password</mat-label
+                            >
+                            <mat-form-field
+                              appearance="outline"
+                              class="example-full-width"
+                            >
+                              <mat-label>Password</mat-label>
+                              <mat-icon
+                                matSuffix
+                                class="auth-page-icon"
+                                (click)="togglePasswordVisibility()"
+                                >{{
+                                  showPassword ? "visibility" : "visibility_off"
+                                }}</mat-icon
+                              >
+                              <input
+                                [type]="showPassword ? 'text' : 'password'"
+                                formControlName="password"
+                                matInput
+                                autocomplete="off"
+                                maxlength="10"
+                              />
+                            </mat-form-field>
+                            <div
+                              *ngIf="submitted && p.password.errors"
+                              class="custom-error mb-3"
+                            >
+                              <div *ngIf="p.password.errors.required">
+                                Password is required
+                              </div>
+                              <div *ngIf="p.password.errors.minlength">
+                                Password must be at least 6 characters
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-3 mb-0">
+                            <mat-form-field
+                              appearance="outline"
+                              class="example-full-width"
+                            >
+                              <mat-label>Confirm Password</mat-label>
+                              <mat-icon
+                                matSuffix
+                                class="auth-page-icon"
+                                (click)="togglePasswordVisibility()"
+                                >{{
+                                  showPassword ? "visibility" : "visibility_off"
+                                }}</mat-icon
+                              >
+                              <input
+                                [type]="showPassword ? 'text' : 'password'"
+                                formControlName="confirmPassword"
+                                matInput
+                                autocomplete="off"
+                                maxlength="10"
+                              />
+                            </mat-form-field>
+                            <div
+                              *ngIf="submitted && p.confirmPassword.errors"
+                              class="custom-error mb-3"
+                            >
+                              <div *ngIf="p.confirmPassword.errors.required">
+                                Confirm Password is required
+                              </div>
+                              <div *ngIf="p.confirmPassword.errors.mustMatch">
+                                Password and confirm password do not match
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="float-start">
+                        <a
+                          mat-raised-button
+                          color="primary"
+                          href="javascript:void(0)"
+                          (click)="resetformSer()"
+                        >
+                          Reset </a
+                        >&nbsp;
+                        <button mat-raised-button color="primary" type="submit">
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
               </mat-expansion-panel>
             </mat-accordion>
           </div>
