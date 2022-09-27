@@ -118,7 +118,7 @@ export class DashboardComponent
       .pipe(first())
       .subscribe({
         next: (data) => {
-          console.log(data);
+          //console.log(data);
           this.getAppointments = [];
           this.getAppointments = data;
           this.pending = this.getAppointments.filter(

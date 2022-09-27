@@ -10,10 +10,10 @@
             <div
               class="alert alert-danger"
               *ngIf="
-                !userData.tab2 ||
-                !userData.tab3 ||
-                !userData.tab4 ||
-                !userData.tab5
+                !userData?.tab2 ||
+                !userData?.tab3 ||
+                !userData?.tab4 ||
+                !userData?.tab5
               "
             >
               <strong>Hi Doctor!</strong> Your Profile is not verified. Please
@@ -24,7 +24,10 @@
             <div
               class="alert alert-success"
               *ngIf="
-                userData.tab2 && userData.tab3 && userData.tab4 && userData.tab5
+                userData?.tab2 &&
+                userData?.tab3 &&
+                userData?.tab4 &&
+                userData?.tab5
               "
             >
               <strong>Hi Doctor!</strong> Your Profile is verified with us. Good
@@ -698,7 +701,7 @@
                       Upload Adhaar doc<span class="mbdata"> (4MB Max)</span>
                       <app-file-upload2
                         docType="adhaar"
-                        [userdatas]="userData.doc1"
+                        [userdatas]="userData?.doc1"
                       ></app-file-upload2>
                     </div>
                   </div>
@@ -709,7 +712,7 @@
                       >
                       <app-file-upload2
                         docType="MC"
-                        [userdatas]="userData.doc2"
+                        [userdatas]="userData?.doc2"
                       ></app-file-upload2>
                     </div>
                   </div>
@@ -735,9 +738,9 @@
               </mat-expansion-panel>
 
               <mat-expansion-panel
-                [expanded]="step === 3"
-                (opened)="setStep(3)"
-                [disabled]="!userData?.tab4"
+                *ngIf="userData?.tab5"
+                [expanded]="step === 5"
+                (opened)="setStep(5)"
                 hideToggle
               >
                 <mat-expansion-panel-header>
@@ -872,7 +875,7 @@
                           mat-raised-button
                           color="primary"
                           href="javascript:void(0)"
-                          (click)="resetformSer()"
+                          (click)="resetPassworsform()"
                         >
                           Reset </a
                         >&nbsp;

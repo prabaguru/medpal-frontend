@@ -188,9 +188,7 @@ export class ProfileSettingsComponent
     });
     this.profileFormPass = this.formBuilder.group(
       {
-        id: new FormControl(this.userData._id ? this.userData._id : "", [
-          Validators.required,
-        ]),
+        id: [this.userData._id ? this.userData._id : "", Validators.required],
         currentPwd: ["", [Validators.required, Validators.minLength(6)]],
         password: ["", [Validators.required, Validators.minLength(6)]],
         confirmPassword: ["", Validators.required],
@@ -482,10 +480,10 @@ export class ProfileSettingsComponent
         password: this.p["password"].value,
         confirmPassword: this.p["confirmPassword"].value,
       };
-      console.log(obj);
-      return;
+      //console.log(obj);
+
       this.subs.sink = this.apiService
-        .hopitalPasswordUpdate(obj)
+        .doctorPasswordReset(obj)
         .pipe(first())
         .subscribe({
           next: (res) => {
@@ -498,10 +496,11 @@ export class ProfileSettingsComponent
             );
             this.router.navigate(["/authentication/signin"], {
               queryParams: {
-                loginType: "Hospital",
-                email: this.f["email"].value,
+                loginType: "Doctor",
+                email: this.userData.email,
               },
             });
+            localStorage.removeItem("currentUser");
           },
           error: (error) => {
             this.submitted = false;
@@ -515,6 +514,10 @@ export class ProfileSettingsComponent
           complete: () => {},
         });
     }
+  }
+  resetPassworsform() {
+    this.profileFormPass.reset();
+    this.p["id"].setValue(this.userData._id);
   }
   updateLocalStorage(obj) {
     const oldInfo = JSON.parse(localStorage.getItem("currentUser"));

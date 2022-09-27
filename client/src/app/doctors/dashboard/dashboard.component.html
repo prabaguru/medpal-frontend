@@ -80,7 +80,7 @@
                   <h2>Chart Report</h2>
                 </div>
                 <div class="body">
-                  <div id="chart">
+                  <div id="chart" *ngIf="pieChartOptions">
                     <apx-chart
                       [series]="pieChartOptions.series2"
                       [chart]="pieChartOptions.chart"
