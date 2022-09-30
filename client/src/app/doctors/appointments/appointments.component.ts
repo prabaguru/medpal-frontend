@@ -13,6 +13,7 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import * as moment from "moment";
+import { FormGroup, FormControl } from "@angular/forms";
 @Component({
   selector: "doctor-appointments",
   templateUrl: "./appointments.component.html",
@@ -34,6 +35,12 @@ export class DoctorAppointmentsComponent
 {
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
   userData;
+  minDate = new Date(2022, 7, 1);
+  maxDate = new Date(new Date().getTime() + 9 * 24 * 60 * 60 * 1000);
+  range = new FormGroup({
+    start: new FormControl(""),
+    end: new FormControl(""),
+  });
   clinic1Flag: boolean = false;
   clinic2Flag: boolean = false;
   getAppointments: any = [];
@@ -49,7 +56,7 @@ export class DoctorAppointmentsComponent
   ) {
     super();
     this.userData = this.authService.currentUserValue;
-    this.getAllDoctorAppoinmentsById("Clinic1");
+    this.getAllDoctorAppoinmentsById("Clinic1", "reset");
   }
   ngOnInit(): void {
     //console.log(this.userData);
@@ -58,8 +65,10 @@ export class DoctorAppointmentsComponent
     this.dataSource.paginator = this.paginator;
     //this.dataSource.sort = this.sort;
   }
-
-  getAllDoctorAppoinmentsById(Clinic: string) {
+  resetDate() {
+    this.range.reset();
+  }
+  getAllDoctorAppoinmentsById(Clinic: string, reset: string) {
     if (Clinic === "Clinic1") {
       this.clinic1Flag = true;
       this.clinic2Flag = false;
@@ -71,10 +80,23 @@ export class DoctorAppointmentsComponent
       return;
     }
     let obj = {};
-    obj = {
-      id: this.userData?._id,
-      clinic: Clinic,
-    };
+    if (reset === "search") {
+      obj = {
+        id: this.userData?._id,
+        clinic: Clinic,
+        start: this.range.controls.start.value,
+        end: this.range.controls.end.value,
+      };
+    } else {
+      this.resetDate();
+      obj = {
+        id: this.userData?._id,
+        clinic: Clinic,
+        start: "",
+        end: "",
+      };
+    }
+    console.log(obj);
     this.subs.sink = this.apiService
       .getAllDoctorAppoinmentsById(obj)
       .pipe(first())
@@ -145,9 +167,9 @@ export class DoctorAppointmentsComponent
 
   tabClick(e: any) {
     if (e.index == 0) {
-      this.getAllDoctorAppoinmentsById("Clinic1");
+      this.getAllDoctorAppoinmentsById("Clinic1", "reset");
     } else {
-      this.getAllDoctorAppoinmentsById("Clinic2");
+      this.getAllDoctorAppoinmentsById("Clinic2", "reset");
     }
   }
 }

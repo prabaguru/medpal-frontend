@@ -112,6 +112,7 @@ export class DashboardComponent
     obj = {
       id: this.userData?._id,
       clinic: Clinic,
+      report: true,
     };
     this.subs.sink = this.apiService
       .getAllDoctorAppoinmentsById(obj)

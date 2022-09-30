@@ -21,6 +21,7 @@ import { FileUploadComponent } from "../shared/components/file-upload/file-uploa
 import { FileUploadComponent2 } from "../shared/components/file-upload2/file-upload2.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { DoctorAppointmentsComponent } from "./appointments/appointments.component";
+
 @NgModule({
   declarations: [
     ProfileSettingsComponent,
