@@ -50,18 +50,8 @@ export class SignupComponent
     super();
   }
   ngOnInit() {
-    this.registerAs = this.route.snapshot.queryParamMap.get("loginType");
-    if (!this.registerAs) {
-      //this.router.navigate(["/home"]);
-      //this.registerAs = "Doctor";
-    }
-
     this.loginForm = this.formBuilder.group(
       {
-        loginType: [
-          { value: this.registerAs, disabled: true },
-          Validators.required,
-        ],
         firstName: [
           "",
           [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
@@ -89,49 +79,13 @@ export class SignupComponent
   }
   onSubmit() {
     this.submitted = true;
-    this.loginForm.controls.loginType.setValue(this.registerAs);
-    // stop here if form is invalid
+
     if (this.loginForm.invalid) {
       return;
       //this.loading = true;
-    }
-    if (this.loginForm.controls.loginType.value === "Doctor") {
+    } else {
       this.doctorRegistration();
     }
-    if (this.loginForm.controls.loginType.value === "Hospital") {
-      this.hospitalRegistration();
-    }
-  }
-
-  hospitalRegistration() {
-    this.subs.sink = this.apiService
-      .hospitalregister(this.loginForm.value)
-      .pipe(first())
-      .subscribe({
-        next: (data) => {
-          this.sharedDataService.showNotification(
-            "snackbar-success",
-            "Registration Successfull. Login with your password...",
-            "top",
-            "center"
-          );
-          this.router.navigate(["/authentication/signin"], {
-            queryParams: { loginType: "Hospital", email: this.f.email.value },
-          });
-        },
-        error: (error) => {
-          this.sharedDataService.showNotification(
-            "snackbar-danger",
-            error,
-            "top",
-            "center"
-          );
-          this.submitted = false;
-        },
-        complete: () => {
-          //this.alertService.success("Registration successful", true);
-        },
-      });
   }
 
   doctorRegistration() {

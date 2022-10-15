@@ -32,14 +32,9 @@ export class SigninComponent
   }
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
-    this.loginAs = this.route.snapshot.queryParamMap.get("loginType");
     this.userEmail = this.route.snapshot.queryParamMap.get("email");
-    if (!this.loginAs) {
-      //this.router.navigate(["/home"]);
-      this.loginAs = "Doctor";
-    }
+
     this.loginForm = this.formBuilder.group({
-      loginType: [{ value: this.loginAs, disabled: true }, Validators.required],
       email: [
         this.userEmail ? this.userEmail : "",
         [Validators.required, Validators.email, Validators.minLength(5)],
@@ -57,15 +52,7 @@ export class SigninComponent
       this.error = "Username or password not valid !";
       return;
     } else {
-      if (this.f.loginType.value === "Doctor") {
-        this.doctorLogin();
-      }
-      if (this.f.loginType.value === "Hospital") {
-        this.hospitallogin();
-      }
-      if (this.f.loginType.value === "Hospital") {
-        //this.hospitallogin();
-      }
+      this.doctorLogin();
     }
   }
 
@@ -93,29 +80,6 @@ export class SigninComponent
       });
   }
 
-  hospitallogin() {
-    this.subs.sink = this.authService
-      .hospitallogin(this.f.email.value, this.f.password.value)
-      .pipe(first())
-      .subscribe({
-        next: (res) => {
-          if (res) {
-            const token = this.authService.currentUserValue.token;
-            if (token) {
-              this.router.navigate(["/hospitals/HospitalDashboard"]);
-            }
-          } else {
-            this.error = "Invalid Login";
-            this.router.navigate([this.returnUrl]);
-          }
-        },
-        error: (error) => {
-          this.error = error;
-          this.submitted = false;
-        },
-        complete: () => {},
-      });
-  }
   public togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }

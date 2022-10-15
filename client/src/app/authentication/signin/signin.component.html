@@ -21,9 +21,7 @@
                     <h1 class="baseColor">Medpal.Live</h1>
                   </div>
 
-                  <h4 class="font-20 mt-4 baseColor">
-                    {{ f.loginType.value }} Login
-                  </h4>
+                  <h4 class="font-20 mt-4 baseColor">Doctor Login</h4>
                   <p class="text-muted">Sign in to continue to Medpal.</p>
                 </div>
 
@@ -32,21 +30,7 @@
                     <div *ngIf="error" class="alert alert-danger mb-3 mt-0">
                       {{ error }}
                     </div>
-                    <div class="form-group auth-form-group mb-1">
-                      <mat-form-field
-                        appearance="outline"
-                        class="example-full-width"
-                      >
-                        <mat-label>Login As</mat-label>
-                        <select matNativeControl formControlName="loginType">
-                          <option value="Doctor">Doctor</option>
-                          <option value="Hospital Doctor">
-                            Hospital Doctor
-                          </option>
-                          <option value="Hospital">Hospital</option>
-                        </select>
-                      </mat-form-field>
-                    </div>
+
                     <div class="form-group auth-form-group mb-4">
                       <mat-icon matSuffix class="auth-page-icon"
                         >email</mat-icon
@@ -121,7 +105,6 @@
                         <a
                           class="txt1"
                           [routerLink]="['/authentication/forgot-password']"
-                          [queryParams]="{ loginType: f.loginType.value }"
                           >Forgot Password?</a
                         >
                       </div>

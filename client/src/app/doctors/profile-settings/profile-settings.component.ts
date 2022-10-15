@@ -61,7 +61,7 @@ export class ProfileSettingsComponent
   qualificationCtrl = new FormControl("", Validators.required);
   qualificationOptions: Observable<IFspecialisation[]>;
   format = 24;
-  tomorrow = new Date("01/01/2000");
+  tomorrow = new Date(moment().subtract(21, "years").format("MM/DD/YYYY"));
   minDate = new Date("01/01/1940");
   cyPickerStart = new Date("01/01/1980");
   cyPickerEnd = new Date();

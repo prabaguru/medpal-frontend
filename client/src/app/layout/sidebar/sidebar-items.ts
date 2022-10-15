@@ -65,27 +65,4 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
-
-  // Hospital dashboard
-  {
-    path: "",
-    title: "Home",
-    moduleName: "hospitals",
-    icon: "monitor",
-    class: "menu-toggle",
-    groupTitle: false,
-    role: "Hospital",
-    submenu: [
-      {
-        path: "/hospitals/HospitalDashboard",
-        title: "Dashboard",
-        moduleName: "hospitals",
-        icon: "",
-        class: "ml-menu",
-        groupTitle: false,
-        submenu: [],
-        role: "Hospital",
-      },
-    ],
-  },
 ];

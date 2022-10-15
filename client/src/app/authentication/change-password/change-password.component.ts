@@ -35,14 +35,10 @@ export class ChangePasswordComponent
     super();
   }
   ngOnInit() {
-    this.registerAs = this.route.snapshot.queryParamMap.get("loginType");
     this.userId = this.route.snapshot.queryParamMap.get("_id");
     this.timestamp = this.route.snapshot.queryParamMap.get("stamp");
     this.useremail = this.route.snapshot.queryParamMap.get("email");
-    if (!this.registerAs) {
-      //this.router.navigate(["/home"]);
-      this.registerAs = "Doctor";
-    }
+
     let datenow = Date.now();
     let diff = (datenow - this.timestamp) / 1000 / 60;
     let round = Math.round(diff);
@@ -53,18 +49,12 @@ export class ChangePasswordComponent
         "top",
         "center"
       );
-      this.router.navigate(["/authentication/forgot-password"], {
-        queryParams: { loginType: this.registerAs },
-      });
+      this.router.navigate(["/authentication/forgot-password"]);
     }
 
     this.loginForm = this.formBuilder.group(
       {
         resetPass: ["forgot"],
-        loginType: [
-          { value: this.registerAs, disabled: true },
-          Validators.required,
-        ],
         id: [this.userId, Validators.required],
         password: ["", [Validators.required, Validators.minLength(6)]],
         confirmPassword: ["", Validators.required],
@@ -97,7 +87,6 @@ export class ChangePasswordComponent
             );
             this.router.navigate(["/authentication/signin"], {
               queryParams: {
-                loginType: this.registerAs,
                 email: this.useremail,
               },
             });
