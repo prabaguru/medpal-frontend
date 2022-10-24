@@ -1,0 +1,635 @@
+import { Component, OnInit, ViewChild, Input } from "@angular/core";
+import { AuthService, sharedDataService, ApiService } from "../../core";
+import { first } from "rxjs/operators";
+import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from "@angular/animations";
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from "@angular/forms";
+import { Router, ActivatedRoute, NavigationStart } from "@angular/router";
+import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from "@angular/material/core";
+import { MatStepper } from "@angular/material/stepper";
+import { MomentDateAdapter } from "@angular/material-moment-adapter";
+import * as moment from "moment";
+declare var $: any;
+const MY_DATE_FORMAT = {
+  parse: {
+    dateInput: "DD/MM/YYYY", // this is how your date will be parsed from Input
+  },
+  display: {
+    dateInput: "DD/MM/YYYY", // this is how your date will get displayed on the Input
+    monthYearLabel: "MMMM YYYY",
+    dateA11yLabel: "LL",
+    monthYearA11yLabel: "MMMM YYYY",
+  },
+};
+@Component({
+  selector: "doctor-bookappointments",
+  templateUrl: "./book-appointments.component.html",
+  styleUrls: ["./book-appointments.component.scss"],
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { showError: true },
+    },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMAT },
+  ],
+})
+export class DoctorBookAppointmentsComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
+  @ViewChild("stepper") stepper!: MatStepper;
+  clinincForm: FormGroup;
+  doc: any = [];
+  userData: any;
+  clinics: Array<String> = ["Clinic1", "Reset"];
+  editable: boolean = true;
+  isEditable: boolean = false;
+  clinicNumber: any = [];
+  pushPage: boolean = false;
+  timingSlotsFlag: boolean = false;
+  timingSlots = [];
+  showtemplate: boolean = false;
+  @Input() data: any;
+  scroll(el: HTMLElement) {
+    el.scrollIntoView({ behavior: "smooth" });
+  }
+  now = new Date();
+  year = this.now.getFullYear();
+  month = this.now.getMonth();
+  day = this.now.getDay();
+  weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][
+    new Date().getDay()
+  ];
+  momweekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  minDate: Date;
+  maxDate: Date;
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
+  thirdFormGroup: FormGroup;
+  otpListCtrl = new FormControl("", Validators.required);
+  submitted: boolean = false;
+  secSubmitted: boolean = true;
+  isOtpVisible: boolean = false;
+  otpBtnText: String = "SEND OTP";
+  hidden: boolean = true;
+  config = {
+    length: 6,
+    allowNumbersOnly: true,
+  };
+  timeLeft: number = 90;
+  interval: any;
+  disableOtpBtn: boolean = false;
+  otp: any;
+  loggedIn: boolean = false;
+  userInfo: any;
+  formatDate: any;
+  updateUser: Boolean = false;
+  appoinmentDetails: any;
+  finalTimeslot: any = [];
+  bookedppointments: any = [];
+  bookedTimeslot: any = [];
+  clinicSelection: string;
+  showStepper: boolean = false;
+  constructor(
+    private authService: AuthService,
+    private apiService: ApiService,
+    private sharedDataService: sharedDataService,
+    private _formBuilder: FormBuilder
+  ) {
+    super();
+    this.userData = this.authService.currentUserValue;
+    this.minDate = moment(moment.now()).toDate();
+    this.maxDate = moment(this.minDate, "DD/MM/YYYY").add(10, "days").toDate();
+
+    this.firstFormGroup = this._formBuilder.group({
+      slot: ["", Validators.required],
+      appointmentDate: ["", Validators.required],
+      bookedDate: [""],
+      bookedDay: [""],
+    });
+    this.secondFormGroup = this._formBuilder.group({
+      mobNo: [
+        "",
+        [
+          Validators.required,
+          Validators.pattern("^[0-9]*$"),
+          Validators.minLength(10),
+        ],
+      ],
+    });
+    this.thirdFormGroup = this._formBuilder.group({
+      appointmentFor: [false, Validators.required],
+      confirmbooking: ["", Validators.required],
+      primaryMobile: [
+        "",
+        [
+          Validators.required,
+          Validators.pattern("^[0-9]*$"),
+          Validators.minLength(10),
+        ],
+      ],
+      firstName: [
+        "",
+        [
+          Validators.required,
+          Validators.pattern("^[a-zA-Z '-]+$"),
+          Validators.minLength(3),
+        ],
+      ],
+      email: [
+        "",
+        [
+          Validators.required,
+          Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$"),
+        ],
+      ],
+    });
+    this.clinincForm = this._formBuilder.group({
+      clinic: ["", []],
+    });
+  }
+  ngOnInit(): void {
+    console.log(this.userData);
+    if (this.userData.ClinicTwoTimings.active) {
+      this.clinics.splice(1, 0, "Clinic2");
+    }
+  }
+  onSubmit() {}
+  clninicSelect(doc: any, clinic: string) {
+    this.doc = [];
+    this.clinicSelection = clinic;
+
+    if (clinic === "Reset") {
+      this.showStepper = false;
+    } else {
+      this.showStepper = true;
+      this.doc = doc;
+      this.resetForm();
+    }
+  }
+  get f() {
+    return this.firstFormGroup.controls;
+  }
+  get t() {
+    return this.secondFormGroup.controls;
+  }
+  get g() {
+    return this.thirdFormGroup.controls;
+  }
+  get c() {
+    return this.clinincForm.controls;
+  }
+  getDay(e: any) {
+    this.timingSlots = [];
+    let date;
+    date = moment(e.value._d).day();
+    let checkSlot = this.slotCheck(this.momweekday[date]);
+    if (checkSlot) {
+      this.getAppointmentsById(date);
+      this.timingSlotsFlag = false;
+    } else {
+      this.finalTimeslot = [];
+      this.timingSlotsFlag = true;
+    }
+    //this.generateSlots(this.momweekday[date]);
+  }
+  slotCheck(slot: string) {
+    if (slot === "Sun" && this.clinicSelection === "Clinic1") {
+      this.timingSlots = this.doc.ClinicOneTimings.SundaySlots;
+    }
+    if (slot === "Sun" && this.clinicSelection === "Clinic2") {
+      this.timingSlots = this.doc.ClinicTwoTimings.SundaySlots;
+    }
+    if (slot === "Mon" && this.clinicSelection === "Clinic1") {
+      this.timingSlots = this.doc.ClinicOneTimings.MondaySlots;
+    }
+    if (slot === "Mon" && this.clinicSelection === "Clinic2") {
+      this.timingSlots = this.doc.ClinicTwoTimings.MondaySlots;
+    }
+    if (slot === "Tue" && this.clinicSelection === "Clinic1") {
+      this.timingSlots = this.doc.ClinicOneTimings.TuesdaySlots;
+    }
+    if (slot === "Tue" && this.clinicSelection === "Clinic2") {
+      this.timingSlots = this.doc.ClinicTwoTimings.TuesdaySlots;
+    }
+    if (slot === "Wed" && this.clinicSelection === "Clinic1") {
+      this.timingSlots = this.doc.ClinicOneTimings.WednesdaySlots;
+    }
+    if (slot === "Wed" && this.clinicSelection === "Clinic2") {
+      this.timingSlots = this.doc.ClinicTwoTimings.WednesdaySlots;
+    }
+    if (slot === "Thu" && this.clinicSelection === "Clinic1") {
+      this.timingSlots = this.doc.ClinicOneTimings.ThursdaySlots;
+    }
+    if (slot === "Thu" && this.clinicSelection === "Clinic2") {
+      this.timingSlots = this.doc.ClinicTwoTimings.ThursdaySlots;
+    }
+    if (slot === "Fri" && this.clinicSelection === "Clinic1") {
+      this.timingSlots = this.doc.ClinicOneTimings.FridaySlots;
+    }
+    if (slot === "Fri" && this.clinicSelection === "Clinic2") {
+      this.timingSlots = this.doc.ClinicTwoTimings.FridaySlots;
+    }
+    if (slot === "Sat" && this.clinicSelection === "Clinic1") {
+      this.timingSlots = this.doc.ClinicOneTimings.SaturdaySlots;
+    }
+    if (slot === "Sat" && this.clinicSelection === "Clinic2") {
+      this.timingSlots = this.doc.ClinicTwoTimings.SaturdaySlots;
+    }
+    if (this.timingSlots.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  generateSlots(slot: string) {
+    this.f["slot"].setValue("");
+    if (slot === "Sun" && this.clinicSelection === "Clinic1") {
+      this.timingSlots = this.doc.ClinicOneTimings.SundaySlots;
+    }
+    if (slot === "Sun" && this.clinicSelection === "Clinic2") {
+      this.timingSlots = this.doc.ClinicTwoTimings.SundaySlots;
+    }
+    if (slot === "Mon" && this.clinicSelection === "Clinic1") {
+      this.timingSlots = this.doc.ClinicOneTimings.MondaySlots;
+    }
+    if (slot === "Mon" && this.clinicSelection === "Clinic2") {
+      this.timingSlots = this.doc.ClinicTwoTimings.MondaySlots;
+    }
+    if (slot === "Tue" && this.clinicSelection === "Clinic1") {
+      this.timingSlots = this.doc.ClinicOneTimings.TuesdaySlots;
+    }
+    if (slot === "Tue" && this.clinicSelection === "Clinic2") {
+      this.timingSlots = this.doc.ClinicTwoTimings.TuesdaySlots;
+    }
+    if (slot === "Wed" && this.clinicSelection === "Clinic1") {
+      this.timingSlots = this.doc.ClinicOneTimings.WednesdaySlots;
+    }
+    if (slot === "Wed" && this.clinicSelection === "Clinic2") {
+      this.timingSlots = this.doc.ClinicTwoTimings.WednesdaySlots;
+    }
+    if (slot === "Thu" && this.clinicSelection === "Clinic1") {
+      this.timingSlots = this.doc.ClinicOneTimings.ThursdaySlots;
+    }
+    if (slot === "Thu" && this.clinicSelection === "Clinic2") {
+      this.timingSlots = this.doc.ClinicTwoTimings.ThursdaySlots;
+    }
+    if (slot === "Fri" && this.clinicSelection === "Clinic1") {
+      this.timingSlots = this.doc.ClinicOneTimings.FridaySlots;
+    }
+    if (slot === "Fri" && this.clinicSelection === "Clinic2") {
+      this.timingSlots = this.doc.ClinicTwoTimings.FridaySlots;
+    }
+    if (slot === "Sat" && this.clinicSelection === "Clinic1") {
+      this.timingSlots = this.doc.ClinicOneTimings.SaturdaySlots;
+    }
+    if (slot === "Sat" && this.clinicSelection === "Clinic2") {
+      this.timingSlots = this.doc.ClinicTwoTimings.SaturdaySlots;
+    }
+    let getTime: any;
+    if (this.clinicSelection === "Clinic1") {
+      let cTime = parseInt(
+        this.userData.ClinicOneTimings.ConsultationDurationC1
+      );
+      if (cTime > 20) {
+        let num = cTime - 15;
+        getTime = moment().subtract(num, "minutes").toDate().getTime();
+      } else {
+        getTime = moment().toDate().getTime();
+      }
+    } else {
+      let cTime = parseInt(
+        this.userData.ClinicTwoTimings.ConsultationDurationC1
+      );
+      if (cTime > 20) {
+        let num = cTime - 15;
+        getTime = moment().subtract(num, "minutes").toDate().getTime();
+      } else {
+        getTime = moment().toDate().getTime();
+      }
+    }
+    //console.log(this.timingSlots);
+
+    //let getTime = moment().toDate().getTime();
+    let halfAnHourAgo: any = moment(getTime).unix();
+    //console.log(halfAnHourAgo);
+
+    this.finalTimeslot = [];
+
+    this.bookedTimeslot =
+      this.clinicSelection === "Clinic1"
+        ? this.doc.clinic1appointments
+        : this.doc.clinic2appointments;
+    let arrLength = this.timingSlots.length;
+    let barrLength = this.bookedTimeslot.length;
+    for (let i = 0; i < arrLength; i++) {
+      let dd = this.changeTS(this.timingSlots[i]);
+      this.finalTimeslot.push({
+        time: dd,
+        Stime: moment.unix(dd).format("hh:mm a"),
+        disabled: dd > halfAnHourAgo ? false : true,
+      });
+      if (this.finalTimeslot.length == arrLength) {
+        let frrLength = this.finalTimeslot.length;
+        for (let i = 0; i < frrLength; i++) {
+          for (let j = 0; j < barrLength; j++) {
+            if (this.finalTimeslot[i].time === this.bookedTimeslot[j]) {
+              this.finalTimeslot[i].disabled = true;
+            }
+          }
+        }
+      }
+    }
+    if (this.timingSlots.length > 0) {
+      this.timingSlotsFlag = false;
+    } else {
+      this.timingSlotsFlag = true;
+    }
+    //console.log(this.finalTimeslot);
+  }
+
+  changeTS(ts: string) {
+    let calDate = null;
+    let dt = null;
+    let dateeObj = null;
+    calDate = this.f["appointmentDate"].value;
+    dateeObj = moment(calDate).format("DD/MM/YYYY");
+    let concot = dateeObj + " " + ts;
+    dt = moment(concot, "DD/MM/YYYY hh:mm a").unix();
+    return dt;
+  }
+  resetsetformvalue() {
+    this.g["firstName"].setValue("");
+    this.g["firstName"].enable();
+    this.g["primaryMobile"].setValue("");
+    this.g["primaryMobile"].enable();
+    this.g["email"].setValue("");
+    this.g["email"].enable();
+  }
+  slotToggle() {
+    this.stepper.next();
+  }
+  stepperChange(e: any) {
+    if (e.selectedIndex === 1) {
+      this.formatDate = null;
+      let appval = null;
+      appval = this.f["appointmentDate"].value;
+      this.formatDate = moment(appval).format("DD/MM/YYYY");
+      this.f["bookedDate"].setValue(this.formatDate);
+      this.f["bookedDay"].setValue(moment(appval).format("ddd"));
+    }
+    if (e.selectedIndex === 2) {
+      this.editable = false;
+      //e.previouslySelectedStep._editable = false;
+    }
+  }
+  checkvalFone() {
+    if (this.firstFormGroup.invalid) {
+      //this.commonService.showNotification("Select Appointment slot...");
+      this.sharedDataService.showNotification(
+        "snackbar-danger",
+        "Select Appointment slot...",
+        "top",
+        "center"
+      );
+      return;
+    }
+  }
+
+  getAppointmentsById(d?: any) {
+    this.bookedTimeslot = [];
+    let obj: any = {
+      id: this.doc._id,
+      clinic: this.clinicSelection === "Clinic1" ? "Clinic1" : "Clinic2",
+    };
+    this.apiService
+      .getDoctorAppointments(obj)
+      .pipe(first())
+      .subscribe(
+        (data: any) => {
+          let clinic = this.clinicSelection;
+          let app =
+            clinic === "Clinic1"
+              ? data.data.clinic1appointments
+              : data.data.clinic2appointments;
+          this.bookedTimeslot = app;
+          if (Object.getOwnPropertyNames(this.doc).length > 0) {
+            this.showtemplate = true;
+            this.generateSlots(
+              this.momweekday[d] ? this.momweekday[d] : this.weekday
+            );
+          }
+          //console.log(this.bookedTimeslot);
+        },
+        (error) => {
+          this.sharedDataService.showNotification(
+            "snackbar-danger",
+            error,
+            "top",
+            "center"
+          );
+        }
+      );
+  }
+  resetForm() {
+    this.isOtpVisible = false;
+    this.disableOtpBtn = false;
+    this.timingSlots = [];
+    this.timingSlotsFlag = false;
+    this.otpBtnText = "SEND OTP";
+    this.finalTimeslot = [];
+    this.pauseTimer();
+    this.timeLeft = 0;
+    this.secondFormGroup.get("mobNo")?.enable({ onlySelf: true });
+    this.firstFormGroup.reset();
+    this.secondFormGroup.reset();
+    this.thirdFormGroup.reset();
+    this.stepper.reset();
+    //this.setUserInfo();
+  }
+
+  generateOtp() {
+    return Math.floor(100000 + Math.random() * 900000);
+  }
+  sendOtp() {
+    this.otp = "";
+    this.otp = this.generateOtp();
+    //console.log('otp- ' + this.otp);
+    this.isOtpVisible = true;
+    this.disableOtpBtn = true;
+    this.startTimer();
+    this.timeLeft = 90;
+    this.otpBtnText = "sec left to enter OTP";
+    this.secondFormGroup.get("mobNo")?.disable({ onlySelf: true });
+    this.onSubmitOtp(this.otp);
+  }
+
+  startTimer() {
+    this.interval = setInterval(() => {
+      if (this.timeLeft > 0) {
+        this.timeLeft--;
+      }
+      if (this.timeLeft == 0) {
+        this.disableOtpBtn = false;
+        this.isOtpVisible = false;
+        this.pauseTimer();
+        this.otpBtnText = "OTP Expired Resend OTP";
+        this.secondFormGroup.get("mobNo")?.enable({ onlySelf: true });
+      }
+    }, 1000);
+  }
+
+  pauseTimer() {
+    clearInterval(this.interval);
+  }
+
+  submitOtp() {
+    if (this.secondFormGroup.invalid) {
+      return;
+    }
+    let enteredOtp = this.otpListCtrl.value;
+    let otp = this.otp.toString();
+    if (enteredOtp === otp) {
+      this.sharedDataService.showNotification(
+        "snackbar-success",
+        "OTP success...",
+        "top",
+        "center"
+      );
+      let obj = {
+        firstName: "newuser",
+        password: "newuser",
+        mobile: {
+          number: this.t["mobNo"].value,
+          countryCode: "IN",
+          dialCode: "+91",
+        },
+        primaryMobile: this.t["mobNo"].value,
+        email: enteredOtp,
+      };
+      this.regNLogin(obj);
+    } else {
+      this.sharedDataService.showNotification(
+        "snackbar-danger",
+        " OTP entered is wrong...",
+        "top",
+        "center"
+      );
+      return;
+    }
+  }
+
+  regNLogin(obj: any) {
+    // this.authService
+    //   .reglogin(obj)
+    //   .pipe(first())
+    //   .subscribe({
+    //     next: (res) => {
+    //       if (res) {
+    //         const token = this.authService.currentUserValue.token;
+    //         this.userInfo = null;
+    //         this.userInfo = this.authService.currentUserValue;
+    //         if (token) {
+    //           this.loggedIn = true;
+    //           this.sharedDataService.showNotification(
+    //             "snackbar-success",
+    //             `Welcome ${res.firstName}!`,
+    //             "top",
+    //             "center"
+    //           );
+    //           this.submitted = true;
+    //           //this.setformvalue(this.userInfo);
+    //         }
+    //       }
+    //     },
+    //     error: (err) => {
+    //       this.sharedDataService.showNotification(
+    //         "snackbar-danger",
+    //         err,
+    //         "top",
+    //         "center"
+    //       );
+    //       this.submitted = false;
+    //     },
+    //   });
+  }
+  bookfortoggle(e: Boolean) {
+    //e ? this.resetsetformvalue() : this.setformvalue(this.userInfo);
+  }
+  validateEmail(email: string) {
+    var re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  }
+
+  onSubmitOtp(otp: string) {
+    let mobileNo = this.t["mobNo"].value;
+    let msgString = "";
+    msgString = `Your OTP to book appointment is  - ${otp} . Please be 10 mins before your consultation time. Thank you. Medpal - Weisermanner`;
+    let smsUrl = `http://185.136.166.131/domestic/sendsms/bulksms.php?username=joykj&password=joykj@1&type=TEXT&sender=WEISER&mobile=${mobileNo}&message=${msgString}&entityId=1601335161674716856&templateId=1607100000000226779`;
+
+    $.ajax({
+      type: "GET",
+      url: smsUrl,
+      crossDomain: true,
+      dataType: "jsonp",
+      jsonpCallback: "callback",
+      success: function () {
+        //this.commonService.showNotification('OTP sent successfully...');
+      },
+      error: function (xhr: any, status: any) {
+        // this.commonService.showNotification(
+        //   'OTP not sent successfully. Check some time later...'
+        // );
+      },
+    });
+  }
+
+  confirmBookingSms() {
+    let mobileNo = this.g["primaryMobile"].value;
+    let docName = this.doc.firstName;
+    //let glink = 'https://maps.google.com/maps?q=';
+    //let gmap = `Clinic Map location: ${glink}${this.appoinmentDetails.ClinicAddress.loc.y},${this.appoinmentDetails.ClinicAddress.loc.x}`;
+    let mob = `93531 05105`;
+    let bookedfor = `${this.g["firstName"].value} on ${this.f["bookedDate"].value} - ${this.f["bookedDay"].value} at ${this.f["slot"].value}`;
+    let msgString = "";
+    msgString = `The consult with Dr. ${docName} is booked for ${bookedfor} . Our Helpline no is ${mob} . Plz carry your case no. Thank you. Medpal - Weisermanner`;
+    let smsUrl = `http://185.136.166.131/domestic/sendsms/bulksms.php?username=joykj&password=joykj@1&type=TEXT&sender=WEISER&mobile=${mobileNo}&message=${msgString}&entityId=1601335161674716856&templateId=1607100000000226781`;
+
+    $.ajax({
+      type: "GET",
+      url: smsUrl,
+      crossDomain: true,
+      dataType: "jsonp",
+      jsonpCallback: "callback",
+      success: function () {
+        //this.commonService.showNotification('OTP sent successfully...');
+      },
+      error: function (xhr: any, status: any) {
+        // this.commonService.showNotification(
+        //   'OTP not sent successfully. Check some time later...'
+        // );
+      },
+    });
+  }
+}

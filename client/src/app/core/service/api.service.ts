@@ -112,4 +112,29 @@ export class ApiService {
   delete(id: number) {
     return this.http.delete(`${environment.apiUrl}/doctors/${id}`);
   }
+
+  public bookAppointment(data: any) {
+    return this.http
+      .post(`${environment.apiUrl}/patient_appointments/register`, data)
+      .pipe(catchError(this.handleError));
+  }
+
+  updateDoctorAppointments(payload: any) {
+    return this.http
+      .put(`${environment.apiUrl}/doctors/update`, payload)
+      .pipe(catchError(this.handleError));
+  }
+  public updatePatientFNE(data: any) {
+    return this.http
+      .put(`${environment.apiUrl}/patients/updateUserFNE`, data, {})
+      .pipe(catchError(this.handleError));
+  }
+  getDoctorAppointments(data: any) {
+    let params = new HttpParams({ fromObject: data });
+    return this.http
+      .get(`${environment.apiUrl}/doctors/getUserAppointments`, {
+        params,
+      })
+      .pipe(catchError(this.handleError));
+  }
 }

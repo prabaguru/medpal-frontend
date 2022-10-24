@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgxSpinnerModule } from "ngx-spinner";
 
-import { MaterialModule } from './material.module';
-import { FeatherIconsModule } from './feather-icons.module';
+import { MaterialModule } from "./material.module";
+import { FeatherIconsModule } from "./feather-icons.module";
 @NgModule({
   declarations: [],
   imports: [
@@ -16,7 +16,7 @@ import { FeatherIconsModule } from './feather-icons.module';
     RouterModule,
     NgbModule,
     NgxSpinnerModule,
-    FeatherIconsModule
+    FeatherIconsModule,
   ],
   exports: [
     CommonModule,
@@ -26,7 +26,7 @@ import { FeatherIconsModule } from './feather-icons.module';
     NgbModule,
     NgxSpinnerModule,
     MaterialModule,
-    FeatherIconsModule
-  ]
+    FeatherIconsModule,
+  ],
 })
 export class SharedModule {}

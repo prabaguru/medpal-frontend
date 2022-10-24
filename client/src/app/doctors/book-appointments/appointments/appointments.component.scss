@@ -1,0 +1,57 @@
+.capitalize {
+  text-transform: capitalize !important;
+}
+mat-button-toggle-group {
+  flex-wrap: wrap !important;
+}
+:host .mat-button-toggle-group {
+  border-radius: 0px !important;
+  border: none !important;
+}
+:host .mat-button-toggle {
+  margin: 5px !important;
+  border: 1px solid #ccc !important;
+  color: #000;
+  font-weight: 500 !important;
+}
+
+:host .mat-button-toggle-checked {
+  // background-color: $med-core;
+  color: #fff;
+}
+.aon-form-consul-free {
+  margin-left: 25px !important;
+}
+::ng-deep .cdk-overlay-container {
+  z-index: 1200 !important;
+}
+.mat-button.mat-button-disabled.mat-button-disabled {
+  color: #fff !important;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.bookforme {
+  font-weight: bold;
+  color: #626262;
+}
+.aon-form-doc-info strong,
+.aon-form-doc-info span {
+  display: inline !important;
+}
+.clinicloc {
+  color: #0d6efd !important;
+  text-decoration: underline !important;
+}
+.font12 {
+  font-size: 12px;
+}
+.appdatecolor {
+  font-size: 12px;
+}
+#appointdate {
+  font-weight: bold !important;
+  font-size: 18px;
+}
+.mattoggle {
+  width: 100px !important;
+}

@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
@@ -21,7 +21,8 @@ import { FileUploadComponent } from "../shared/components/file-upload/file-uploa
 import { FileUploadComponent2 } from "../shared/components/file-upload2/file-upload2.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { DoctorAppointmentsComponent } from "./appointments/appointments.component";
-
+import { DoctorBookAppointmentsComponent } from "./book-appointments/book-appointments.component";
+import { MatStepperModule } from "@angular/material/stepper";
 @NgModule({
   declarations: [
     ProfileSettingsComponent,
@@ -31,6 +32,7 @@ import { DoctorAppointmentsComponent } from "./appointments/appointments.compone
     FileUploadComponent2,
     DashboardComponent,
     DoctorAppointmentsComponent,
+    DoctorBookAppointmentsComponent,
   ],
   imports: [
     GooglePlaceModule,
@@ -51,6 +53,8 @@ import { DoctorAppointmentsComponent } from "./appointments/appointments.compone
     FullCalendarModule,
     NgApexchartsModule,
     PerfectScrollbarModule,
+    MatStepperModule,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class DoctorsModule {}
