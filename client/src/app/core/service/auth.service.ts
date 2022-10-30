@@ -43,7 +43,15 @@ export class AuthService {
         })
       );
   }
-
+  reglogin(data: any) {
+    return this.http
+      .post<any>(`${environment.apiUrl}/patients/registerNReturnUser`, data)
+      .pipe(
+        map((user) => {
+          return user;
+        })
+      );
+  }
   hospitallogin(email: string, password: string) {
     return this.http
       .post<any>(`${environment.apiUrl}/hospitals/authenticate`, {

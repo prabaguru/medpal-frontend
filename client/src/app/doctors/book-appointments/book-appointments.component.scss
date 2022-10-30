@@ -4,11 +4,11 @@
 ::ng-deep .mat-step-header ::ng-deep.mat-step-icon-selected,
 ::ng-deep .mat-step-header ::ng-deep.mat-step-icon-state-done,
 ::ng-deep .mat-step-header ::ng-deep.mat-step-icon-state-edit {
-  background-color: #673ab7 !important;
+  background-color: #6052b1 !important;
   color: #fff !important;
 }
 ::ng-deep .mat-calendar-body-selected {
-  background-color: #673ab7 !important;
+  background-color: #6052b1 !important;
   color: #fff;
 }
 ::ng-deep .mat-button-toggle-disabled {
@@ -34,7 +34,7 @@ mat-button-toggle-group {
 }
 
 :host .mat-button-toggle-checked {
-  background-color: #673ab7;
+  background-color: #6052b1;
   color: #fff;
 }
 .aon-form-consul-free {
@@ -61,7 +61,7 @@ mat-button-toggle-group {
   text-decoration: underline !important;
 }
 .font12 {
-  font-size: 12px;
+  font-size: 11px;
 }
 .appdatecolor {
   font-size: 12px;
@@ -72,4 +72,11 @@ mat-button-toggle-group {
 }
 .mattoggle {
   width: 100px !important;
+}
+:host .mat-badge-content {
+  background-color: #6052b1;
+  color: #fff;
+}
+:host .mat-form-field {
+  display: block !important;
 }

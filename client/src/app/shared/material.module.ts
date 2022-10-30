@@ -22,7 +22,7 @@ import { MatChipsModule } from "@angular/material/chips";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatTableModule } from "@angular/material/table";
-
+import { MatBadgeModule } from "@angular/material/badge";
 const materialModules = [
   MatButtonModule,
   MatInputModule,
@@ -47,6 +47,7 @@ const materialModules = [
   MatTabsModule,
   MatPaginatorModule,
   MatTableModule,
+  MatBadgeModule,
 ];
 
 @NgModule({

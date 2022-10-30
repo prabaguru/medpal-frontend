@@ -3,13 +3,6 @@ import { AuthService, sharedDataService, ApiService } from "../../core";
 import { first } from "rxjs/operators";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from "@angular/animations";
-import {
   FormBuilder,
   FormGroup,
   Validators,
@@ -139,7 +132,7 @@ export class DoctorBookAppointmentsComponent
       ],
     });
     this.thirdFormGroup = this._formBuilder.group({
-      appointmentFor: [false, Validators.required],
+      appointmentFor: [false],
       confirmbooking: ["", Validators.required],
       primaryMobile: [
         "",
@@ -182,6 +175,7 @@ export class DoctorBookAppointmentsComponent
 
     if (clinic === "Reset") {
       this.showStepper = false;
+      this.resetForm();
     } else {
       this.showStepper = true;
       this.doc = doc;
@@ -337,10 +331,10 @@ export class DoctorBookAppointmentsComponent
 
     this.finalTimeslot = [];
 
-    this.bookedTimeslot =
-      this.clinicSelection === "Clinic1"
-        ? this.doc.clinic1appointments
-        : this.doc.clinic2appointments;
+    // this.bookedTimeslot =
+    //   this.clinicSelection === "Clinic1"
+    //     ? this.doc.clinic1appointments
+    //     : this.doc.clinic2appointments;
     let arrLength = this.timingSlots.length;
     let barrLength = this.bookedTimeslot.length;
     for (let i = 0; i < arrLength; i++) {
@@ -440,7 +434,7 @@ export class DoctorBookAppointmentsComponent
               this.momweekday[d] ? this.momweekday[d] : this.weekday
             );
           }
-          //console.log(this.bookedTimeslot);
+          console.log(this.bookedTimeslot);
         },
         (error) => {
           this.sharedDataService.showNotification(
@@ -453,6 +447,10 @@ export class DoctorBookAppointmentsComponent
       );
   }
   resetForm() {
+    if (this.updateUser) {
+      this.updateUserFNE();
+    }
+    this.editable = true;
     this.isOtpVisible = false;
     this.disableOtpBtn = false;
     this.timingSlots = [];
@@ -465,7 +463,10 @@ export class DoctorBookAppointmentsComponent
     this.firstFormGroup.reset();
     this.secondFormGroup.reset();
     this.thirdFormGroup.reset();
-    this.stepper.reset();
+    this.stepper?.reset();
+    this.loggedIn = false;
+    this.submitted = false;
+    this.otp = "";
     //this.setUserInfo();
   }
 
@@ -475,7 +476,7 @@ export class DoctorBookAppointmentsComponent
   sendOtp() {
     this.otp = "";
     this.otp = this.generateOtp();
-    //console.log('otp- ' + this.otp);
+    console.log("otp- " + this.otp);
     this.isOtpVisible = true;
     this.disableOtpBtn = true;
     this.startTimer();
@@ -541,47 +542,280 @@ export class DoctorBookAppointmentsComponent
   }
 
   regNLogin(obj: any) {
-    // this.authService
-    //   .reglogin(obj)
-    //   .pipe(first())
-    //   .subscribe({
-    //     next: (res) => {
-    //       if (res) {
-    //         const token = this.authService.currentUserValue.token;
-    //         this.userInfo = null;
-    //         this.userInfo = this.authService.currentUserValue;
-    //         if (token) {
-    //           this.loggedIn = true;
-    //           this.sharedDataService.showNotification(
-    //             "snackbar-success",
-    //             `Welcome ${res.firstName}!`,
-    //             "top",
-    //             "center"
-    //           );
-    //           this.submitted = true;
-    //           //this.setformvalue(this.userInfo);
-    //         }
-    //       }
-    //     },
-    //     error: (err) => {
-    //       this.sharedDataService.showNotification(
-    //         "snackbar-danger",
-    //         err,
-    //         "top",
-    //         "center"
-    //       );
-    //       this.submitted = false;
-    //     },
-    //   });
+    this.authService
+      .reglogin(obj)
+      .pipe(first())
+      .subscribe({
+        next: (res) => {
+          if (res) {
+            this.userInfo = null;
+            this.userInfo = res;
+            if (this.userInfo?.status) {
+              this.loggedIn = true;
+              this.sharedDataService.showNotification(
+                "snackbar-success",
+                `Registration Success.Continue to book appointment`,
+                "top",
+                "center"
+              );
+              this.submitted = true;
+              this.setformvalue(this.userInfo);
+            }
+          }
+        },
+        error: (err) => {
+          this.sharedDataService.showNotification(
+            "snackbar-danger",
+            err,
+            "top",
+            "center"
+          );
+          this.submitted = false;
+        },
+      });
   }
   bookfortoggle(e: Boolean) {
-    //e ? this.resetsetformvalue() : this.setformvalue(this.userInfo);
+    e ? this.resetsetformvalue() : this.setformvalue(this.userInfo);
   }
   validateEmail(email: string) {
     var re = /\S+@\S+\.\S+/;
     return re.test(email);
   }
 
+  setformvalue(res: any) {
+    if (res.firstName === "newuser") {
+      this.g["firstName"].setValue("");
+    } else {
+      this.g["firstName"].setValue(res.firstName);
+      this.g["firstName"].disable();
+    }
+    let uemail = this.validateEmail(res.email);
+    if (uemail) {
+      this.g["email"].setValue(res.email);
+      this.g["email"].disable();
+      this.updateUser = false;
+    } else {
+      this.g["email"].setValue("");
+      this.updateUser = true;
+    }
+    this.g["primaryMobile"].setValue(res.primaryMobile);
+    this.g["primaryMobile"].disable();
+  }
+  submit() {
+    let confirmbooking = this.g["confirmbooking"].value;
+    if (!confirmbooking) {
+      //this.commonService.showNotification("Check confirm booking...");
+      this.sharedDataService.showNotification(
+        "snackbar-danger",
+        "Check confirm booking...",
+        "top",
+        "center"
+      );
+      return;
+    }
+
+    if (this.thirdFormGroup.valid) {
+      //console.log(this.thirdFormGroup.value);
+    } else {
+      this.sharedDataService.showNotification(
+        "snackbar-danger",
+        "Kindly fillin the mandatory fields...",
+        "top",
+        "center"
+      );
+      return;
+    }
+    this.createObjects();
+    let docGrad = "";
+    if (this.doc.graduation.Graduation === "PG") {
+      docGrad = `(${this.doc.graduation.qualificationUG.sName} - ${this.doc.graduation.qualificationPG.sName} - ${this.doc.graduation.specialisationPG.name}) : ${this.doc.graduation.DoctorType.name}`;
+    } else {
+      docGrad = `(${this.doc.graduation.qualificationUG.sName}) : ${this.doc.graduation.DoctorType.name}`;
+    }
+    let clinicloc = "";
+    let cord = [];
+    if (this.clinicSelection === "Clinic1") {
+      clinicloc = this.doc.ClinicOneTimings.ClinicLocation.address;
+      cord = [
+        this.doc.ClinicOneTimings.ClinicLocation.loc.x,
+        this.doc.ClinicOneTimings.ClinicLocation.loc.y,
+      ];
+    } else {
+      clinicloc = this.doc.ClinicTwoTimings.ClinicLocation.address;
+      cord = [
+        this.doc.ClinicTwoTimings.ClinicLocation.loc.x,
+        this.doc.ClinicTwoTimings.ClinicLocation.loc.y,
+      ];
+    }
+    let dateeObj = "";
+    let concot = "";
+    let formatDate = null;
+    dateeObj = moment(this.f["appointmentDate"].value).format("DD/MM/YYYY");
+    concot = dateeObj + " " + this.f["slot"].value;
+    formatDate = moment(concot, "DD/MM/YYYY hh:mm a").unix();
+    let apiobj = {
+      p_id: this.userInfo._id,
+      slot: this.f["slot"].value,
+      appointmentDate: formatDate,
+      dateStmp: moment(dateeObj, "DD/MM/YYYY").unix(),
+      bookedBy: "Clinic",
+      bookedDate: this.f["bookedDate"].value,
+      bookedDay: this.f["bookedDay"].value,
+      appointmentFor: this.g["appointmentFor"].value ? true : false,
+      email: this.g["email"].value,
+      firstName: this.g["firstName"].value,
+      primaryMobile: this.g["primaryMobile"].value,
+      consultingFees:
+        this.clinicSelection === "Clinic1"
+          ? this.doc.ClinicOneTimings.ConsultationFeesC1
+          : this.doc.ClinicTwoTimings.ConsultationFeesC1,
+      d_id: this.doc._id,
+      doctorName: this.doc.firstName,
+      doctorQualification: docGrad,
+      clinic: this.clinicSelection === "Clinic1" ? "Clinic1" : "Clinic2",
+      ClinicAddress: clinicloc,
+      cord: cord,
+    };
+
+    this.apiService.bookAppointment(apiobj).subscribe({
+      next: (data: any) => {
+        this.stepper.next();
+        this.sharedDataService.showNotification(
+          "snackbar-success",
+          data.message,
+          "top",
+          "center"
+        );
+        this.updateAppointments(apiobj);
+      },
+      error: (err) => {
+        this.sharedDataService.showNotification(
+          "snackbar-danger",
+          err,
+          "top",
+          "center"
+        );
+        this.g["confirmbooking"].setValue(false);
+        this.editable = true;
+      },
+    });
+  }
+  updateAppointments(updateObj: any) {
+    let obj = {};
+    let docAppo = [];
+    let clinic1app = [];
+    let clinic2app = [];
+    let arr = 0;
+    let getdate = moment().format("DD/MM/YYYY");
+    let currentDate = moment(getdate, "DD/MM/YYYY").unix();
+    if (updateObj.clinic === "Clinic1") {
+      docAppo = this.bookedTimeslot;
+      docAppo.push(updateObj.appointmentDate);
+      arr = docAppo.length;
+      for (let i = 0; i < arr; i++) {
+        if (docAppo[i] >= currentDate) {
+          clinic1app.push(docAppo[i]);
+        }
+      }
+      obj = {
+        id: updateObj.d_id,
+        clinic: updateObj.clinic,
+        updateAppointment: true,
+        clinic1appointments: clinic1app,
+      };
+    } else {
+      docAppo = this.bookedTimeslot;
+      docAppo.push(updateObj.appointmentDate);
+      arr = docAppo.length;
+      for (let i = 0; i < arr; i++) {
+        if (docAppo[i] >= currentDate) {
+          clinic2app.push(docAppo[i]);
+        }
+      }
+      obj = {
+        id: updateObj.d_id,
+        clinic: updateObj.clinic,
+        updateAppointment: true,
+        clinic2appointments: clinic2app,
+      };
+    }
+
+    this.apiService.updateDoctorAppointments(obj).subscribe({
+      next: (data: any) => {
+        this.confirmBookingSms();
+        //this.commonService.showNotification(data.message);
+      },
+      error: (err) => {
+        //this.commonService.showNotification(err);
+      },
+    });
+  }
+
+  updateUserFNE() {
+    let forOthers = this.g["appointmentFor"].value;
+    let updateObj = {
+      id: "",
+      firstName: "",
+      email: "",
+    };
+    if (this.updateUser && !forOthers) {
+      updateObj = {
+        id: this.userInfo._id,
+        firstName: this.g["firstName"].value,
+        email: this.g["email"].value,
+      };
+    }
+    if (!updateObj.id || !updateObj.firstName || !updateObj.email) {
+      return;
+    }
+    this.apiService.updatePatientFNE(updateObj).subscribe({
+      next: (data: any) => {
+        let obj = {
+          firstName: updateObj.firstName,
+          email: updateObj.email,
+        };
+        this.updateUser = false;
+        //this.updateCurrentUserData(updateObj);
+        //this.commonService.showNotification(data.message);
+      },
+      error: (err) => {
+        //this.commonService.showNotification(err);
+      },
+    });
+  }
+  createObjects() {
+    let dateeObj = "";
+    let concot = "";
+    let formatDate = null;
+    dateeObj = moment(this.f["appointmentDate"].value).format("DD/MM/YYYY");
+    concot = dateeObj + " " + this.f["slot"].value;
+    formatDate = moment(concot, "DD/MM/YYYY hh:mm a").unix();
+    let obj = {
+      p_id: this.userInfo._id,
+      slot: this.f["slot"].value,
+      appointmentDate: formatDate,
+      bookedDate: this.f["bookedDate"].value,
+      bookedDay: this.f["bookedDay"].value,
+      appointmentFor: this.g["appointmentFor"].value ? true : false,
+      email: this.g["email"].value,
+      firstName: this.g["firstName"].value,
+      primaryMobile: this.g["primaryMobile"].value,
+      consultingFees:
+        this.clinicSelection === "Clinic1"
+          ? this.doc.ClinicOneTimings.ConsultationFeesC1
+          : this.doc.ClinicTwoTimings.ConsultationFeesC1,
+      d_id: this.doc._id,
+      doctorname: this.doc.firstName,
+      DocDetails: this.doc.graduation,
+      clinic: this.clinicSelection === "Clinic1" ? "Clinic1" : "Clinic2",
+      ClinicAddress:
+        this.clinicSelection === "Clinic1"
+          ? this.doc.ClinicOneTimings.ClinicLocation
+          : this.doc.ClinicTwoTimings.ClinicLocation,
+    };
+    this.appoinmentDetails = null;
+    this.appoinmentDetails = obj;
+  }
   onSubmitOtp(otp: string) {
     let mobileNo = this.t["mobNo"].value;
     let msgString = "";

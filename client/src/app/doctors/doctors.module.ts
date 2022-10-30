@@ -23,6 +23,7 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { DoctorAppointmentsComponent } from "./appointments/appointments.component";
 import { DoctorBookAppointmentsComponent } from "./book-appointments/book-appointments.component";
 import { MatStepperModule } from "@angular/material/stepper";
+import { NgOtpInputModule } from "ng-otp-input";
 @NgModule({
   declarations: [
     ProfileSettingsComponent,
@@ -54,6 +55,7 @@ import { MatStepperModule } from "@angular/material/stepper";
     NgApexchartsModule,
     PerfectScrollbarModule,
     MatStepperModule,
+    NgOtpInputModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

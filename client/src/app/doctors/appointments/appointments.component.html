@@ -123,7 +123,11 @@
                           Dr. {{ element.doctorName }}
                         </span>
 
-                        <span *ngIf="column == 'bookedDate'"
+                        <span *ngIf="column == 'PatientName'">
+                          {{ element.firstName }}
+                        </span>
+
+                        <span *ngIf="column == 'AppointmentDate'"
                           >{{ element.bookedDate }} - {{ element.bookedDay }} -
                           {{ element.slot }}</span
                         >
@@ -202,6 +206,13 @@
                                 </td>
                               </tr>
                               <tr>
+                                <th scope="row">Patient details</th>
+                                <td>
+                                  <u>Name:</u>{{ element.firstName }} ,
+                                  <u>Mobile:</u>{{ element.primaryMobile }}
+                                </td>
+                              </tr>
+                              <tr>
                                 <th scope="row">Consulting Fees</th>
                                 <td>₹ - {{ element.consultingFees }}</td>
                               </tr>
@@ -212,6 +223,10 @@
                                   {{
                                     element.appointmentFor ? "Others" : "Self"
                                   }}
+                                  <span *ngIf="element.bookedBy"
+                                    ><u>BookedBy:</u>
+                                    {{ element.bookedBy }}</span
+                                  >
                                 </td>
                               </tr>
                               <tr *ngIf="element.appointmentFor">
@@ -340,8 +355,10 @@
                         <span *ngIf="column == 'doctorName'">
                           Dr. {{ element.doctorName }}
                         </span>
-
-                        <span *ngIf="column == 'bookedDate'"
+                        <span *ngIf="column == 'PatientName'">
+                          {{ element.firstName }}
+                        </span>
+                        <span *ngIf="column == 'AppointmentDate'"
                           >{{ element.bookedDate }} - {{ element.bookedDay }} -
                           {{ element.slot }}</span
                         >
@@ -420,6 +437,13 @@
                                 </td>
                               </tr>
                               <tr>
+                                <th scope="row">Patient details</th>
+                                <td>
+                                  <u>Name:</u>{{ element.firstName }} ,
+                                  <u>Mobile:</u>{{ element.primaryMobile }}
+                                </td>
+                              </tr>
+                              <tr>
                                 <th scope="row">Consulting Fees</th>
                                 <td>₹ - {{ element.consultingFees }}</td>
                               </tr>
@@ -430,6 +454,10 @@
                                   {{
                                     element.appointmentFor ? "Others" : "Self"
                                   }}
+                                  <span *ngIf="element.bookedBy"
+                                    ><u>BookedBy:</u>
+                                    {{ element.bookedBy }}</span
+                                  >
                                 </td>
                               </tr>
                               <tr *ngIf="element.appointmentFor">

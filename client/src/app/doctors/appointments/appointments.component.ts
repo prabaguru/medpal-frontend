@@ -45,7 +45,12 @@ export class DoctorAppointmentsComponent
   clinic2Flag: boolean = false;
   getAppointments: any = [];
   dataSource: any = [];
-  columnsToDisplay = ["doctorName", "bookedDate", "AppointmentStatus"];
+  columnsToDisplay = [
+    "doctorName",
+    "PatientName",
+    "AppointmentDate",
+    "AppointmentStatus",
+  ];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, "expand"];
   expandedElement: any;
   getAppointmentsflag: boolean = false;

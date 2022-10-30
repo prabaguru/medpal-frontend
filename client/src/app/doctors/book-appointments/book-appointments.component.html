@@ -193,7 +193,7 @@
                       *ngIf="!submitted && !loggedIn"
                       class="row d-flex justify-content-center mt-4"
                     >
-                      <div class="col-md-3">
+                      <div class="col-md-3 mb-0">
                         <mat-form-field appearance="outline">
                           <mat-label>Mobile No:(+91)</mat-label>
                           <mat-icon matPrefix> smartphone </mat-icon>
@@ -230,25 +230,27 @@
                       </div>
                       <div class="w-100"></div>
                       <div
-                        class="col-md-3 mb-3"
+                        class="col-md-5 mb-3 text-center"
                         *ngIf="isOtpVisible && secondFormGroup.valid"
                       >
-                        <mat-label>Enter OTP</mat-label>
+                        <mat-label>Enter OTP</mat-label><br />
                         <ng-otp-input
                           [formCtrl]="otpListCtrl"
                           [config]="config"
                         ></ng-otp-input>
                       </div>
-                      <div class="w-100"></div>
-                      <div class="col-md-3 mt-3">
+                      <div class="w-100 mb-3"></div>
+                      <div class="col-md-3">
+                        <p *ngIf="otp">OTP: {{ otp }}</p>
                         <span
                           *ngIf="disableOtpBtn"
                           matBadge="{{ timeLeft }}"
-                          matBadgeOverlap="false"
+                          matBadgeOverlap="true"
+                          color="primary"
                         ></span>
                         <button
-                          mat-button
-                          class="site-button"
+                          mat-raised-button
+                          color="primary"
                           (click)="sendOtp()"
                           [disabled]="secondFormGroup.invalid || disableOtpBtn"
                         >
@@ -256,8 +258,8 @@
                         </button>
                         &nbsp;&nbsp;
                         <button
-                          mat-button
-                          class="site-button"
+                          mat-raised-button
+                          color="primary"
                           (click)="submitOtp()"
                           *ngIf="disableOtpBtn"
                         >
@@ -267,278 +269,250 @@
                     </div>
                   </form>
 
-                  <!-- <form [formGroup]="thirdFormGroup">
-            <div
-              *ngIf="submitted && loggedIn"
-              class="row d-flex justify-content-center mt-4"
-            >
-              <div class="col-md-3 mb-3">
-                <mat-label class="bookforme">Book for Me&nbsp;</mat-label>
-                <mat-slide-toggle
-                  color="primary"
-                  formControlName="appointmentFor"
-                  (change)="bookfortoggle($event.checked)"
-                  >Book for Others</mat-slide-toggle
-                >
-              </div>
+                  <form [formGroup]="thirdFormGroup">
+                    <div
+                      *ngIf="submitted && loggedIn"
+                      class="row d-flex justify-content-center mt-4"
+                    >
+                      <!-- <div class="col-md-3 mb-3">
+                        <mat-label class="bookforme"
+                          >Book for Me&nbsp;</mat-label
+                        >
+                        <mat-slide-toggle
+                          color="primary"
+                          formControlName="appointmentFor"
+                          (change)="bookfortoggle($event.checked)"
+                          >Book for Others</mat-slide-toggle
+                        >
+                      </div> -->
 
-              <div class="w-100"></div>
-              <div class="col-md-3 mb-2">
-                <mat-form-field appearance="outline">
-                  <mat-label
-                    ><span *ngIf="g.appointmentFor.value === true"
-                      >Patient</span
-                    >
-                    First Name</mat-label
-                  >
-                  <mat-icon matPrefix class="form-icon">face</mat-icon>
-                  <input
-                    type="text"
-                    matInput
-                    formControlName="firstName"
-                    maxlength="40"
-                    autocomplete="off"
-                  />
-                </mat-form-field>
-                <div
-                  *ngIf="submitted && g.firstName.errors"
-                  class="invalid-feedback"
-                >
-                  <div *ngIf="g.firstName.errors.required">
-                    First name is required.
-                  </div>
-                  <div *ngIf="g.firstName.errors.pattern">
-                    Nos & special characters is not allowed.
-                  </div>
-                  <div *ngIf="g.firstName.errors.minlength">
-                    First name requires 3 characters.
-                  </div>
-                </div>
-              </div>
-              <div class="w-100"></div>
-              <div class="col-md-3 mb-2">
-                <mat-form-field appearance="outline">
-                  <mat-label
-                    ><span *ngIf="g.appointmentFor.value === true"
-                      >Patient</span
-                    >
-                    Email Address<span class="spanitalics"> </span
-                  ></mat-label>
-                  <mat-icon matPrefix class="form-icon">email</mat-icon>
-                  <input
-                    type="email"
-                    matInput
-                    formControlName="email"
-                    autocomplete="off"
-                    maxlength="200"
-                  />
-                </mat-form-field>
-                <div
-                  *ngIf="submitted && g.email.errors"
-                  class="invalid-feedback"
-                >
-                  <div *ngIf="g.email.errors.required">Email is required.</div>
-                  <div *ngIf="g.email.errors.pattern">
-                    Email address is invalid
-                  </div>
-                </div>
-              </div>
-              <div class="w-100"></div>
-              <div class="col-md-3">
-                <mat-form-field appearance="outline">
-                  <mat-label
-                    ><span *ngIf="g.appointmentFor.value === true"
-                      >Patient</span
-                    >
-                    Mobile No:(+91)</mat-label
-                  >
-                  <mat-icon matPrefix> smartphone </mat-icon>
-                  <input
-                    matInput
-                    formControlName="primaryMobile"
-                    maxlength="10"
-                    placeholder="Enter 10 digit without +91"
-                    [ngClass]="{
-                      'is-invalid': submitted && g.primaryMobile.errors
-                    }"
-                  />
-                  <mat-icon
-                    matSuffix
-                    matTooltip="+91- is not mandatory."
-                    matTooltipPosition="above"
-                    >info</mat-icon
-                  >
-                </mat-form-field>
-                <div
-                  *ngIf="submitted && g.primaryMobile.errors"
-                  class="invalid-feedback"
-                >
-                  <div *ngIf="g.primaryMobile.errors.required">
-                    Mobile no is required
-                  </div>
-                  <div *ngIf="g.primaryMobile.errors.pattern">
-                    Only numbers allowed
-                  </div>
-                  <div *ngIf="g.primaryMobile.errors.minlength">
-                    Mobile no must have 10 digits
-                  </div>
-                </div>
-              </div>
-              <div class="w-100"></div>
-              <div class="col-md-3 mb-2 fw-bold text-uppercase font12">
-                Appointment Date:
-                <span class="appdatecolor fw-bold"
-                  >{{ f.bookedDay.value }} - {{ f.bookedDate.value }} - Slot:
-                  {{ f.slot.value }}</span
-                >
-              </div>
-              <div class="w-100"></div>
-              <div class="col-md-3 mb-3">
-                <mat-checkbox formControlName="confirmbooking" color="primary">
-                  Confirm Booking
-                </mat-checkbox>
-              </div>
-              <div class="w-100"></div>
-              <div class="col-md-3">
-                <button
-                  type="submit"
-                  class="site-button"
-                  (click)="submit()"
-                  [disabled]="thirdFormGroup.invalid"
-                >
-                  Book Now
-                </button>
-                &nbsp;&nbsp;
-                <button
-                  type="button"
-                  matStepperPrevious
-                  class="btn btn-secondary float-end"
-                >
-                  Back
-                </button>
-              </div>
-              <div class="w-100"></div>
-            </div>
-          </form> -->
+                      <div class="w-100"></div>
+                      <div class="col-md-3 mb-2">
+                        <mat-form-field appearance="outline">
+                          <mat-label> First Name</mat-label>
+                          <mat-icon matPrefix class="form-icon">face</mat-icon>
+                          <input
+                            type="text"
+                            matInput
+                            formControlName="firstName"
+                            maxlength="40"
+                            autocomplete="off"
+                          />
+                        </mat-form-field>
+                        <div
+                          *ngIf="submitted && g.firstName.errors"
+                          class="invalid-feedback"
+                        >
+                          <div *ngIf="g.firstName.errors.required">
+                            First name is required.
+                          </div>
+                          <div *ngIf="g.firstName.errors.pattern">
+                            Nos & special characters is not allowed.
+                          </div>
+                          <div *ngIf="g.firstName.errors.minlength">
+                            First name requires 3 characters.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="w-100"></div>
+                      <div class="col-md-3 mb-2">
+                        <mat-form-field appearance="outline">
+                          <mat-label>
+                            Email Address<span class="spanitalics"> </span
+                          ></mat-label>
+                          <mat-icon matPrefix class="form-icon">email</mat-icon>
+                          <input
+                            type="email"
+                            matInput
+                            formControlName="email"
+                            autocomplete="off"
+                            maxlength="200"
+                          />
+                        </mat-form-field>
+                        <div
+                          *ngIf="submitted && g.email.errors"
+                          class="invalid-feedback"
+                        >
+                          <div *ngIf="g.email.errors.required">
+                            Email is required.
+                          </div>
+                          <div *ngIf="g.email.errors.pattern">
+                            Email address is invalid
+                          </div>
+                        </div>
+                      </div>
+                      <div class="w-100"></div>
+                      <div class="col-md-3">
+                        <mat-form-field appearance="outline">
+                          <mat-label> Mobile No:(+91)</mat-label>
+                          <mat-icon matPrefix> smartphone </mat-icon>
+                          <input
+                            matInput
+                            formControlName="primaryMobile"
+                            maxlength="10"
+                            placeholder="Enter 10 digit without +91"
+                            [ngClass]="{
+                              'is-invalid': submitted && g.primaryMobile.errors
+                            }"
+                          />
+                          <mat-icon
+                            matSuffix
+                            matTooltip="+91- is not mandatory."
+                            matTooltipPosition="above"
+                            >info</mat-icon
+                          >
+                        </mat-form-field>
+                        <div
+                          *ngIf="submitted && g.primaryMobile.errors"
+                          class="invalid-feedback"
+                        >
+                          <div *ngIf="g.primaryMobile.errors.required">
+                            Mobile no is required
+                          </div>
+                          <div *ngIf="g.primaryMobile.errors.pattern">
+                            Only numbers allowed
+                          </div>
+                          <div *ngIf="g.primaryMobile.errors.minlength">
+                            Mobile no must have 10 digits
+                          </div>
+                        </div>
+                      </div>
+                      <div class="w-100"></div>
+                      <div class="col-md-3 mb-2 fw-bold text-uppercase font12">
+                        Appointment Date:
+                        <span class="appdatecolor fw-bold"
+                          >{{ f.bookedDay.value }} - {{ f.bookedDate.value }} -
+                          Slot: {{ f.slot.value }}</span
+                        >
+                      </div>
+                      <div class="w-100"></div>
+                      <div class="col-md-3 mb-3">
+                        <mat-checkbox
+                          formControlName="confirmbooking"
+                          color="primary"
+                        >
+                          Confirm Booking
+                        </mat-checkbox>
+                      </div>
+                      <div class="w-100"></div>
+                      <div class="col-md-3">
+                        <button
+                          mat-raised-button
+                          color="primary"
+                          (click)="submit()"
+                          [disabled]="thirdFormGroup.invalid"
+                        >
+                          Book Now
+                        </button>
+                        &nbsp;&nbsp;
+                        <button
+                          type="button"
+                          matStepperPrevious
+                          class="btn btn-secondary float-end"
+                        >
+                          Back
+                        </button>
+                      </div>
+                      <div class="w-100"></div>
+                    </div>
+                  </form>
                 </mat-step>
                 <mat-step [isEditable]="isEditable" class="done">
                   <ng-template matStepLabel>Done</ng-template>
 
-                  <!-- <div class="container">
-            <div class="row d-flex justify-content-center mt-3">
-              <div class="col-md-6">
-                <p class="alert alert-success text-center">
-                  <mat-icon class="material-symbols-outlined">
-                    add_task
-                  </mat-icon>
-                  Appointment Booked Successfully....
-                </p>
-                <table class="table table-hover" *ngIf="appoinmentDetails">
-                  <thead>
-                    <tr>
-                      <th scope="col" colspan="2"># Appointment Details</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td style="width: 150px">
-                        <i class="fa fa-user-plus icosize"></i> Doctor Name
-                      </td>
-                      <td>
-                        Dr. {{ appoinmentDetails.firstName }}
-                        <span
-                          *ngIf="
-                            appoinmentDetails.DocDetails.Graduation === 'PG'
-                          "
-                          class="fst-italic font-monospace"
+                  <div class="container">
+                    <div class="row d-flex justify-content-center mt-3">
+                      <div class="col-md-6">
+                        <p class="alert alert-success text-center">
+                          <mat-icon class="material-symbols-outlined">
+                            add_task
+                          </mat-icon>
+                          Appointment Booked Successfully....
+                        </p>
+                        <table
+                          class="table table-hover"
+                          *ngIf="appoinmentDetails"
                         >
-                          ({{
-                            appoinmentDetails.DocDetails.qualificationUG.sName
-                          }}
-                          -
-                          {{
-                            appoinmentDetails.DocDetails.qualificationPG.sName
-                          }}
-                          -
-                          {{
-                            appoinmentDetails.DocDetails.specialisationPG.name
-                          }})
-                        </span>
-                        <span
-                          *ngIf="
-                            appoinmentDetails.DocDetails.Graduation === 'UG'
-                          "
-                          class="fst-italic font-monospace"
-                        >
-                          ({{
-                            appoinmentDetails.DocDetails.qualificationUG.sName
-                          }})
-                        </span>
-                        <span
-                          *ngIf="appoinmentDetails.DocDetails.DoctorType"
-                          class="fst-italic font-monospace"
-                        >
-                          - {{ appoinmentDetails.DocDetails.DoctorType.name }}
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td><i class="fa fa-calendar icosize"></i> Date/Time</td>
-                      <td>
-                        {{ appoinmentDetails.bookedDate }} -
-                        {{ appoinmentDetails.bookedDay }} at
-                        <strong>{{ appoinmentDetails.slot }}</strong>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>
-                        <i class="fa fa-inr icosize"></i> Consultation Fees
-                      </td>
-                      <td>
-                        <i class="fa fa-inr icosize"></i>
-                        {{ appoinmentDetails.consultingFees }}
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">4</th>
-                      <td>
-                        <i class="fa fa-address-card icosize"></i> Clinic
-                        Address
-                      </td>
-                      <td>
-                        {{ appoinmentDetails.ClinicAddress.address }}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="3">
-                        <i class="fa fa-map-marker icosize"></i>&nbsp;&nbsp;
-                        <a
-                          class="clinicloc"
-                          href="https://maps.google.com/maps?q={{
-                            appoinmentDetails.ClinicAddress.loc.y
-                          }},{{ appoinmentDetails.ClinicAddress.loc.x }}"
-                          target="_blank"
-                          >View Clinic map location</a
-                        >
-                        &nbsp;&nbsp;&nbsp;
-                        <button
-                          type="button"
-                          class="site-button"
-                          data-bs-dismiss="modal"
-                          (click)="resetForm(); stepper.reset()"
-                        >
-                          Go to doctors listing
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div> -->
+                          <thead>
+                            <tr>
+                              <th scope="col" colspan="2">
+                                # Appointment Details
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td style="width: 150px">
+                                <i class="fa fa-user icosize"></i> Patient Name
+                              </td>
+                              <td>
+                                {{ appoinmentDetails.firstName }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td style="width: 150px">
+                                <i class="fa fa-phone icosize"></i> Patient
+                                Mobile
+                              </td>
+                              <td>
+                                {{ appoinmentDetails.primaryMobile }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>
+                                <i class="fa fa-calendar icosize"></i> Date/Time
+                              </td>
+                              <td>
+                                {{ appoinmentDetails.bookedDate }} -
+                                {{ appoinmentDetails.bookedDay }} at
+                                <strong>{{ appoinmentDetails.slot }}</strong>
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">4</th>
+                              <td>
+                                <i class="fa fa-inr icosize"></i> Consultation
+                                Fees
+                              </td>
+                              <td>
+                                <i class="fa fa-inr icosize"></i>
+                                {{ appoinmentDetails.consultingFees }}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th scope="row">5</th>
+                              <td>
+                                <i class="fa fa-address-card icosize"></i>
+                                Clinic & Address
+                              </td>
+                              <td>
+                                <div>{{ clinicSelection }}</div>
+                                <div>
+                                  <span class="fw-bold">Address:</span>
+                                  {{ appoinmentDetails.ClinicAddress.address }}
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td colspan="3">
+                                <button
+                                  type="button"
+                                  mat-raised-button
+                                  color="primary"
+                                  (click)="resetForm(); stepper.reset()"
+                                >
+                                  Book Again
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
                 </mat-step>
               </mat-stepper>
             </div>
