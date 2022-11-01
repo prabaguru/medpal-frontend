@@ -55,7 +55,7 @@ export class DoctorBookAppointmentsComponent
   clinincForm: FormGroup;
   doc: any = [];
   userData: any;
-  clinics: Array<String> = ["Clinic1", "Reset"];
+  clinics: Array<String> = ["Reset"];
   editable: boolean = true;
   isEditable: boolean = false;
   clinicNumber: any = [];
@@ -104,6 +104,8 @@ export class DoctorBookAppointmentsComponent
   bookedTimeslot: any = [];
   clinicSelection: string;
   showStepper: boolean = false;
+  doctorData: any;
+  showdoc: boolean = false;
   constructor(
     private authService: AuthService,
     private apiService: ApiService,
@@ -112,6 +114,38 @@ export class DoctorBookAppointmentsComponent
   ) {
     super();
     this.userData = this.authService.currentUserValue;
+
+    this.subs.sink = this.apiService
+      .clinicUserDoctorInfo(this.userData.d_id)
+      .pipe(first())
+      .subscribe({
+        next: (data) => {
+          this.doctorData = data[0];
+          //console.log(this.doctorData);
+          if (
+            this.userData?.regType === "Clinic1" ||
+            this.userData?.regType === "Clinic12"
+          ) {
+            this.clinics.splice(0, 0, "Clinic1");
+          }
+          if (
+            this.doctorData.ClinicTwoTimings.active &&
+            (this.userData?.regType === "Clinic2" ||
+              this.userData?.regType === "Clinic12")
+          ) {
+            this.clinics.splice(1, 0, "Clinic2");
+          }
+          //console.log(this.userData?.regType);
+          //console.log(this.clinics);
+
+          this.showdoc = true;
+        },
+        error: (error) => {
+          this.showdoc = false;
+        },
+        complete: () => {},
+      });
+
     this.minDate = moment(moment.now()).toDate();
     this.maxDate = moment(this.minDate, "DD/MM/YYYY").add(10, "days").toDate();
 
@@ -164,9 +198,6 @@ export class DoctorBookAppointmentsComponent
   }
   ngOnInit(): void {
     //console.log(this.userData);
-    if (this.userData.ClinicTwoTimings.active) {
-      this.clinics.splice(1, 0, "Clinic2");
-    }
   }
   onSubmit() {}
   clninicSelect(doc: any, clinic: string) {
@@ -194,6 +225,7 @@ export class DoctorBookAppointmentsComponent
   get c() {
     return this.clinincForm.controls;
   }
+
   getDay(e: any) {
     this.timingSlots = [];
     let date;
@@ -303,9 +335,7 @@ export class DoctorBookAppointmentsComponent
     }
     let getTime: any;
     if (this.clinicSelection === "Clinic1") {
-      let cTime = parseInt(
-        this.userData.ClinicOneTimings.ConsultationDurationC1
-      );
+      let cTime = parseInt(this.doc.ClinicOneTimings.ConsultationDurationC1);
       if (cTime > 20) {
         let num = cTime - 15;
         getTime = moment().subtract(num, "minutes").toDate().getTime();
@@ -313,9 +343,7 @@ export class DoctorBookAppointmentsComponent
         getTime = moment().toDate().getTime();
       }
     } else {
-      let cTime = parseInt(
-        this.userData.ClinicTwoTimings.ConsultationDurationC1
-      );
+      let cTime = parseInt(this.doc.ClinicTwoTimings.ConsultationDurationC1);
       if (cTime > 20) {
         let num = cTime - 15;
         getTime = moment().subtract(num, "minutes").toDate().getTime();
@@ -658,7 +686,7 @@ export class DoctorBookAppointmentsComponent
       slot: this.f["slot"].value,
       appointmentDate: formatDate,
       dateStmp: moment(dateeObj, "DD/MM/YYYY").unix(),
-      bookedBy: "Doctor",
+      bookedBy: "Clinic",
       bookedDate: this.f["bookedDate"].value,
       bookedDay: this.f["bookedDay"].value,
       appointmentFor: this.g["appointmentFor"].value ? true : false,

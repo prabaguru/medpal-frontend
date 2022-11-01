@@ -30,7 +30,7 @@ export class AdvanceTableComponent
     "firstName",
     "email",
     "mobile",
-    "role",
+    "Clinic",
     "dob",
     "actions",
   ];
@@ -307,7 +307,7 @@ export class ExampleDataSource extends DataSource<AdvanceTable> {
         case "id":
           [propertyA, propertyB] = [a.id, b.id];
           break;
-        case "fName":
+        case "firstName":
           [propertyA, propertyB] = [a.firstName, b.firstName];
           break;
         case "email":

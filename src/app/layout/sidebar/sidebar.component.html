@@ -21,12 +21,12 @@
           <div class="sidebar-profile clearfix">
             <div class="profile-img">
               <img
-                *ngIf="!userData.image.imageUrl"
+                *ngIf="!userData.image?.imageUrl"
                 src="assets/images/usrbig.jpg"
                 alt="profile"
               />
               <img
-                *ngIf="userData.image.imageUrl"
+                *ngIf="userData.image?.imageUrl"
                 [src]="userData.image.imageUrl"
                 alt="profile"
               />

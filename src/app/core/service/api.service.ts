@@ -137,4 +137,10 @@ export class ApiService {
       })
       .pipe(catchError(this.handleError));
   }
+
+  clinicUserDoctorInfo(id: any) {
+    return this.http
+      .get<any>(`${environment.apiUrl}/doctors/getById/${id}`)
+      .pipe(catchError(this.handleError));
+  }
 }

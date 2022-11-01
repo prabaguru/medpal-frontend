@@ -21,7 +21,7 @@
                     <h1 class="baseColor">Medpal.Live</h1>
                   </div>
 
-                  <h4 class="font-20 mt-4 baseColor">Doctor Login</h4>
+                  <h4 class="font-20 mt-4 baseColor">Clinic User Login</h4>
                   <p class="text-muted">Sign in to continue to Medpal.</p>
                 </div>
 
@@ -101,13 +101,6 @@
                           </span>
                         </label>
                       </div>
-                      <div>
-                        <a
-                          class="txt1"
-                          [routerLink]="['/authentication/forgot-password']"
-                          >Forgot Password?</a
-                        >
-                      </div>
                     </div>
 
                     <div class="container-login100-form-btn">
@@ -125,20 +118,11 @@
 
                 <div class="mt-5 text-end">
                   <a
-                    routerLink="/authentication/clinicLogin"
+                    routerLink="/authentication/signin"
                     class="font-weight-medium text-primary bld7"
                   >
-                    Login as Clinic User
+                    Login as Doctor
                   </a>
-                  <!-- <p *ngIf="f.loginType.value === 'Doctor'">
-                    Don't have an account ?
-                    <a
-                      routerLink="/authentication/signup"
-                      class="font-weight-medium text-primary bld7"
-                    >
-                      Register
-                    </a>
-                  </p> -->
 
                   <!-- <ul class="list-unstyled social-icon mb-0 mt-3">
                     <li class="list-inline-item m-2">

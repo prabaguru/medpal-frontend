@@ -85,4 +85,26 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
+
+  {
+    path: "",
+    title: "Manage Appointments",
+    moduleName: "clinicUsers",
+    icon: "activity",
+    class: "menu-toggle",
+    groupTitle: false,
+    role: "ClinicUser",
+    submenu: [
+      {
+        path: "clinicUsers/bookappointments",
+        title: "Book Appointments",
+        moduleName: "doctors",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        submenu: [],
+        role: "ClinicUser",
+      },
+    ],
+  },
 ];

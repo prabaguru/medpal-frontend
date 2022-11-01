@@ -101,7 +101,7 @@ export class DoctorAppointmentsComponent
         end: "",
       };
     }
-    console.log(obj);
+    //console.log(obj);
     this.subs.sink = this.apiService
       .getAllDoctorAppoinmentsById(obj)
       .pipe(first())

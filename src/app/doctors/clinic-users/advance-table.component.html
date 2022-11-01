@@ -155,19 +155,19 @@
                     {{ row.email }}</mat-cell
                   >
                 </ng-container>
-                <ng-container matColumnDef="role">
+                <ng-container matColumnDef="Clinic">
                   <mat-header-cell
                     *matHeaderCellDef
                     mat-sort-header
                     [ngClass]="'tbl-col-width-per-7'"
-                    >Role
+                    >Clinic
                   </mat-header-cell>
                   <mat-cell
                     *matCellDef="let row"
                     (contextmenu)="onContextMenu($event, row)"
                     [ngClass]="'tbl-col-width-per-7'"
                   >
-                    {{ row.role }}</mat-cell
+                    {{ row.regType }}</mat-cell
                   >
                 </ng-container>
                 <ng-container matColumnDef="dob">

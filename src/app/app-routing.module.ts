@@ -24,6 +24,14 @@ const routes: Routes = [
         loadChildren: () =>
           import("./hospitals/hospitals.module").then((m) => m.HospitalsModule),
       },
+
+      {
+        path: "clinicUsers",
+        loadChildren: () =>
+          import("./doctorsClinicUsers/doctorsClinicUsers.module").then(
+            (m) => m.DoctorsClinicUsersModule
+          ),
+      },
     ],
   },
   {

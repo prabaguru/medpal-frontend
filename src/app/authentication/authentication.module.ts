@@ -8,6 +8,7 @@ import { SigninComponent } from "./signin/signin.component";
 import { SignupComponent } from "./signup/signup.component";
 import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
 import { ChangePasswordComponent } from "./change-password/change-password.component";
+import { ClinicSigninComponent } from "./clinic-signin/signin.component";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
@@ -22,6 +23,7 @@ import { NgxIntlTelInputModule } from "ngx-intl-tel-input";
     SignupComponent,
     ForgotPasswordComponent,
     ChangePasswordComponent,
+    ClinicSigninComponent,
   ],
   imports: [
     CommonModule,

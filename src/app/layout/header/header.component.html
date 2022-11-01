@@ -72,7 +72,7 @@
             </a>
           </div>
         </li> -->
-        <li class="nav-item" ngbDropdown>
+        <li class="nav-item" ngbDropdown *ngIf="userData?.role === 'Doctor'">
           <button
             mat-icon-button
             ngbDropdownToggle
@@ -121,7 +121,7 @@
             class="nav-notification-icons pt-0"
           >
             <img
-              *ngIf="!userData.image.imageUrl"
+              *ngIf="!userData.image?.imageUrl"
               src="assets/images/user.jpg"
               class="rounded-circle"
               width="32"
@@ -129,7 +129,7 @@
               alt="User"
             />
             <img
-              *ngIf="userData.image.imageUrl"
+              *ngIf="userData.image?.imageUrl"
               [src]="userData.image.imageUrl"
               class="rounded-circle"
               width="32"
@@ -156,20 +156,10 @@
                         >Profile Settings
                       </a>
                     </li>
-                    <li *ngIf="userData.role === 'Hospital'">
-                      <a
-                        href="javascript:void(0)"
-                        [routerLink]="['/hospitals/updateProfile']"
-                      >
-                        <mat-icon aria-hidden="false" class="msr-2"
-                          >person</mat-icon
-                        >Manage Profile
-                      </a>
-                    </li>
-                    <li *ngIf="userData.role === 'Hospital'">
+                    <li *ngIf="userData.role === 'ClinicUser'">
                       <a
                         href="javascript:void(0);"
-                        (click)="logout('Hospital')"
+                        (click)="logout('ClinicUser')"
                       >
                         <mat-icon aria-hidden="false" class="msr-2"
                           >power_settings_new</mat-icon

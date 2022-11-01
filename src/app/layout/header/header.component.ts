@@ -122,10 +122,11 @@ export class HeaderComponent
     }
 
     if (
-      !this.userData.tab2 ||
-      !this.userData.tab3 ||
-      !this.userData.tab4 ||
-      !this.userData.tab5
+      this.userData.role === "Doctor" &&
+      (!this.userData.tab2 ||
+        !this.userData.tab3 ||
+        !this.userData.tab4 ||
+        !this.userData.tab5)
     ) {
       this.router.navigate(["/doctors/profile-settings"]);
     }
@@ -187,11 +188,15 @@ export class HeaderComponent
     this.subs.sink = this.authService.logout().subscribe((res) => {
       if (!res.success) {
         //this.router.navigate(["/authentication/signin"]);
-        this.router.navigate(["/authentication/signin"], {
-          queryParams: {
-            loginType: e,
-          },
-        });
+        if (e === "Doctor") {
+          this.router.navigate(["/authentication/signin"], {
+            queryParams: {
+              loginType: e,
+            },
+          });
+        } else {
+          this.router.navigate(["/authentication/clinicLogin"]);
+        }
       }
     });
   }

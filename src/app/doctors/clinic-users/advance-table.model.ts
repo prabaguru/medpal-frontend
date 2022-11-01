@@ -7,6 +7,7 @@ export class AdvanceTable {
   mobile: string;
   role: string;
   dob: string;
+  regType: string;
 
   constructor(advanceTable) {
     {
@@ -16,7 +17,8 @@ export class AdvanceTable {
       this.email = advanceTable.email || "";
       this.dob = advanceTable.dob || "";
       this.mobile = advanceTable.mobile || "";
-      this.role = advanceTable.gender || "Reception";
+      this.role = advanceTable.role || "ClinicUser";
+      this.regType = advanceTable.regType || "Clinic1";
     }
   }
   public getRandomID(): string {

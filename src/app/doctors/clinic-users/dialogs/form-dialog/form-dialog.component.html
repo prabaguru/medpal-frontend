@@ -105,14 +105,14 @@
             <mat-label class="msr-3">Access:</mat-label>
             <mat-radio-group
               aria-label="Select Access"
-              formControlName="role"
+              formControlName="regType"
               required
             >
               <mat-radio-button value="Clinic1">Clinic1</mat-radio-button>
               <mat-radio-button value="Clinic2">Clinic2</mat-radio-button>
               <mat-radio-button value="Clinic12">Both</mat-radio-button>
               <mat-error
-                *ngIf="advanceTableForm.get('role').hasError('required')"
+                *ngIf="advanceTableForm.get('regType').hasError('required')"
               >
                 Select Role
               </mat-error>

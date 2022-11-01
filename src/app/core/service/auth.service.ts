@@ -52,9 +52,9 @@ export class AuthService {
         })
       );
   }
-  hospitallogin(email: string, password: string) {
+  clinicUserlogin(email: string, password: string) {
     return this.http
-      .post<any>(`${environment.apiUrl}/hospitals/authenticate`, {
+      .post<any>(`${environment.apiUrl}/doctors/users/authenticate`, {
         email,
         password,
       })
