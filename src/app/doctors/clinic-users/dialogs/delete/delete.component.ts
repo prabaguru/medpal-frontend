@@ -22,12 +22,23 @@ export class DeleteDialogComponent extends UnsubscribeOnDestroyAdapter {
     this.dialogRef.close();
   }
   confirmDelete(): void {
+    this.data.status ? (this.data.status = false) : (this.data.status = true);
+    let obj = {
+      id: this.data._id,
+      status: this.data.status,
+    };
     this.subs.sink = this.advanceTableService
-      .deleteAdvanceTable(this.data.id)
+      .deleteAdvanceTable(obj)
       .pipe(first())
       .subscribe({
-        next: (data) => {
+        next: (data: any) => {
           this.dialogRef.close(1);
+          this.sharedDataService.showNotification(
+            "snackbar-success",
+            data.message,
+            "bottom",
+            "center"
+          );
         },
         error: (error) => {
           this.sharedDataService.showNotification(

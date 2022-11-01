@@ -51,25 +51,20 @@ export class AdvanceTableService extends UnsubscribeOnDestroyAdapter {
   }
 
   updateAdvanceTable(advanceTable: AdvanceTable) {
-    //this.dialogData = advanceTable;
-
-    /* this.httpClient.put(this.API_URL + advanceTable.id, advanceTable).subscribe(data => {
-      this.dialogData = advanceTable;
-    },
-    (err: HttpErrorResponse) => {
-      // error code here
-    }
-  );*/
-
     return this.httpClient
       .put(`${environment.apiUrl}/doctors/users/update`, advanceTable)
       .pipe(catchError(this.handleError));
   }
-  deleteAdvanceTable(id: number) {
-    console.log(id);
 
+  // deleteAdvanceTable(id: number) {
+  //   return this.httpClient
+  //     .delete(`${environment.apiUrl}/doctors/users/delete/${id}`)
+  //     .pipe(catchError(this.handleError));
+  // }
+
+  deleteAdvanceTable(advanceTable: any) {
     return this.httpClient
-      .delete(`${environment.apiUrl}/doctors/users/delete/${id}`)
+      .put(`${environment.apiUrl}/doctors/users/sdelete/`, advanceTable)
       .pipe(catchError(this.handleError));
   }
 

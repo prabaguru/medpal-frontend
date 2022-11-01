@@ -32,6 +32,7 @@ export class AdvanceTableComponent
     "mobile",
     "Clinic",
     "dob",
+    "status",
     "actions",
   ];
   exampleDatabase: AdvanceTableService | null;
@@ -145,18 +146,12 @@ export class AdvanceTableComponent
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
       if (result === 1) {
-        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
-          (x) => x.id === this.id
-        );
+        // const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
+        //   (x) => x.id === this.id
+        // );
         // for delete we use splice in order to remove single object from DataService
-        this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+        //this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
         this.refreshTable();
-        this.sharedDataService.showNotification(
-          "snackbar-danger",
-          "Delete User Successfull",
-          "bottom",
-          "center"
-        );
       }
     });
   }

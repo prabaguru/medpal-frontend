@@ -227,6 +227,10 @@
                                     ><u>BookedBy:</u>
                                     {{ element.bookedBy }}</span
                                   >
+                                  <span *ngIf="element.bookedUser"
+                                    ><u>BookedUser:</u>
+                                    {{ element.bookedUser }}</span
+                                  >
                                 </td>
                               </tr>
                               <tr *ngIf="element.appointmentFor">
@@ -457,6 +461,10 @@
                                   <span *ngIf="element.bookedBy"
                                     ><u>BookedBy:</u>
                                     {{ element.bookedBy }}</span
+                                  >
+                                  <span *ngIf="element.bookedUser"
+                                    ><u>BookedUser:</u>
+                                    {{ element.bookedUser }}</span
                                   >
                                 </td>
                               </tr>

@@ -689,6 +689,7 @@ export class DoctorBookAppointmentsComponent
       bookedBy: "Clinic",
       bookedDate: this.f["bookedDate"].value,
       bookedDay: this.f["bookedDay"].value,
+      bookedUser: this.userData.firstName,
       appointmentFor: this.g["appointmentFor"].value ? true : false,
       email: this.g["email"].value,
       firstName: this.g["firstName"].value,
