@@ -409,8 +409,51 @@ export class DoctorBookAppointmentsComponent
     this.g["email"].setValue("");
     this.g["email"].enable();
   }
-  slotToggle() {
-    this.stepper.next();
+  slotToggle(time: any) {
+    let bTime = moment.unix(time.time).format("DD/MM/YYYY");
+    let curdate = moment(new Date()).format("DD/MM/YYYY");
+    let check = moment(bTime).isSame(curdate, "day");
+    if (check) {
+      let getTime: any;
+      let currentTime: any;
+      if (this.clinicSelection === "Clinic1") {
+        let cTime = parseInt(this.doc.ClinicOneTimings.ConsultationDurationC1);
+        let num: number;
+        if (cTime > 20) {
+          num = cTime - 15;
+          getTime = moment().subtract(num, "minutes");
+          currentTime = getTime.unix();
+        } else {
+          currentTime = moment().unix();
+        }
+      } else {
+        let cTime = parseInt(this.doc.ClinicTwoTimings.ConsultationDurationC1);
+        let num: number;
+        if (cTime > 20) {
+          num = cTime - 15;
+          getTime = moment().subtract(num, "minutes");
+          currentTime = getTime.unix();
+        } else {
+          currentTime = moment().unix();
+        }
+      }
+      let ct = moment.unix(currentTime).format("hh.mm a");
+      let bt = moment.unix(time.time).format("hh.mm a");
+      console.log(`current: ${ct} - bookedtime: ${bt}`);
+      if (currentTime > time.time) {
+        this.sharedDataService.showNotification(
+          "snackbar-danger",
+          "This Timeslot has elapsed",
+          "top",
+          "center"
+        );
+        this.getAppointmentsById();
+      } else {
+        this.stepper.next();
+      }
+    } else {
+      this.stepper.next();
+    }
   }
   stepperChange(e: any) {
     if (e.selectedIndex === 1) {

@@ -303,9 +303,7 @@ export class DoctorBookAppointmentsComponent
     }
     let getTime: any;
     if (this.clinicSelection === "Clinic1") {
-      let cTime = parseInt(
-        this.userData.ClinicOneTimings.ConsultationDurationC1
-      );
+      let cTime = parseInt(this.doc.ClinicOneTimings.ConsultationDurationC1);
       if (cTime > 20) {
         let num = cTime - 15;
         getTime = moment().subtract(num, "minutes").toDate().getTime();
@@ -313,9 +311,7 @@ export class DoctorBookAppointmentsComponent
         getTime = moment().toDate().getTime();
       }
     } else {
-      let cTime = parseInt(
-        this.userData.ClinicTwoTimings.ConsultationDurationC1
-      );
+      let cTime = parseInt(this.doc.ClinicTwoTimings.ConsultationDurationC1);
       if (cTime > 20) {
         let num = cTime - 15;
         getTime = moment().subtract(num, "minutes").toDate().getTime();
@@ -330,7 +326,7 @@ export class DoctorBookAppointmentsComponent
     //console.log(halfAnHourAgo);
 
     this.finalTimeslot = [];
-
+    //this.bookedTimeslot = [];
     // this.bookedTimeslot =
     //   this.clinicSelection === "Clinic1"
     //     ? this.doc.clinic1appointments
@@ -381,8 +377,51 @@ export class DoctorBookAppointmentsComponent
     this.g["email"].setValue("");
     this.g["email"].enable();
   }
-  slotToggle() {
-    this.stepper.next();
+  slotToggle(time: any) {
+    let bTime = moment.unix(time.time).format("DD/MM/YYYY");
+    let curdate = moment(new Date()).format("DD/MM/YYYY");
+    let check = moment(bTime).isSame(curdate, "day");
+    if (check) {
+      let getTime: any;
+      let currentTime: any;
+      if (this.clinicSelection === "Clinic1") {
+        let cTime = parseInt(this.doc.ClinicOneTimings.ConsultationDurationC1);
+        let num: number;
+        if (cTime > 20) {
+          num = cTime - 15;
+          getTime = moment().subtract(num, "minutes");
+          currentTime = getTime.unix();
+        } else {
+          currentTime = moment().unix();
+        }
+      } else {
+        let cTime = parseInt(this.doc.ClinicTwoTimings.ConsultationDurationC1);
+        let num: number;
+        if (cTime > 20) {
+          num = cTime - 15;
+          getTime = moment().subtract(num, "minutes");
+          currentTime = getTime.unix();
+        } else {
+          currentTime = moment().unix();
+        }
+      }
+      let ct = moment.unix(currentTime).format("hh.mm a");
+      let bt = moment.unix(time.time).format("hh.mm a");
+      console.log(`current: ${ct} - bookedtime: ${bt}`);
+      if (currentTime > time.time) {
+        this.sharedDataService.showNotification(
+          "snackbar-danger",
+          "This Timeslot has elapsed",
+          "top",
+          "center"
+        );
+        this.getAppointmentsById();
+      } else {
+        this.stepper.next();
+      }
+    } else {
+      this.stepper.next();
+    }
   }
   stepperChange(e: any) {
     if (e.selectedIndex === 1) {
@@ -483,7 +522,7 @@ export class DoctorBookAppointmentsComponent
     this.timeLeft = 90;
     this.otpBtnText = "sec left to enter OTP";
     this.secondFormGroup.get("mobNo")?.disable({ onlySelf: true });
-    this.onSubmitOtp(this.otp);
+    //this.onSubmitOtp(this.otp);
   }
 
   startTimer() {
@@ -742,7 +781,7 @@ export class DoctorBookAppointmentsComponent
 
     this.apiService.updateDoctorAppointments(obj).subscribe({
       next: (data: any) => {
-        this.confirmBookingSms();
+        //this.confirmBookingSms();
         //this.commonService.showNotification(data.message);
       },
       error: (err) => {

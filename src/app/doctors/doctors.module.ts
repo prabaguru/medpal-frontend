@@ -24,6 +24,8 @@ import { DoctorAppointmentsComponent } from "./appointments/appointments.compone
 import { DoctorBookAppointmentsComponent } from "./book-appointments/book-appointments.component";
 import { MatStepperModule } from "@angular/material/stepper";
 import { NgOtpInputModule } from "ng-otp-input";
+import { FilePickerModule } from "ngx-awesome-uploader";
+import { ImageUploadComponent } from "./image-upload/image-upload.component";
 @NgModule({
   declarations: [
     ProfileSettingsComponent,
@@ -34,6 +36,7 @@ import { NgOtpInputModule } from "ng-otp-input";
     DashboardComponent,
     DoctorAppointmentsComponent,
     DoctorBookAppointmentsComponent,
+    ImageUploadComponent,
   ],
   imports: [
     GooglePlaceModule,
@@ -56,6 +59,7 @@ import { NgOtpInputModule } from "ng-otp-input";
     PerfectScrollbarModule,
     MatStepperModule,
     NgOtpInputModule,
+    FilePickerModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

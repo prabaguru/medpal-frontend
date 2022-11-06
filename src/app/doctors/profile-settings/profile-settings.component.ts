@@ -91,7 +91,7 @@ export class ProfileSettingsComponent
 
   ngOnInit() {
     //this.userData = this.authService.currentUserValue;
-    this.authService.currentUser.subscribe((x) => {
+    this.subs.sink = this.authService.currentUser.subscribe((x) => {
       this.userData = x;
     });
     this.cage = this.userData.age ? this.userData.age : "";
