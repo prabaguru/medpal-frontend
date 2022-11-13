@@ -216,7 +216,7 @@ export class ProfileSettingsComponent
     this.specialisationCtrl.setValue(this.userData.graduation.specialisationPG);
   }
   compareWith(o1: any, o2: any) {
-    if (o1.name === o2.name && o1.id === o2.id) return true;
+    if (o1?.name === o2?.name && o1?.id === o2?.id) return true;
     else return false;
   }
 

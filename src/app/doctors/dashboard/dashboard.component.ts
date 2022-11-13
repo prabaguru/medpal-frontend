@@ -91,6 +91,15 @@ export class DashboardComponent
 
   ngOnInit() {
     this.userData = this.authService.currentUserValue;
+    if (
+      this.userData.role === "Doctor" &&
+      (!this.userData.tab2 ||
+        !this.userData.tab3 ||
+        !this.userData.tab4 ||
+        !this.userData.tab5)
+    ) {
+      this.router.navigate(["/doctors/profile-settings"]);
+    }
     this.lastLogin = moment(this.userData.lastLogin).format(
       "DD/MM/YYYY hh.mm a"
     );

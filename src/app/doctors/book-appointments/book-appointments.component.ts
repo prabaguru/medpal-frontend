@@ -108,10 +108,20 @@ export class DoctorBookAppointmentsComponent
     private authService: AuthService,
     private apiService: ApiService,
     private sharedDataService: sharedDataService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private router: Router
   ) {
     super();
     this.userData = this.authService.currentUserValue;
+    if (
+      this.userData.role === "Doctor" &&
+      (!this.userData.tab2 ||
+        !this.userData.tab3 ||
+        !this.userData.tab4 ||
+        !this.userData.tab5)
+    ) {
+      this.router.navigate(["/doctors/profile-settings"]);
+    }
     this.minDate = moment(moment.now()).toDate();
     this.maxDate = moment(this.minDate, "DD/MM/YYYY").add(10, "days").toDate();
 

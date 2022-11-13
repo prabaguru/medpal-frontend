@@ -11,14 +11,17 @@ import {
 } from "@angular/core";
 import { ROUTES } from "./sidebar-items";
 import { AuthService } from "src/app/core/service/auth.service";
-
+import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 declare const Waves: any;
 @Component({
   selector: "app-sidebar",
   templateUrl: "./sidebar.component.html",
   styleUrls: ["./sidebar.component.scss"],
 })
-export class SidebarComponent implements OnInit, OnDestroy {
+export class SidebarComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit, OnDestroy
+{
   public sidebarItems: any[];
   level1Menu = "";
   level2Menu = "";
@@ -37,6 +40,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     public authService: AuthService,
     private router: Router
   ) {
+    super();
     this.routerObj = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         // logic for select active menu in dropdown
@@ -47,6 +51,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
         // close sidebar on mobile screen after menu select
         this.renderer.removeClass(this.document.body, "overlay-open");
       }
+    });
+    this.subs.sink = this.authService.currentUser.subscribe((x) => {
+      this.userData = x;
     });
   }
 
@@ -93,7 +100,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     if (this.authService.currentUserValue) {
       this.sidebarItems = ROUTES.filter((sidebarItem) => sidebarItem);
     }
-    this.userData = this.authService.currentUserValue;
     this.initLeftSidebar();
     this.bodyTag = this.document.body;
   }

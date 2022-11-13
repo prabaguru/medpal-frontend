@@ -14,6 +14,7 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import * as moment from "moment";
 import { FormGroup, FormControl } from "@angular/forms";
+import { Router, ActivatedRoute } from "@angular/router";
 @Component({
   selector: "doctor-appointments",
   templateUrl: "./appointments.component.html",
@@ -57,10 +58,20 @@ export class DoctorAppointmentsComponent
   constructor(
     private authService: AuthService,
     private apiService: ApiService,
-    private sharedDataService: sharedDataService
+    private sharedDataService: sharedDataService,
+    private router: Router
   ) {
     super();
     this.userData = this.authService.currentUserValue;
+    if (
+      this.userData.role === "Doctor" &&
+      (!this.userData.tab2 ||
+        !this.userData.tab3 ||
+        !this.userData.tab4 ||
+        !this.userData.tab5)
+    ) {
+      this.router.navigate(["/doctors/profile-settings"]);
+    }
     this.getAllDoctorAppoinmentsById("Clinic1", "reset");
   }
   ngOnInit(): void {

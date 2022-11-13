@@ -15,6 +15,7 @@ import { MatMenuTrigger } from "@angular/material/menu";
 import { SelectionModel } from "@angular/cdk/collections";
 import { UnsubscribeOnDestroyAdapter } from "../../shared/UnsubscribeOnDestroyAdapter";
 import { AuthService, sharedDataService } from "../../core";
+import { Router, ActivatedRoute } from "@angular/router";
 @Component({
   selector: "app-advance-table",
   templateUrl: "./advance-table.component.html",
@@ -40,12 +41,14 @@ export class AdvanceTableComponent
   selection = new SelectionModel<AdvanceTable>(true, []);
   id: number;
   advanceTable: AdvanceTable | null;
+  userDatad;
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public advanceTableService: AdvanceTableService,
     private sharedDataService: sharedDataService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     super();
   }
@@ -56,6 +59,16 @@ export class AdvanceTableComponent
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: "0px", y: "0px" };
   ngOnInit() {
+    this.userDatad = this.authService.currentUserValue;
+    if (
+      this.userDatad.role === "Doctor" &&
+      (!this.userDatad.tab2 ||
+        !this.userDatad.tab3 ||
+        !this.userDatad.tab4 ||
+        !this.userDatad.tab5)
+    ) {
+      this.router.navigate(["/doctors/profile-settings"]);
+    }
     this.loadData();
   }
   refresh() {
@@ -246,6 +259,7 @@ export class ExampleDataSource extends DataSource<AdvanceTable> {
   ) {
     super();
     this.userData = this.authService.currentUserValue;
+
     // Reset to the first page when the user changes the filter.
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
