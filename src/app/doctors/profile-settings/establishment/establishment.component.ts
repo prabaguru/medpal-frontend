@@ -20,6 +20,7 @@ import { CONSULTATIONDURATION } from "../../../../dropdwndata";
 import { ApiService, MustMatch, sharedDataService } from "../../../core";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import * as moment from "moment";
+(moment as any).suppressDeprecationWarnings = true;
 @Component({
   selector: "clinic1",
   templateUrl: "./establishment.component.html",

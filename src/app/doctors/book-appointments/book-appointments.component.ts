@@ -18,6 +18,7 @@ import {
 import { MatStepper } from "@angular/material/stepper";
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
 import * as moment from "moment";
+(moment as any).suppressDeprecationWarnings = true;
 declare var $: any;
 const MY_DATE_FORMAT = {
   parse: {

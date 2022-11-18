@@ -13,6 +13,7 @@ import { CONSULTATIONDURATION } from "../../../../dropdwndata";
 import { ApiService, sharedDataService } from "../../../core";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import * as moment from "moment";
+(moment as any).suppressDeprecationWarnings = true;
 @Component({
   selector: "clinic2",
   templateUrl: "./establishment2.component.html",

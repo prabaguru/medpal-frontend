@@ -35,7 +35,7 @@ export type ChartOptions = {
 import { Router, ActivatedRoute } from "@angular/router";
 import { AuthService, sharedDataService, ApiService } from "../../core";
 import * as moment from "moment";
-
+(moment as any).suppressDeprecationWarnings = true;
 @Component({
   selector: "hospital-app-dashboard",
   templateUrl: "./hospital-dashboard.component.html",

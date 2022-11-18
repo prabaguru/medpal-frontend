@@ -16,6 +16,7 @@ import {
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import { first } from "rxjs/operators";
 import * as moment from "moment";
+(moment as any).suppressDeprecationWarnings = true;
 @Component({
   selector: "hospital-profile-update",
   templateUrl: "./hospital-profile-update.component.html",

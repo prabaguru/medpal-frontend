@@ -36,6 +36,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { AuthService, sharedDataService, ApiService } from "../../core";
 import { first } from "rxjs/operators";
 import * as moment from "moment";
+(moment as any).suppressDeprecationWarnings = true;
 @Component({
   selector: "app-dashboard",
   templateUrl: "./dashboard.component.html",

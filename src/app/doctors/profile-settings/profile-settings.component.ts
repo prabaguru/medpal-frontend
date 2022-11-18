@@ -31,6 +31,7 @@ import {
 import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import * as moment from "moment";
+(moment as any).suppressDeprecationWarnings = true;
 @Component({
   selector: "profile-settings",
   templateUrl: "./profile-settings.component.html",
