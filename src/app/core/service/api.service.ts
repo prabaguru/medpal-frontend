@@ -7,6 +7,13 @@ import { IDoctor } from "../index";
 @Injectable({ providedIn: "root" })
 export class ApiService {
   constructor(private http: HttpClient) {}
+  //sendSMS
+  sendSMS(data: any) {
+    return this.http
+      .post(`${environment.apiUrl}/patient_appointments/sendSMS`, data)
+      .pipe(catchError(this.handleError));
+  }
+
   //hospital
   hospitalregister(data: IDoctor): Observable<IDoctor[]> {
     return this.http

@@ -489,7 +489,7 @@ export class DoctorBookAppointmentsComponent
       id: this.doc._id,
       clinic: this.clinicSelection === "Clinic1" ? "Clinic1" : "Clinic2",
     };
-    this.apiService
+    this.subs.sink = this.apiService
       .getDoctorAppointments(obj)
       .pipe(first())
       .subscribe(
@@ -614,7 +614,7 @@ export class DoctorBookAppointmentsComponent
   }
 
   regNLogin(obj: any) {
-    this.authService
+    this.subs.sink = this.authService
       .reglogin(obj)
       .pipe(first())
       .subscribe({
@@ -750,7 +750,7 @@ export class DoctorBookAppointmentsComponent
       cord: cord,
     };
 
-    this.apiService.bookAppointment(apiobj).subscribe({
+    this.subs.sink = this.apiService.bookAppointment(apiobj).subscribe({
       next: (data: any) => {
         this.stepper.next();
         this.sharedDataService.showNotification(
@@ -813,7 +813,7 @@ export class DoctorBookAppointmentsComponent
       };
     }
 
-    this.apiService.updateDoctorAppointments(obj).subscribe({
+    this.subs.sink = this.apiService.updateDoctorAppointments(obj).subscribe({
       next: (data: any) => {
         this.confirmBookingSms();
         //this.commonService.showNotification(data.message);
@@ -841,7 +841,7 @@ export class DoctorBookAppointmentsComponent
     if (!updateObj.id || !updateObj.firstName || !updateObj.email) {
       return;
     }
-    this.apiService.updatePatientFNE(updateObj).subscribe({
+    this.subs.sink = this.apiService.updatePatientFNE(updateObj).subscribe({
       next: (data: any) => {
         let obj = {
           firstName: updateObj.firstName,
@@ -893,23 +893,14 @@ export class DoctorBookAppointmentsComponent
     let mobileNo = this.t["mobNo"].value;
     let msgString = "";
     msgString = `Your OTP to book appointment is  - ${otp} . Please be 10 mins before your consultation time. Thank you. Medpal - Weisermanner`;
-    let smsUrl = `http://185.136.166.131/domestic/sendsms/bulksms.php?username=joykj&password=joykj@1&type=TEXT&sender=WEISER&mobile=${mobileNo}&message=${msgString}&entityId=1601335161674716856&templateId=1607100000000226779`;
-
-    $.ajax({
-      type: "GET",
-      url: smsUrl,
-      crossDomain: true,
-      dataType: "jsonp",
-      jsonpCallback: "callback",
-      success: function () {
-        //this.commonService.showNotification('OTP sent successfully...');
-      },
-      error: function (xhr: any, status: any) {
-        // this.commonService.showNotification(
-        //   'OTP not sent successfully. Check some time later...'
-        // );
-      },
-    });
+    let payload = {
+      From: "WEISER",
+      To: mobileNo,
+      Body: msgString,
+      dltentityid: 1601335161674716856,
+      dlttemplateid: 1607100000000226779,
+    };
+    this.sendSMSafterBooking(payload);
   }
 
   confirmBookingSms() {
@@ -921,22 +912,33 @@ export class DoctorBookAppointmentsComponent
     let bookedfor = `${this.g["firstName"].value} on ${this.f["bookedDate"].value} - ${this.f["bookedDay"].value} at ${this.f["slot"].value}`;
     let msgString = "";
     msgString = `The consult with Dr. ${docName} is booked for ${bookedfor} . Our Helpline no is ${mob} . Plz carry your case no. Thank you. Medpal - Weisermanner`;
-    let smsUrl = `http://185.136.166.131/domestic/sendsms/bulksms.php?username=joykj&password=joykj@1&type=TEXT&sender=WEISER&mobile=${mobileNo}&message=${msgString}&entityId=1601335161674716856&templateId=1607100000000226781`;
 
-    $.ajax({
-      type: "GET",
-      url: smsUrl,
-      crossDomain: true,
-      dataType: "jsonp",
-      jsonpCallback: "callback",
-      success: function () {
-        //this.commonService.showNotification('OTP sent successfully...');
-      },
-      error: function (xhr: any, status: any) {
-        // this.commonService.showNotification(
-        //   'OTP not sent successfully. Check some time later...'
-        // );
-      },
-    });
+    let payload = {
+      From: "WEISER",
+      To: mobileNo,
+      Body: msgString,
+      dltentityid: 1601335161674716856,
+      dlttemplateid: 1607100000000226781,
+    };
+    this.sendSMSafterBooking(payload);
+  }
+
+  sendSMSafterBooking(payload: any) {
+    this.subs.sink = this.apiService
+      .sendSMS(payload)
+      .pipe(first())
+      .subscribe(
+        (data: any) => {
+          //console.log(this.bookedTimeslot);
+        },
+        (error) => {
+          this.sharedDataService.showNotification(
+            "snackbar-danger",
+            error,
+            "top",
+            "center"
+          );
+        }
+      );
   }
 }
