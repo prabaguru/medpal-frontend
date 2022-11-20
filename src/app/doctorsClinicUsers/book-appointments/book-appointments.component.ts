@@ -411,9 +411,9 @@ export class DoctorBookAppointmentsComponent
     this.g["email"].enable();
   }
   slotToggle(time: any) {
-    let bTime = moment.unix(time.time).format("DD/MM/YYYY");
-    let curdate = moment(new Date()).format("DD/MM/YYYY");
-    let check = moment(bTime).isSame(curdate, "day");
+    let bTime = new Date(time.time * 1000);
+    let curdate = new Date();
+    let check = bTime.toDateString() == curdate.toDateString();
     if (check) {
       let getTime: any;
       let currentTime: any;
@@ -725,6 +725,7 @@ export class DoctorBookAppointmentsComponent
     dateeObj = moment(this.f["appointmentDate"].value).format("DD/MM/YYYY");
     concot = dateeObj + " " + this.f["slot"].value;
     formatDate = moment(concot, "DD/MM/YYYY hh:mm a").unix();
+    let smsdata = this.confirmBookingSms();
     let apiobj = {
       p_id: this.userInfo._id,
       slot: this.f["slot"].value,
@@ -748,6 +749,7 @@ export class DoctorBookAppointmentsComponent
       clinic: this.clinicSelection === "Clinic1" ? "Clinic1" : "Clinic2",
       ClinicAddress: clinicloc,
       cord: cord,
+      smsdata,
     };
 
     this.subs.sink = this.apiService.bookAppointment(apiobj).subscribe({
@@ -815,7 +817,7 @@ export class DoctorBookAppointmentsComponent
 
     this.subs.sink = this.apiService.updateDoctorAppointments(obj).subscribe({
       next: (data: any) => {
-        this.confirmBookingSms();
+        //this.confirmBookingSms();
         //this.commonService.showNotification(data.message);
       },
       error: (err) => {
@@ -920,7 +922,7 @@ export class DoctorBookAppointmentsComponent
       dltentityid: 1601335161674716856,
       dlttemplateid: 1607100000000226781,
     };
-    this.sendSMSafterBooking(payload);
+    return payload;
   }
 
   sendSMSafterBooking(payload: any) {
