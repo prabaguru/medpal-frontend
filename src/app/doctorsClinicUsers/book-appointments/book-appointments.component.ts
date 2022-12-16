@@ -438,9 +438,9 @@ export class DoctorBookAppointmentsComponent
           currentTime = moment().unix();
         }
       }
-      let ct = moment.unix(currentTime).format("hh.mm a");
-      let bt = moment.unix(time.time).format("hh.mm a");
-      console.log(`current: ${ct} - bookedtime: ${bt}`);
+      // let ct = moment.unix(currentTime).format("hh.mm a");
+      // let bt = moment.unix(time.time).format("hh.mm a");
+      // console.log(`current: ${ct} - bookedtime: ${bt}`);
       if (currentTime > time.time) {
         this.sharedDataService.showNotification(
           "snackbar-danger",
