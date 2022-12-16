@@ -93,7 +93,21 @@
                             *ngFor="let ClinicName of clinics"
                             [value]="ClinicName"
                           >
-                            {{ ClinicName }}
+                            <span *ngIf="ClinicName == 'Clinic1'"
+                              >{{ ClinicName }} -
+                              {{
+                                doctorData.ClinicOneTimings?.clinicArea
+                              }}</span
+                            >
+                            <span *ngIf="ClinicName == 'Clinic2'"
+                              >{{ ClinicName }} -
+                              {{
+                                doctorData.ClinicTwoTimings?.clinicArea
+                              }}</span
+                            >
+                            <span *ngIf="ClinicName == 'Reset'">{{
+                              ClinicName
+                            }}</span>
                           </mat-option>
                         </mat-select>
                       </mat-form-field>
