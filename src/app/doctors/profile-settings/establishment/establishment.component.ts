@@ -93,6 +93,10 @@ export class establishmentComponent
         Friday: [this.userData.ClinicOneTimings.Friday, []],
         Saturday: [this.userData.ClinicOneTimings.Saturday, []],
         Cbt: [this.userData.ClinicOneTimings.Cbt, []],
+        clinicArea: [
+          this.userData.ClinicOneTimings.clinicArea,
+          [Validators.required],
+        ],
         ConsultationDurationC1: [
           this.userData.ClinicOneTimings.ConsultationDurationC1,
           [Validators.required],
@@ -490,6 +494,9 @@ export class establishmentComponent
           .value
           ? this.ec1.get("ClinicOneTimings.ConsultationFeesC1").value
           : this.userData.ClinicOneTimings.ConsultationFeesC1,
+        clinicArea: this.ec1.get("ClinicOneTimings.clinicArea").value
+          ? this.ec1.get("ClinicOneTimings.clinicArea").value
+          : this.userData.ClinicOneTimings.clinicArea,
         FriEndtime: this.ec1.get("ClinicOneTimings.FriEndtime").value
           ? this.ec1.get("ClinicOneTimings.FriEndtime").value
           : this.userData.ClinicOneTimings.FriEndtime,
