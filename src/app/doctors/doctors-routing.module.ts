@@ -27,13 +27,6 @@ const routes: Routes = [
     path: "bookappointments",
     component: DoctorBookAppointmentsComponent,
   },
-  {
-    path: "users",
-    loadChildren: () =>
-      import("./clinic-users/advance-table.module").then(
-        (m) => m.AdvanceTableModule
-      ),
-  },
 ];
 
 @NgModule({

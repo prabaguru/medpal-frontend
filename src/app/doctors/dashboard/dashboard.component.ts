@@ -82,11 +82,7 @@ export class DashboardComponent
         enabled: false,
       },
       labels: ["Booked", "Pending", "Closed"],
-      responsive: [
-        {
-          breakpoint: 480,
-        },
-      ],
+      responsive: [],
     };
   }
 

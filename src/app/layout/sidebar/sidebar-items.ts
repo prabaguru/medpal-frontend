@@ -73,16 +73,6 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
         role: "Doctor",
       },
-      {
-        path: "doctors/users",
-        title: "Manage Users",
-        moduleName: "doctors",
-        icon: "",
-        class: "ml-menu",
-        groupTitle: false,
-        submenu: [],
-        role: "Doctor",
-      },
     ],
   },
 

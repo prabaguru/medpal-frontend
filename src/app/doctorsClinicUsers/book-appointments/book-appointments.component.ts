@@ -117,26 +117,12 @@ export class DoctorBookAppointmentsComponent
     this.userData = this.authService.currentUserValue;
 
     this.subs.sink = this.apiService
-      .clinicUserDoctorInfo(this.userData.d_id)
+      .clinicUserDoctorInfo(this.userData.h_id)
       .pipe(first())
       .subscribe({
         next: (data) => {
-          this.doctorData = data[0];
-          //console.log(this.doctorData);
-          if (
-            this.userData?.regType === "Clinic1" ||
-            this.userData?.regType === "Clinic12"
-          ) {
-            this.clinics.splice(0, 0, "Clinic1");
-          }
-          if (
-            this.doctorData.ClinicTwoTimings.active &&
-            (this.userData?.regType === "Clinic2" ||
-              this.userData?.regType === "Clinic12")
-          ) {
-            this.clinics.splice(1, 0, "Clinic2");
-          }
-          //console.log(this.userData?.regType);
+          this.doctorData = data;
+          console.log(this.doctorData);
           //console.log(this.clinics);
 
           this.showdoc = true;

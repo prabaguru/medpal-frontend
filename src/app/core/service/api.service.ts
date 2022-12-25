@@ -147,7 +147,7 @@ export class ApiService {
 
   clinicUserDoctorInfo(id: any) {
     return this.http
-      .get<any>(`${environment.apiUrl}/doctors/getById/${id}`)
+      .get<any>(`${environment.apiUrl}/doctors/getAllById/${id}`)
       .pipe(catchError(this.handleError));
   }
 }
