@@ -150,4 +150,14 @@ export class ApiService {
       .get<any>(`${environment.apiUrl}/doctors/getAllById/${id}`)
       .pipe(catchError(this.handleError));
   }
+  getDocById(id: any) {
+    return this.http
+      .get<any>(`${environment.apiUrl}/doctors/getById/${id}`)
+      .pipe(catchError(this.handleError));
+  }
+  getHospitalById(id: any) {
+    return this.http
+      .get<any>(`${environment.apiUrl}/hospitals/getById/${id}`)
+      .pipe(catchError(this.handleError));
+  }
 }

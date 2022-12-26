@@ -2,7 +2,11 @@
   [selectedIndex]="selected.value"
   (selectedIndexChange)="selected.setValue($event)"
 >
-  <mat-tab label="Clinic1">
+  <mat-tab label="Enter Hospital/Clinic details">
+    <mat-error *ngIf="docESTDisabled"
+      >Establishment Details can't be updated. Contact your
+      Hospital/Clinic.</mat-error
+    >
     <form [formGroup]="establishmentForm" (ngSubmit)="onSubmitEst()">
       <span formGroupName="ClinicOneTimings">
         <div class="row col-md-12 pt-5">
@@ -530,18 +534,30 @@
         </div>
       </span>
       <div class="float-start">
-        <a
+        <button
           mat-raised-button
           color="primary"
-          href="javascript:void(0)"
+          [disabled]="docESTDisabled"
           (click)="resetform()"
         >
-          Reset </a
-        >&nbsp;
-        <button mat-raised-button color="primary" type="submit">Save</button>
+          Reset
+        </button>
+        &nbsp;
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="docESTDisabled"
+        >
+          Save
+        </button>
+        <mat-error *ngIf="docESTDisabled"
+          >Establishment Details can't be updated. Contact your
+          Hospital/Clinic.</mat-error
+        >
       </div>
     </form>
   </mat-tab>
 
-  <mat-tab label="Clinic2"><clinic2></clinic2></mat-tab>
+  <!-- <mat-tab label="Clinic2"><clinic2></clinic2></mat-tab> -->
 </mat-tab-group>

@@ -106,6 +106,7 @@ export class DoctorBookAppointmentsComponent
   clinicSelection: string;
   showStepper: boolean = false;
   doctorData: any;
+  hospitalData: any;
   showdoc: boolean = false;
   constructor(
     private authService: AuthService,
@@ -122,10 +123,9 @@ export class DoctorBookAppointmentsComponent
       .subscribe({
         next: (data) => {
           this.doctorData = data;
-          console.log(this.doctorData);
-          //console.log(this.clinics);
-
+          //console.log(this.doctorData);
           this.showdoc = true;
+          this.getHospitalById();
         },
         error: (error) => {
           this.showdoc = false;
@@ -186,19 +186,41 @@ export class DoctorBookAppointmentsComponent
   ngOnInit(): void {
     //console.log(this.userData);
   }
-  onSubmit() {}
-  clninicSelect(doc: any, clinic: string) {
+  getHospitalById() {
+    this.subs.sink = this.apiService
+      .getHospitalById(this.userData.h_id)
+      .pipe(first())
+      .subscribe({
+        next: (data) => {
+          this.hospitalData = data[0];
+          //console.log(this.hospitalData);
+        },
+        error: (error) => {},
+        complete: () => {},
+      });
+  }
+  clninicSelect(doc: any) {
     this.doc = [];
-    this.clinicSelection = clinic;
-
-    if (clinic === "Reset") {
+    this.clinicSelection = "Clinic1";
+    if (doc === "Reset") {
       this.showStepper = false;
-      this.resetForm();
+      this.clinincForm.controls.clinic.setValue("");
     } else {
-      this.showStepper = true;
-      this.doc = doc;
-      this.resetForm();
+      this.subs.sink = this.apiService
+        .getDocById(doc)
+        .pipe(first())
+        .subscribe({
+          next: (data) => {
+            this.doc = data[0];
+            this.showStepper = true;
+          },
+          error: (error) => {
+            this.showStepper = false;
+          },
+          complete: () => {},
+        });
     }
+    this.resetForm();
   }
   get f() {
     return this.firstFormGroup.controls;
@@ -722,6 +744,7 @@ export class DoctorBookAppointmentsComponent
       bookedDay: this.f["bookedDay"].value,
       bookedUser: this.userData.firstName,
       appointmentFor: this.g["appointmentFor"].value ? true : false,
+      appointmentType: "Clinic Visit",
       email: this.g["email"].value,
       firstName: this.g["firstName"].value,
       primaryMobile: this.g["primaryMobile"].value,

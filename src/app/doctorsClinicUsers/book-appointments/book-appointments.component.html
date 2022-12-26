@@ -6,116 +6,68 @@
           <div class="header m-0">
             <div class="row">
               <div class="col-md-3">
-                <h2 translate><strong>Book</strong> Appointments</h2>
+                <h2 translate>
+                  <strong>Book</strong> Appointments -
+                  <span class="cap"
+                    ><strong>{{ hospitalData?.firstName }}</strong></span
+                  >
+                </h2>
               </div>
             </div>
           </div>
           <div class="body" *ngIf="showdoc">
-            <table class="table table-bordered">
-              <tbody>
-                <tr>
-                  <td>
-                    <img
-                      *ngIf="doctorData?.image.imageUrl"
-                      height="60"
-                      class="img-responsive"
-                      src="{{ doctorData.image.imageUrl }}"
+            <form [formGroup]="clinincForm">
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>Select Doctor</mat-label>
+                <mat-select
+                  class="cap"
+                  formControlName="clinic"
+                  (selectionChange)="clninicSelect($event.value)"
+                >
+                  <mat-option *ngFor="let doc of doctorData" [value]="doc._id"
+                    ><img
+                      *ngIf="doc?.image.imageUrl"
+                      class="selectImg"
+                      src="{{ doc.image.imageUrl }}"
                       alt="Medpal"
                     />
                     <img
-                      *ngIf="!doctorData?.image.imageUrl"
+                      *ngIf="!doc?.image.imageUrl"
                       src="../../../assets/images/user.jpg"
                       alt="Medpal"
-                    />
-                  </td>
-                  <td>
-                    <strong>Dr. {{ doctorData.firstName }}</strong>
-                    &nbsp;<br />
-                    <span
-                      *ngIf="doctorData.graduation.Graduation === 'PG'"
-                      class="fst-italic font-monospace"
-                    >
-                      ({{ doctorData.graduation.qualificationUG.sName }}
-                      -
-                      {{ doctorData.graduation.qualificationPG.sName }}
-                      -
-                      {{ doctorData.graduation.specialisationPG.name }})
-                    </span>
-                    <span
-                      *ngIf="doctorData.graduation.Graduation === 'UG'"
-                      class="fst-italic font-monospace"
-                    >
-                      ({{ doctorData.graduation.qualificationUG.sName }})
-                    </span>
-
-                    <span>{{ doctorData.graduation.DoctorType.name }}</span>
-                    <p *ngIf="clinicSelection === 'Clinic1'">
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      {{ doctorData.ClinicOneTimings.ClinicLocation.address }}
-                    </p>
-                    <p *ngIf="clinicSelection === 'Clinic2'">
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      {{ doctorData.ClinicTwoTimings.ClinicLocation.address }}
-                    </p>
-                  </td>
-                  <td>
-                    <span *ngIf="clinicSelection === 'Clinic1'"
-                      ><strong
-                        >&#8377;
-                        {{
-                          doctorData.ClinicOneTimings.ConsultationFeesC1
-                        }}</strong
-                      ></span
-                    >
-                    <span *ngIf="clinicSelection === 'Clinic2'"
-                      ><strong
-                        >&#8377;
-                        {{
-                          doctorData.ClinicTwoTimings.ConsultationFeesC1
-                        }}</strong
-                      ></span
-                    >
-                  </td>
-                  <td>
-                    <form [formGroup]="clinincForm" (ngSubmit)="onSubmit()">
-                      <mat-form-field
-                        appearance="outline"
-                        class="example-full-width"
+                      class="selectImg"
+                    />&nbsp;&nbsp;
+                    <span class="cap"
+                      >Dr. {{ doc.firstName }} {{ doc.lastName }} -
+                      {{ doc.ClinicOneTimings.ClinicName }} -
+                      {{ doc.ClinicOneTimings.clinicArea }} -
+                      <span
+                        *ngIf="
+                          doc.graduation.Graduation === 'UG' ||
+                          doc.graduation.Graduation === 'PG'
+                        "
                       >
-                        <mat-label>Select Clinic</mat-label>
-                        <mat-select
-                          formControlName="clinic"
-                          (selectionChange)="
-                            clninicSelect(doctorData, $event.value)
-                          "
-                        >
-                          <mat-option
-                            *ngFor="let ClinicName of clinics"
-                            [value]="ClinicName"
-                          >
-                            <span *ngIf="ClinicName == 'Clinic1'"
-                              >{{ ClinicName }} -
-                              {{
-                                doctorData.ClinicOneTimings?.clinicArea
-                              }}</span
-                            >
-                            <span *ngIf="ClinicName == 'Clinic2'"
-                              >{{ ClinicName }} -
-                              {{
-                                doctorData.ClinicTwoTimings?.clinicArea
-                              }}</span
-                            >
-                            <span *ngIf="ClinicName == 'Reset'">{{
-                              ClinicName
-                            }}</span>
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                    </form>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                        ({{ doc.graduation.qualificationUG.sName }})
+                      </span>
+                      <span *ngIf="doc.graduation.Graduation === 'PG'">
+                        {{ doc.graduation.qualificationPG.sName }}
+                        -
+                        {{ doc.graduation.specialisationPG.name }})
+                      </span>
+                      -
+                      <strong
+                        >&#8377;
+                        {{ doc.ClinicOneTimings.ConsultationFeesC1 }}</strong
+                      >
+                    </span>
+                  </mat-option>
+                  <mat-option value="Reset"
+                    ><span class="cap">Reset</span>
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </form>
+
             <div *ngIf="showStepper">
               <mat-stepper
                 [linear]="true"

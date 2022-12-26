@@ -105,6 +105,7 @@ export class DoctorBookAppointmentsComponent
   bookedTimeslot: any = [];
   clinicSelection: string;
   showStepper: boolean = false;
+  hospitalData: any;
   constructor(
     private authService: AuthService,
     private apiService: ApiService,
@@ -114,6 +115,7 @@ export class DoctorBookAppointmentsComponent
   ) {
     super();
     this.userData = this.authService.currentUserValue;
+    this.getHospitalById();
     if (
       this.userData.role === "Doctor" &&
       (!this.userData.tab2 ||
@@ -179,19 +181,42 @@ export class DoctorBookAppointmentsComponent
       this.clinics.splice(1, 0, "Clinic2");
     }
   }
-  onSubmit() {}
-  clninicSelect(doc: any, clinic: string) {
+  getHospitalById() {
+    this.subs.sink = this.apiService
+      .getHospitalById(this.userData.hId)
+      .pipe(first())
+      .subscribe({
+        next: (data) => {
+          this.hospitalData = data[0];
+          //console.log(this.hospitalData);
+        },
+        error: (error) => {},
+        complete: () => {},
+      });
+  }
+  clninicSelect(doc: any) {
     this.doc = [];
-    this.clinicSelection = clinic;
-
-    if (clinic === "Reset") {
+    this.clinicSelection = "Clinic1";
+    if (doc === "Reset") {
       this.showStepper = false;
-      this.resetForm();
+      this.clinincForm.controls.clinic.setValue("");
     } else {
       this.showStepper = true;
-      this.doc = doc;
-      this.resetForm();
+      this.subs.sink = this.apiService
+        .getDocById(doc)
+        .pipe(first())
+        .subscribe({
+          next: (data) => {
+            this.doc = data[0];
+            this.showStepper = true;
+          },
+          error: (error) => {
+            this.showStepper = false;
+          },
+          complete: () => {},
+        });
     }
+    this.resetForm();
   }
   get f() {
     return this.firstFormGroup.controls;
@@ -713,6 +738,7 @@ export class DoctorBookAppointmentsComponent
       bookedDate: this.f["bookedDate"].value,
       bookedDay: this.f["bookedDay"].value,
       appointmentFor: this.g["appointmentFor"].value ? true : false,
+      appointmentType: "Clinic Visit",
       email: this.g["email"].value,
       firstName: this.g["firstName"].value,
       primaryMobile: this.g["primaryMobile"].value,

@@ -83,7 +83,7 @@ export const ROUTES: RouteInfo[] = [
     icon: "activity",
     class: "menu-toggle",
     groupTitle: false,
-    role: "ClinicUser",
+    role: "Clinic/Hospital-User",
     submenu: [
       {
         path: "clinicUsers/bookappointments",
@@ -93,7 +93,7 @@ export const ROUTES: RouteInfo[] = [
         class: "ml-menu",
         groupTitle: false,
         submenu: [],
-        role: "ClinicUser",
+        role: "Clinic/Hospital-User",
       },
     ],
   },

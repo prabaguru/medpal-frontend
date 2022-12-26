@@ -156,10 +156,10 @@
                         >Profile Settings
                       </a>
                     </li>
-                    <li *ngIf="userData.role === 'ClinicUser'">
+                    <li *ngIf="userData.role === 'Clinic/Hospital-User'">
                       <a
                         href="javascript:void(0);"
-                        (click)="logout('ClinicUser')"
+                        (click)="logout('Clinic/Hospital-Use')"
                       >
                         <mat-icon aria-hidden="false" class="msr-2"
                           >power_settings_new</mat-icon

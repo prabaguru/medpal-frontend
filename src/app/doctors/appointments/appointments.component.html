@@ -8,7 +8,7 @@
               <div class="col-md-3">
                 <h2 translate><strong>Manage</strong> Appointments</h2>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <mat-form-field appearance="fill" color="accent">
                   <mat-label
                     >Enter a date range to search Appointments</mat-label
@@ -58,7 +58,7 @@
                 >
                   <mat-icon>search</mat-icon>Search
                 </button>
-                <button
+                <!-- <button
                   mat-raised-button
                   *ngIf="clinic2Flag"
                   color="primary"
@@ -66,13 +66,13 @@
                   (click)="getAllDoctorAppoinmentsById('Clinic2', 'search')"
                 >
                   <mat-icon>search</mat-icon>Search
-                </button>
+                </button> -->
               </div>
             </div>
           </div>
           <div class="body">
             <mat-tab-group (selectedTabChange)="tabClick($event)">
-              <mat-tab label="Clinic1">
+              <mat-tab [label]="userData.ClinicOneTimings.ClinicName">
                 <br />
                 <div class="col-lg-12" *ngIf="clinic1Flag">
                   <span *ngIf="getAppointments.length > 0">
@@ -308,7 +308,7 @@
                   </mat-paginator>
                 </div>
               </mat-tab>
-              <mat-tab
+              <!-- <mat-tab
                 label="Clinic2"
                 *ngIf="userData?.ClinicTwoTimings.active"
               >
@@ -408,7 +408,7 @@
                       </td>
                     </ng-container>
 
-                    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+                    
                     <ng-container matColumnDef="expandedDetail">
                       <td
                         mat-cell
@@ -542,7 +542,7 @@
                   >
                   </mat-paginator>
                 </div>
-              </mat-tab>
+              </mat-tab> -->
             </mat-tab-group>
           </div>
         </div>

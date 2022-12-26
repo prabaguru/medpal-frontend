@@ -67,6 +67,7 @@ export class establishmentComponent
   clinicAddress: string = "";
   cliniclocation = {};
   coordinates: any;
+  docESTDisabled: boolean = true;
   constructor(
     private authService: AuthService,
     private formBuilder: FormBuilder,
