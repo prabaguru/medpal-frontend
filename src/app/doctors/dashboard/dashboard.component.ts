@@ -73,15 +73,16 @@ export class DashboardComponent
       series2: [tot, pen, clo],
       chart: {
         type: "donut",
-        width: 200,
+        width: 400,
       },
       legend: {
-        show: false,
+        show: true,
       },
       dataLabels: {
         enabled: false,
       },
       labels: ["Booked", "Pending", "Closed"],
+
       responsive: [],
     };
   }

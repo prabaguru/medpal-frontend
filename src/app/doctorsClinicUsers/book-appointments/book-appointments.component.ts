@@ -753,6 +753,7 @@ export class DoctorBookAppointmentsComponent
           ? this.doc.ClinicOneTimings.ConsultationFeesC1
           : this.doc.ClinicTwoTimings.ConsultationFeesC1,
       d_id: this.doc._id,
+      h_id: this.doc.hId,
       doctorName: this.doc.firstName,
       doctorQualification: docGrad,
       clinic: this.clinicSelection === "Clinic1" ? "Clinic1" : "Clinic2",
