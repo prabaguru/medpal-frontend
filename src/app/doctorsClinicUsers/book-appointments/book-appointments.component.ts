@@ -108,6 +108,7 @@ export class DoctorBookAppointmentsComponent
   doctorData: any;
   hospitalData: any;
   showdoc: boolean = false;
+  serverTime: any;
   constructor(
     private authService: AuthService,
     private apiService: ApiService,
@@ -347,17 +348,17 @@ export class DoctorBookAppointmentsComponent
       let cTime = parseInt(this.doc.ClinicOneTimings.ConsultationDurationC1);
       if (cTime > 20) {
         let num = cTime - 15;
-        getTime = moment().subtract(num, "minutes").toDate().getTime();
+        getTime = moment(this.serverTime, "hh:mm a").add(num, "minutes");
       } else {
-        getTime = moment().toDate().getTime();
+        getTime = moment(this.serverTime, "hh:mm a");
       }
     } else {
       let cTime = parseInt(this.doc.ClinicTwoTimings.ConsultationDurationC1);
       if (cTime > 20) {
         let num = cTime - 15;
-        getTime = moment().subtract(num, "minutes").toDate().getTime();
+        getTime = moment(this.serverTime, "hh:mm a").add(num, "minutes");
       } else {
-        getTime = moment().toDate().getTime();
+        getTime = moment(this.serverTime, "hh:mm a");
       }
     }
     //console.log(this.timingSlots);
@@ -493,6 +494,7 @@ export class DoctorBookAppointmentsComponent
 
   getAppointmentsById(d?: any) {
     this.bookedTimeslot = [];
+    this.serverTime = null;
     let obj: any = {
       id: this.doc._id,
       clinic: this.clinicSelection === "Clinic1" ? "Clinic1" : "Clinic2",
@@ -508,6 +510,7 @@ export class DoctorBookAppointmentsComponent
               ? data.data.clinic1appointments
               : data.data.clinic2appointments;
           this.bookedTimeslot = app;
+          this.serverTime = data.currentTime;
           if (Object.getOwnPropertyNames(this.doc).length > 0) {
             this.showtemplate = true;
             this.generateSlots(
