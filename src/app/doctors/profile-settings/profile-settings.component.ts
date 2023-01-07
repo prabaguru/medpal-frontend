@@ -123,7 +123,7 @@ export class ProfileSettingsComponent
       age: [this.userData.age, []],
       address: [this.userData.address, []],
       bloodGroup: [this.userData.bloodGroup, [Validators.required]],
-      gender: [this.userData.gender, []],
+      gender: [this.userData.gender, [Validators.required]],
       AadhaarNo: [
         this.userData.AadhaarNo,
         [
