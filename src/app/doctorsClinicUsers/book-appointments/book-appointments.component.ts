@@ -16,9 +16,13 @@ import {
   MAT_DATE_LOCALE,
 } from "@angular/material/core";
 import { MatStepper } from "@angular/material/stepper";
+import { BehaviorSubject, Observable } from "rxjs";
+import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 import { MomentDateAdapter } from "@angular/material-moment-adapter";
+import { map, startWith } from "rxjs/operators";
 import * as moment from "moment";
 (moment as any).suppressDeprecationWarnings = true;
+
 declare var $: any;
 const MY_DATE_FORMAT = {
   parse: {
@@ -52,6 +56,11 @@ export class DoctorBookAppointmentsComponent
   extends UnsubscribeOnDestroyAdapter
   implements OnInit
 {
+  @ViewChild("inputAutoComplete3") inputAutoComplete3: any;
+  arrowIconSubject3 = new BehaviorSubject("arrow_drop_down");
+  codeOwnerListCtrl = new FormControl();
+  codeOwnerfilteredOptions: Observable<any[]>;
+
   @ViewChild("stepper") stepper!: MatStepper;
   clinincForm: FormGroup;
   doc: any = [];
@@ -125,6 +134,26 @@ export class DoctorBookAppointmentsComponent
         next: (data) => {
           this.doctorData = data;
           //console.log(this.doctorData);
+          this.codeOwnerfilteredOptions =
+            this.codeOwnerListCtrl.valueChanges.pipe(
+              startWith(""),
+              map((value) =>
+                typeof value === "string" ? value : value?.firstName
+              ),
+              map((name) =>
+                name
+                  ? this.doctorData.filter(
+                      (option) =>
+                        option.firstName
+                          .toLowerCase()
+                          .indexOf(name.toLowerCase()) === 0 ||
+                        option.lastName
+                          .toLowerCase()
+                          .indexOf(name.toLowerCase()) === 0
+                    )
+                  : this.doctorData.slice()
+              )
+            );
           this.showdoc = true;
           this.getHospitalById();
         },
@@ -181,11 +210,40 @@ export class DoctorBookAppointmentsComponent
       ],
     });
     this.clinincForm = this._formBuilder.group({
-      clinic: ["", []],
+      clinic: this.codeOwnerListCtrl,
     });
   }
   ngOnInit(): void {
     //console.log(this.userData);
+  }
+  displayFn3(doc: any) {
+    return doc
+      ? `Dr- ${doc.firstName}-${doc.lastName}-${
+          doc.ClinicOneTimings.ClinicName
+        }-${doc.ClinicOneTimings.clinicArea}- (${
+          doc.graduation.Graduation === "UG" ||
+          doc.graduation.Graduation === "PG"
+            ? doc.graduation.qualificationUG.sName + "-"
+            : ""
+        }${
+          doc.graduation.Graduation === "PG"
+            ? doc.graduation.qualificationPG.sName +
+              "-" +
+              doc.graduation.specialisationPG.name
+            : ""
+        }) - ₹:${doc.ClinicOneTimings.ConsultationFeesC1}`
+      : doc;
+  }
+  openOrClosePanelCOW(evt: any, trigger3: MatAutocompleteTrigger): void {
+    evt.stopPropagation();
+    if (trigger3.panelOpen) trigger3.closePanel();
+    else trigger3.openPanel();
+  }
+  clearInputCOW(evt: any): void {
+    evt.stopPropagation();
+    this.codeOwnerListCtrl?.reset();
+    this.inputAutoComplete3?.nativeElement.focus();
+    this.showStepper = false;
   }
   getHospitalById() {
     this.subs.sink = this.apiService
@@ -203,24 +261,19 @@ export class DoctorBookAppointmentsComponent
   clninicSelect(doc: any) {
     this.doc = [];
     this.clinicSelection = "Clinic1";
-    if (doc === "Reset") {
-      this.showStepper = false;
-      this.clinincForm.controls.clinic.setValue("");
-    } else {
-      this.subs.sink = this.apiService
-        .getDocById(doc)
-        .pipe(first())
-        .subscribe({
-          next: (data) => {
-            this.doc = data[0];
-            this.showStepper = true;
-          },
-          error: (error) => {
-            this.showStepper = false;
-          },
-          complete: () => {},
-        });
-    }
+    this.subs.sink = this.apiService
+      .getDocById(doc)
+      .pipe(first())
+      .subscribe({
+        next: (data) => {
+          this.doc = data[0];
+          this.showStepper = true;
+        },
+        error: (error) => {
+          this.showStepper = false;
+        },
+        complete: () => {},
+      });
     this.resetForm();
   }
   get f() {

@@ -17,55 +17,94 @@
           </div>
           <div class="body" *ngIf="showdoc">
             <form [formGroup]="clinincForm">
-              <mat-form-field appearance="outline" class="example-full-width">
-                <mat-label>Select Doctor</mat-label>
-                <mat-select
-                  class="cap"
-                  formControlName="clinic"
-                  (selectionChange)="clninicSelect($event.value)"
-                >
-                  <mat-option *ngFor="let doc of doctorData" [value]="doc._id"
-                    ><img
-                      *ngIf="doc?.image.imageUrl"
-                      class="selectImg"
-                      src="{{ doc.image.imageUrl }}"
-                      alt="Medpal"
-                    />
-                    <img
-                      *ngIf="!doc?.image.imageUrl"
-                      src="../../../assets/images/user.jpg"
-                      alt="Medpal"
-                      class="selectImg"
-                    />&nbsp;&nbsp;
-                    <span class="cap"
-                      >Dr. {{ doc.firstName }} {{ doc.lastName }} -
-                      {{ doc.ClinicOneTimings.ClinicName }} -
-                      {{ doc.ClinicOneTimings.clinicArea }} -
-                      <span
-                        *ngIf="
-                          doc.graduation.Graduation === 'UG' ||
-                          doc.graduation.Graduation === 'PG'
-                        "
-                      >
-                        ({{ doc.graduation.qualificationUG.sName }})
-                      </span>
-                      <span *ngIf="doc.graduation.Graduation === 'PG'">
-                        {{ doc.graduation.qualificationPG.sName }}
+              <div class="col-md-8">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Select Doctor&nbsp;(Search by name)</mat-label>
+                  <input
+                    style="text-transform: uppercase"
+                    type="text"
+                    #inputAutoComplete3
+                    matInput
+                    [formControl]="codeOwnerListCtrl"
+                    [matAutocomplete]="auto4"
+                    #trigger3="matAutocompleteTrigger"
+                  />
+                  <div matSuffix style="display: flex">
+                    <button
+                      (click)="clearInputCOW($event)"
+                      *ngIf="
+                        codeOwnerListCtrl?.value !== null &&
+                        codeOwnerListCtrl?.value !== ''
+                      "
+                      aria-label="Clear"
+                      mat-icon-button
+                      type="button"
+                    >
+                      <mat-icon>clear</mat-icon>
+                    </button>
+
+                    <button
+                      (click)="openOrClosePanelCOW($event, trigger3)"
+                      aria-label="Clear"
+                      mat-icon-button
+                      type="button"
+                    >
+                      <mat-icon>{{ arrowIconSubject3.getValue() }}</mat-icon>
+                    </button>
+                  </div>
+                  <mat-autocomplete
+                    (closed)="arrowIconSubject3.next('arrow_drop_down')"
+                    (opened)="arrowIconSubject3.next('arrow_drop_up')"
+                    (optionSelected)="
+                      arrowIconSubject3.next('arrow_drop_down');
+                      clninicSelect($event.option.value._id)
+                    "
+                    #auto4="matAutocomplete"
+                    [displayWith]="displayFn3.bind(this)"
+                  >
+                    <mat-option
+                      *ngFor="let doc of codeOwnerfilteredOptions | async"
+                      [value]="doc"
+                      [title]="doc.firstName"
+                      ><img
+                        *ngIf="doc?.image.imageUrl"
+                        class="selectImg"
+                        src="{{ doc.image.imageUrl }}"
+                        alt="Medpal"
+                      />
+                      <img
+                        *ngIf="!doc?.image.imageUrl"
+                        src="../../../assets/images/user.jpg"
+                        alt="Medpal"
+                        class="selectImg"
+                      />&nbsp;&nbsp;
+                      <span class="cap"
+                        >Dr. {{ doc.firstName }} {{ doc.lastName }} -
+                        {{ doc.ClinicOneTimings.ClinicName }} -
+                        {{ doc.ClinicOneTimings.clinicArea }} -
+                        <span
+                          *ngIf="
+                            doc.graduation.Graduation === 'UG' ||
+                            doc.graduation.Graduation === 'PG'
+                          "
+                        >
+                          ({{ doc.graduation.qualificationUG.sName }})
+                        </span>
+                        <span *ngIf="doc.graduation.Graduation === 'PG'">
+                          {{ doc.graduation.qualificationPG.sName }}
+                          -
+                          {{ doc.graduation.specialisationPG.name }})
+                        </span>
                         -
-                        {{ doc.graduation.specialisationPG.name }})
+                        <strong
+                          >&#8377;
+                          {{ doc.ClinicOneTimings.ConsultationFeesC1 }}</strong
+                        >
                       </span>
-                      -
-                      <strong
-                        >&#8377;
-                        {{ doc.ClinicOneTimings.ConsultationFeesC1 }}</strong
-                      >
-                    </span>
-                  </mat-option>
-                  <mat-option value="Reset"
-                    ><span class="cap">Reset</span>
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
             </form>
 
             <div *ngIf="showStepper">
@@ -80,7 +119,24 @@
                   errorMessage="Slot is required."
                 >
                   <form [formGroup]="firstFormGroup">
-                    <ng-template matStepLabel>Available Slots</ng-template>
+                    <ng-template matStepLabel
+                      >Available Slots
+                      <div *ngIf="showStepper" class="text-center m-0">
+                        <img
+                          *ngIf="doc?.image.imageUrl"
+                          class="img-thumbnail"
+                          width="80"
+                          src="{{ doc.image.imageUrl }}"
+                          alt="Medpal"
+                        />
+                        <img
+                          *ngIf="!doc?.image.imageUrl"
+                          src="../../../assets/images/user.jpg"
+                          alt="Medpal"
+                          class="img-thumbnail"
+                        />
+                      </div>
+                    </ng-template>
                     <div class="container-fluid mt-2">
                       <div class="row d-flex justify-content-center">
                         <div class="col-md-3">
