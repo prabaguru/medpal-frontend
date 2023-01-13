@@ -118,6 +118,7 @@ export class DoctorBookAppointmentsComponent
   hospitalData: any;
   showdoc: boolean = false;
   serverTime: any;
+  docImage: string = null;
   constructor(
     private authService: AuthService,
     private apiService: ApiService,
@@ -215,6 +216,9 @@ export class DoctorBookAppointmentsComponent
   }
   ngOnInit(): void {
     //console.log(this.userData);
+  }
+  opendd() {
+    this.showStepper = false;
   }
   displayFn3(doc: any) {
     return doc

@@ -54,7 +54,7 @@
                   </div>
                   <mat-autocomplete
                     (closed)="arrowIconSubject3.next('arrow_drop_down')"
-                    (opened)="arrowIconSubject3.next('arrow_drop_up')"
+                    (opened)="arrowIconSubject3.next('arrow_drop_up'); opendd()"
                     (optionSelected)="
                       arrowIconSubject3.next('arrow_drop_down');
                       clninicSelect($event.option.value._id)
