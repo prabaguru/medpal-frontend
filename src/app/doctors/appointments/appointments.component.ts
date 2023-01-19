@@ -100,8 +100,10 @@ export class DoctorAppointmentsComponent
       obj = {
         id: this.userData?._id,
         clinic: Clinic,
-        start: this.range.controls.start.value,
-        end: this.range.controls.end.value,
+        start: this.range.controls.start.value
+          ? this.range.controls.start.value
+          : "",
+        end: this.range.controls.end.value ? this.range.controls.end.value : "",
       };
     } else {
       this.resetDate();

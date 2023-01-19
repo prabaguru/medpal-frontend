@@ -723,16 +723,18 @@ export class DoctorBookAppointmentsComponent
   }
 
   setformvalue(res: any) {
+    this.g["firstName"].enable();
+    this.g["email"].enable();
     if (res.firstName === "newuser") {
       this.g["firstName"].setValue("");
     } else {
       this.g["firstName"].setValue(res.firstName);
-      this.g["firstName"].disable();
+      //this.g["firstName"].disable();
     }
     let uemail = this.validateEmail(res.email);
     if (uemail) {
       this.g["email"].setValue(res.email);
-      this.g["email"].disable();
+      //this.g["email"].disable();
       this.updateUser = false;
     } else {
       this.g["email"].setValue("");
