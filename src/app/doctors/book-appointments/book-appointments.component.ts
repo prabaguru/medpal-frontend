@@ -919,17 +919,19 @@ export class DoctorBookAppointmentsComponent
     let docName = this.doc.firstName;
     //let glink = 'https://maps.google.com/maps?q=';
     //let gmap = `Clinic Map location: ${glink}${this.appoinmentDetails.ClinicAddress.loc.y},${this.appoinmentDetails.ClinicAddress.loc.x}`;
-    let mob = `93531 05105`;
+    let mob = this.hospitalData.smsHelpLineNo
+      ? this.hospitalData.smsHelpLineNo
+      : this.doc.mobile.number;
     let bookedfor = `${this.g["firstName"].value} on ${this.f["bookedDate"].value} - ${this.f["bookedDay"].value} at ${this.f["slot"].value}`;
+    let th = "Link";
     let msgString = "";
-    msgString = `The consult with Dr. ${docName} is booked for ${bookedfor} . Our Helpline no is ${mob} . Plz carry your case no. Thank you. Medpal - Weisermanner`;
-
+    msgString = `The consult at ${this.doc.ClinicOneTimings.ClinicName.toUpperCase()} with Dr. ${docName.toUpperCase()} is booked for ${bookedfor} . Our Helpline no is ${mob} . ${th}. Thank you. Medpal - Weisermanner`;
     let payload = {
       From: "WEISER",
       To: mobileNo,
       Body: msgString,
       dltentityid: "1601335161674716856",
-      dlttemplateid: "1607100000000226781",
+      dlttemplateid: "1607100000000248206",
     };
     return payload;
   }
