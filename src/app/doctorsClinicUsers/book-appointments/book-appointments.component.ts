@@ -119,6 +119,7 @@ export class DoctorBookAppointmentsComponent
   showdoc: boolean = false;
   serverTime: any;
   docImage: string = null;
+  appId: any;
   constructor(
     private authService: AuthService,
     private apiService: ApiService,
@@ -826,6 +827,8 @@ export class DoctorBookAppointmentsComponent
 
     this.subs.sink = this.apiService.bookAppointment(apiobj).subscribe({
       next: (data: any) => {
+        this.appId = null;
+        this.appId = data.data.id;
         this.stepper.next();
         this.sharedDataService.showNotification(
           "snackbar-success",
@@ -889,7 +892,7 @@ export class DoctorBookAppointmentsComponent
 
     this.subs.sink = this.apiService.updateDoctorAppointments(obj).subscribe({
       next: (data: any) => {
-        //this.confirmBookingSms();
+        this.confirmBookingSms();
         //this.commonService.showNotification(data.message);
       },
       error: (err) => {
@@ -986,7 +989,7 @@ export class DoctorBookAppointmentsComponent
       ? this.hospitalData.smsHelpLineNo
       : this.doc.mobile.number;
     let bookedfor = `${this.g["firstName"].value} on ${this.f["bookedDate"].value} - ${this.f["bookedDay"].value} at ${this.f["slot"].value}`;
-    let th = "Link";
+    let th = `https://medpal.live/sms.html?dep,${this.appId}`;
     let msgString = "";
     msgString = `The consult at ${this.doc.ClinicOneTimings.ClinicName.toUpperCase()} with Dr. ${docName.toUpperCase()} is booked for ${bookedfor} . Our Helpline no is ${mob} . ${th}. Thank you. Medpal - Weisermanner`;
     let payload = {
@@ -996,7 +999,7 @@ export class DoctorBookAppointmentsComponent
       dltentityid: "1601335161674716856",
       dlttemplateid: "1607100000000248206",
     };
-    return payload;
+    this.sendSMSafterBooking(payload);
   }
 
   sendSMSafterBooking(payload: any) {
