@@ -6,9 +6,113 @@
           <div class="header">
             <div class="row">
               <div class="col-md-3">
-                <h2 translate><strong>Manage</strong> Appointments</h2>
+                <h2 translate><strong>Close</strong> Appointments</h2>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-12" *ngIf="showdoc">
+                <form [formGroup]="clinincForm">
+                  <div class="col-md-8">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="outline"
+                    >
+                      <mat-label>Select Doctor&nbsp;(Search by name)</mat-label>
+                      <input
+                        style="text-transform: uppercase"
+                        type="text"
+                        #inputAutoComplete3
+                        matInput
+                        [formControl]="codeOwnerListCtrl"
+                        [matAutocomplete]="auto4"
+                        #trigger3="matAutocompleteTrigger"
+                      />
+                      <div matSuffix style="display: flex">
+                        <button
+                          (click)="clearInputCOW($event)"
+                          *ngIf="
+                            codeOwnerListCtrl?.value !== null &&
+                            codeOwnerListCtrl?.value !== ''
+                          "
+                          aria-label="Clear"
+                          mat-icon-button
+                          type="button"
+                        >
+                          <mat-icon>clear</mat-icon>
+                        </button>
+
+                        <button
+                          (click)="openOrClosePanelCOW($event, trigger3)"
+                          aria-label="Clear"
+                          mat-icon-button
+                          type="button"
+                        >
+                          <mat-icon>{{
+                            arrowIconSubject3.getValue()
+                          }}</mat-icon>
+                        </button>
+                      </div>
+                      <mat-autocomplete
+                        (closed)="arrowIconSubject3.next('arrow_drop_down')"
+                        (opened)="
+                          arrowIconSubject3.next('arrow_drop_up'); resetDate()
+                        "
+                        (optionSelected)="
+                          arrowIconSubject3.next('arrow_drop_down');
+                          getAllDoctorAppoinmentsById(
+                            $event.option.value._id,
+                            'drname'
+                          )
+                        "
+                        #auto4="matAutocomplete"
+                        [displayWith]="displayFn3.bind(this)"
+                      >
+                        <mat-option
+                          *ngFor="let doc of codeOwnerfilteredOptions | async"
+                          [value]="doc"
+                          [title]="doc.firstName"
+                          ><img
+                            *ngIf="doc?.image.imageUrl"
+                            class="selectImg"
+                            src="{{ doc.image.imageUrl }}"
+                            alt="Medpal"
+                          />
+                          <img
+                            *ngIf="!doc?.image.imageUrl"
+                            src="../../../assets/images/user.jpg"
+                            alt="Medpal"
+                            class="selectImg"
+                          />&nbsp;&nbsp;
+                          <span class="cap"
+                            >Dr. {{ doc.firstName }} {{ doc.lastName }} -
+                            {{ doc.ClinicOneTimings.ClinicName }} -
+                            {{ doc.ClinicOneTimings.clinicArea }} -
+                            <span
+                              *ngIf="
+                                doc.graduation.Graduation === 'UG' ||
+                                doc.graduation.Graduation === 'PG'
+                              "
+                            >
+                              ({{ doc.graduation.qualificationUG.sName }})
+                            </span>
+                            <span *ngIf="doc.graduation.Graduation === 'PG'">
+                              {{ doc.graduation.qualificationPG.sName }}
+                              -
+                              {{ doc.graduation.specialisationPG.name }})
+                            </span>
+                            -
+                            <strong
+                              >&#8377;
+                              {{
+                                doc.ClinicOneTimings.ConsultationFeesC1
+                              }}</strong
+                            >
+                          </span>
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-7">
                 <mat-form-field appearance="fill" color="accent">
                   <mat-label
                     >Enter a date range to search Appointments</mat-label
@@ -51,47 +155,20 @@
                 &nbsp;&nbsp;&nbsp;
                 <button
                   mat-raised-button
-                  *ngIf="clinic1Flag"
                   color="primary"
                   type="button"
                   (click)="getAllDoctorAppoinmentsById('Clinic1', 'search')"
                 >
                   <mat-icon>search</mat-icon>Search
                 </button>
-                <!-- <button
-                  mat-raised-button
-                  *ngIf="clinic2Flag"
-                  color="primary"
-                  type="button"
-                  (click)="getAllDoctorAppoinmentsById('Clinic2', 'search')"
-                >
-                  <mat-icon>search</mat-icon>Search
-                </button> -->
               </div>
             </div>
           </div>
           <div class="body">
-            <mat-tab-group (selectedTabChange)="tabClick($event)">
-              <mat-tab [label]="userData.ClinicOneTimings.ClinicName">
+            <mat-tab-group>
+              <mat-tab label="Appointments">
                 <br />
-                <div class="col-lg-12" *ngIf="clinic1Flag">
-                  <span *ngIf="getAppointments.length > 0">
-                    <button mat-raised-button color="primary" class="lh-base">
-                      {{ getAppointments.length }}
-                    </button>
-                    Appointments Found</span
-                  >
-
-                  <span class="float-end">
-                    <button
-                      mat-raised-button
-                      color="primary"
-                      type="button"
-                      (click)="getAllDoctorAppoinmentsById('Clinic1', 'reset')"
-                    >
-                      <mat-icon>refresh</mat-icon>Refresh
-                    </button>
-                  </span>
+                <div class="col-lg-12">
                   <div
                     class="alert alert-danger"
                     role="alert"
@@ -99,6 +176,12 @@
                   >
                     No Appointment records found...
                   </div>
+                  <span *ngIf="getAppointments.length > 0">
+                    <button mat-raised-button color="primary" class="lh-base">
+                      {{ getAppointments.length }}
+                    </button>
+                    Appointments Found</span
+                  >
 
                   <table
                     *ngIf="getAppointments.length > 0"
@@ -317,241 +400,6 @@
                   </mat-paginator>
                 </div>
               </mat-tab>
-              <!-- <mat-tab
-                label="Clinic2"
-                *ngIf="userData?.ClinicTwoTimings.active"
-              >
-                <br />
-                <div class="col-lg-12" *ngIf="clinic2Flag">
-                  <span *ngIf="getAppointments.length > 0">
-                    <button mat-raised-button color="primary" class="lh-base">
-                      {{ getAppointments.length }}
-                    </button>
-                    Appointments Found</span
-                  >
-                  <span class="float-end">
-                    <button
-                      mat-raised-button
-                      color="primary"
-                      type="button"
-                      (click)="getAllDoctorAppoinmentsById('Clinic2')"
-                    >
-                      <mat-icon>refresh</mat-icon>Refresh
-                    </button>
-                  </span>
-                  <div
-                    class="alert alert-danger"
-                    role="alert"
-                    *ngIf="getAppointmentsflag"
-                  >
-                    No Appointment records found...
-                  </div>
-                  <table
-                    *ngIf="getAppointments.length > 0"
-                    mat-table
-                    [dataSource]="dataSource"
-                    multiTemplateDataRows
-                    class="mat-elevation-z8"
-                  >
-                    <ng-container
-                      matColumnDef="{{ column }}"
-                      *ngFor="let column of columnsToDisplay"
-                    >
-                      <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        class="text-capitalize fw-bold"
-                      >
-                        {{ column }}
-                      </th>
-                      <td mat-cell *matCellDef="let element">
-                        <span *ngIf="column == 'doctorName'">
-                          Dr. {{ element.doctorName }}
-                        </span>
-                        <span *ngIf="column == 'PatientName'">
-                          {{ element.firstName }}
-                        </span>
-                        <span *ngIf="column == 'AppointmentDate'"
-                          >{{ element.bookedDate }} - {{ element.bookedDay }} -
-                          {{ element.slot }}</span
-                        >
-                        <span *ngIf="column == 'AppointmentStatus'"
-                          ><span
-                            class="green"
-                            *ngIf="element.AppointmentStatus == 'Closed'"
-                            >{{ element.AppointmentStatus }}</span
-                          >
-                          <span
-                            class="red"
-                            *ngIf="element.AppointmentStatus == 'Booked'"
-                            >{{ element.AppointmentStatus }}</span
-                          >
-                        </span>
-                      </td>
-                    </ng-container>
-                    <ng-container matColumnDef="expand">
-                      <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        aria-label="row actions"
-                      >
-                        &nbsp;
-                      </th>
-                      <td mat-cell *matCellDef="let element">
-                        <button
-                          mat-icon-button
-                          aria-label="expand row"
-                          (click)="
-                            expandedElement =
-                              expandedElement === element ? null : element;
-                            $event.stopPropagation()
-                          "
-                        >
-                          <mat-icon *ngIf="expandedElement !== element"
-                            >keyboard_arrow_down</mat-icon
-                          >
-                          <mat-icon *ngIf="expandedElement === element"
-                            >keyboard_arrow_up</mat-icon
-                          >
-                        </button>
-                      </td>
-                    </ng-container>
-
-                    
-                    <ng-container matColumnDef="expandedDetail">
-                      <td
-                        mat-cell
-                        *matCellDef="let element"
-                        [attr.colspan]="columnsToDisplayWithExpand.length"
-                      >
-                        <div
-                          class="example-element-detail"
-                          [@detailExpand]="
-                            element == expandedElement
-                              ? 'expanded'
-                              : 'collapsed'
-                          "
-                        >
-                          <div class="table mb-5">
-                            <table class="table lh-lg">
-                              <tr>
-                                <th scope="row">Doctor Name</th>
-                                <td>
-                                  Dr. {{ element.doctorName }} -
-                                  {{ element.doctorQualification }}
-                                </td>
-                              </tr>
-                              <tr>
-                                <th scope="row">Appointment details</th>
-                                <td>
-                                  {{ element.bookedDate }} -
-                                  {{ element.bookedDay }} -
-                                  {{ element.slot }}
-                                </td>
-                              </tr>
-                              <tr>
-                                <th scope="row">Patient details</th>
-                                <td>
-                                  <u>Name:</u>{{ element.firstName }} ,
-                                  <u>Mobile:</u>{{ element.primaryMobile }}
-                                </td>
-                              </tr>
-                              <tr>
-                                <th scope="row">Consulting Fees</th>
-                                <td>₹ - {{ element.consultingFees }}</td>
-                              </tr>
-
-                              <tr>
-                                <th scope="row">Appointment Booked for</th>
-                                <td>
-                                  {{
-                                    element.appointmentFor ? "Others" : "Self"
-                                  }}
-                                  <span *ngIf="element.bookedBy"
-                                    ><u>BookedBy:</u>
-                                    {{ element.bookedBy }}</span
-                                  >
-                                  <span *ngIf="element.bookedUser"
-                                    ><u>BookedUser:</u>
-                                    {{ element.bookedUser }}</span
-                                  >
-                                </td>
-                              </tr>
-                              <tr *ngIf="element.appointmentFor">
-                                <th scope="row">Patient details</th>
-                                <td>
-                                  <p>
-                                    Name: {{ element.firstName }}<br />
-                                    Mobile: {{ element.primaryMobile }}<br />
-                                    Email: {{ element.email }}
-                                  </p>
-                                </td>
-                              </tr>
-                              <tr>
-                                <th scope="row">Appointment Status</th>
-                                <td>
-                                  {{ element.AppointmentStatus }}
-                                </td>
-                              </tr>
-                              <tr>
-                                <th scope="row">Hospital Address</th>
-                                <td>
-                                  {{ element.ClinicAddress }}
-                                </td>
-                              </tr>
-                              <tr *ngIf="element.AppointmentStatus == 'Booked'">
-                                <td colspan="2">
-                                  <button
-                                    mat-raised-button
-                                    color="primary"
-                                    type="button"
-                                    (click)="closeAppointment(element._id)"
-                                    class="lh-base"
-                                  >
-                                    Close Appointment
-                                  </button>
-                                </td>
-                              </tr>
-                            </table>
-                          </div>
-                        </div>
-                      </td>
-                    </ng-container>
-
-                    <tr
-                      mat-header-row
-                      *matHeaderRowDef="columnsToDisplayWithExpand"
-                    ></tr>
-                    <tr
-                      mat-row
-                      *matRowDef="
-                        let element;
-                        columns: columnsToDisplayWithExpand
-                      "
-                      class="example-element-row"
-                      [class.example-expanded-row]="expandedElement === element"
-                      (click)="
-                        expandedElement =
-                          expandedElement === element ? null : element
-                      "
-                    ></tr>
-                    <tr
-                      mat-row
-                      *matRowDef="let row; columns: ['expandedDetail']"
-                      class="example-detail-row"
-                    ></tr>
-                  </table>
-
-                  <mat-paginator
-                    class="mat-elevation-z8"
-                    #paginator
-                    [pageSize]="50"
-                    showFirstLastButtons
-                    [pageSizeOptions]="[20, 50, 100]"
-                  >
-                  </mat-paginator>
-                </div>
-              </mat-tab> -->
             </mat-tab-group>
           </div>
         </div>

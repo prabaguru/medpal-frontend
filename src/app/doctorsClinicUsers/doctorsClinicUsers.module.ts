@@ -15,10 +15,11 @@ import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
 import { NgApexchartsModule } from "ng-apexcharts";
 import { DoctorsClinicUsersRoutingModule } from "./doctorsClinicUsers-routing.module";
 import { DoctorBookAppointmentsComponent } from "./book-appointments/book-appointments.component";
+import { DoctorAppointmentsComponent } from "./appointments/appointments.component";
 import { MatStepperModule } from "@angular/material/stepper";
 import { NgOtpInputModule } from "ng-otp-input";
 @NgModule({
-  declarations: [DoctorBookAppointmentsComponent],
+  declarations: [DoctorBookAppointmentsComponent, DoctorAppointmentsComponent],
   imports: [
     GooglePlaceModule,
     CommonModule,

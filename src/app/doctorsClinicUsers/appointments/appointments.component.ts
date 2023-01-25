@@ -9,14 +9,22 @@ import {
   transition,
   trigger,
 } from "@angular/animations";
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from "@angular/forms";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import * as moment from "moment";
-import { FormGroup, FormControl } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
+import { BehaviorSubject, Observable } from "rxjs";
+import { map, startWith } from "rxjs/operators";
+import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 @Component({
-  selector: "doctor-appointments",
+  selector: "doctor-appointmentsCli",
   templateUrl: "./appointments.component.html",
   styleUrls: ["./appointments.component.scss"],
   animations: [
@@ -42,8 +50,7 @@ export class DoctorAppointmentsComponent
     start: new FormControl(""),
     end: new FormControl(""),
   });
-  clinic1Flag: boolean = false;
-  clinic2Flag: boolean = false;
+  showdoc: boolean = false;
   getAppointments: any = [];
   dataSource: any = [];
   columnsToDisplay = [
@@ -54,25 +61,63 @@ export class DoctorAppointmentsComponent
   ];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, "expand"];
   expandedElement: any;
-  getAppointmentsflag: boolean = false;
+  getAppointmentsflag: boolean = true;
+  codeOwnerListCtrl = new FormControl();
+  codeOwnerfilteredOptions: Observable<any[]>;
+  @ViewChild("inputAutoComplete3") inputAutoComplete3: any;
+  arrowIconSubject3 = new BehaviorSubject("arrow_drop_down");
+  doctorData: any;
+  clinincForm: FormGroup;
+  clinicSelection: string = "";
   constructor(
     private authService: AuthService,
     private apiService: ApiService,
     private sharedDataService: sharedDataService,
-    private router: Router
+    private router: Router,
+    private _formBuilder: FormBuilder
   ) {
     super();
     this.userData = this.authService.currentUserValue;
-    if (
-      this.userData.role === "Doctor" &&
-      (!this.userData.tab2 ||
-        !this.userData.tab3 ||
-        !this.userData.tab4 ||
-        !this.userData.tab5)
-    ) {
-      this.router.navigate(["/doctors/profile-settings"]);
-    }
-    this.getAllDoctorAppoinmentsById("Clinic1", "reset");
+
+    this.subs.sink = this.apiService
+      .clinicUserDoctorInfo(this.userData.h_id)
+      .pipe(first())
+      .subscribe({
+        next: (data) => {
+          this.doctorData = data;
+          //console.log(this.doctorData);
+          this.codeOwnerfilteredOptions =
+            this.codeOwnerListCtrl.valueChanges.pipe(
+              startWith(""),
+              map((value) =>
+                typeof value === "string" ? value : value?.firstName
+              ),
+              map((name) =>
+                name
+                  ? this.doctorData.filter(
+                      (option) =>
+                        option.firstName
+                          .toLowerCase()
+                          .indexOf(name.toLowerCase()) === 0 ||
+                        option.lastName
+                          .toLowerCase()
+                          .indexOf(name.toLowerCase()) === 0
+                    )
+                  : this.doctorData.slice()
+              )
+            );
+          this.showdoc = true;
+          //this.getHospitalById();
+        },
+        error: (error) => {
+          this.showdoc = false;
+        },
+        complete: () => {},
+      });
+    this.clinincForm = this._formBuilder.group({
+      clinic: this.codeOwnerListCtrl,
+    });
+    //this.getAllDoctorAppoinmentsById("Clinic1", "reset");
   }
   ngOnInit(): void {
     //console.log(this.userData);
@@ -84,32 +129,42 @@ export class DoctorAppointmentsComponent
   resetDate() {
     this.range.reset();
   }
-  getAllDoctorAppoinmentsById(Clinic: string, reset: string) {
-    if (Clinic === "Clinic1") {
-      this.clinic1Flag = true;
-      this.clinic2Flag = false;
-    } else {
-      this.clinic1Flag = false;
-      this.clinic2Flag = true;
-    }
-    if (!this.userData?._id) {
+  getAllDoctorAppoinmentsById(id: string, reset?: string) {
+    let obj = {};
+    if (!this.clinincForm.controls.clinic.value?._id) {
+      this.sharedDataService.showNotification(
+        "snackbar-danger",
+        "Select Doctor",
+        "top",
+        "center"
+      );
       return;
     }
-    let obj = {};
     if (reset === "search") {
+      if (!this.range.controls.start.value || !this.range.controls.end.value) {
+        this.sharedDataService.showNotification(
+          "snackbar-danger",
+          "Select Date Range",
+          "top",
+          "center"
+        );
+        return;
+      }
+
       obj = {
-        id: this.userData?._id,
-        clinic: Clinic,
+        id: this.clinincForm.controls.clinic.value._id,
+        clinic: "Clinic1",
         start: this.range.controls.start.value
           ? this.range.controls.start.value
           : "",
         end: this.range.controls.end.value ? this.range.controls.end.value : "",
       };
-    } else {
+    }
+    if (reset === "drname") {
       this.resetDate();
       obj = {
-        id: this.userData?._id,
-        clinic: Clinic,
+        id: id,
+        clinic: "Clinic1",
         start: "",
         end: "",
       };
@@ -151,7 +206,7 @@ export class DoctorAppointmentsComponent
     obj = {
       id: aId,
       AppointmentStatus: "Closed",
-      closedBy: "Doctor",
+      closedBy: `Reception: ${this.userData.firstName}`,
     };
     this.subs.sink = this.apiService
       .closeDoctorappointment(obj)
@@ -184,11 +239,32 @@ export class DoctorAppointmentsComponent
       });
   }
 
-  tabClick(e: any) {
-    if (e.index == 0) {
-      this.getAllDoctorAppoinmentsById("Clinic1", "reset");
-    } else {
-      this.getAllDoctorAppoinmentsById("Clinic2", "reset");
-    }
+  openOrClosePanelCOW(evt: any, trigger3: MatAutocompleteTrigger): void {
+    evt.stopPropagation();
+    if (trigger3.panelOpen) trigger3.closePanel();
+    else trigger3.openPanel();
+  }
+  clearInputCOW(evt: any): void {
+    evt.stopPropagation();
+    this.codeOwnerListCtrl?.reset();
+    this.inputAutoComplete3?.nativeElement.focus();
+  }
+  displayFn3(doc: any) {
+    return doc
+      ? `Dr- ${doc.firstName}-${doc.lastName}-${
+          doc.ClinicOneTimings.ClinicName
+        }-${doc.ClinicOneTimings.clinicArea}- (${
+          doc.graduation.Graduation === "UG" ||
+          doc.graduation.Graduation === "PG"
+            ? doc.graduation.qualificationUG.sName + "-"
+            : ""
+        }${
+          doc.graduation.Graduation === "PG"
+            ? doc.graduation.qualificationPG.sName +
+              "-" +
+              doc.graduation.specialisationPG.name
+            : ""
+        }) - ₹:${doc.ClinicOneTimings.ConsultationFeesC1}`
+      : doc;
   }
 }

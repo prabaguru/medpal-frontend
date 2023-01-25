@@ -796,7 +796,7 @@ export class DoctorBookAppointmentsComponent
     dateeObj = moment(this.f["appointmentDate"].value).format("DD/MM/YYYY");
     concot = dateeObj + " " + this.f["slot"].value;
     formatDate = moment(concot, "DD/MM/YYYY hh:mm a").unix();
-    let smsdata = this.confirmBookingSms();
+    //let smsdata = this.confirmBookingSms();
     let apiobj = {
       p_id: this.userInfo._id,
       slot: this.f["slot"].value,
@@ -811,18 +811,15 @@ export class DoctorBookAppointmentsComponent
       email: this.g["email"].value,
       firstName: this.g["firstName"].value,
       primaryMobile: this.g["primaryMobile"].value,
-      consultingFees:
-        this.clinicSelection === "Clinic1"
-          ? this.doc.ClinicOneTimings.ConsultationFeesC1
-          : this.doc.ClinicTwoTimings.ConsultationFeesC1,
+      consultingFees: this.doc.ClinicOneTimings.ConsultationFeesC1,
       d_id: this.doc._id,
       h_id: this.doc.hId,
       doctorName: this.doc.firstName,
       doctorQualification: docGrad,
-      clinic: this.clinicSelection === "Clinic1" ? "Clinic1" : "Clinic2",
+      clinic: "Clinic1",
       ClinicAddress: clinicloc,
+      clinicName: this.doc.ClinicOneTimings.ClinicName,
       cord: cord,
-      smsdata,
     };
 
     this.subs.sink = this.apiService.bookAppointment(apiobj).subscribe({
@@ -950,18 +947,13 @@ export class DoctorBookAppointmentsComponent
       email: this.g["email"].value,
       firstName: this.g["firstName"].value,
       primaryMobile: this.g["primaryMobile"].value,
-      consultingFees:
-        this.clinicSelection === "Clinic1"
-          ? this.doc.ClinicOneTimings.ConsultationFeesC1
-          : this.doc.ClinicTwoTimings.ConsultationFeesC1,
+      consultingFees: this.doc.ClinicOneTimings.ConsultationFeesC1,
       d_id: this.doc._id,
       doctorname: this.doc.firstName,
       DocDetails: this.doc.graduation,
-      clinic: this.clinicSelection === "Clinic1" ? "Clinic1" : "Clinic2",
-      ClinicAddress:
-        this.clinicSelection === "Clinic1"
-          ? this.doc.ClinicOneTimings.ClinicLocation
-          : this.doc.ClinicTwoTimings.ClinicLocation,
+      clinic: "Clinic1",
+      clinicName: this.doc.ClinicOneTimings.ClinicName,
+      ClinicAddress: this.doc.ClinicOneTimings.ClinicLocation,
     };
     this.appoinmentDetails = null;
     this.appoinmentDetails = obj;
