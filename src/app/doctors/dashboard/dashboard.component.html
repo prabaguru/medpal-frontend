@@ -35,7 +35,7 @@
               <div class="row clearfix">
                 <div class="col-lg-4 col-md-4">
                   <h2 class="font-25 col-green">
-                    {{ getAppointments.length ? getAppointments.length : 0 }}
+                    {{ getAppointments.total ? getAppointments.total : 0 }}
                   </h2>
                   <small>
                     <i class="fas fa-arrow-up col-green"></i> Total Appointments
@@ -44,7 +44,7 @@
                 </div>
                 <div class="col-lg-4 col-md-4">
                   <h2 class="font-25 col-red">
-                    {{ pending.length ? pending.length : 0 }}
+                    {{ getAppointments.booked ? getAppointments.booked : 0 }}
                   </h2>
                   <small>
                     <i class="fas fa-arrow-up col-red"></i> OnGoing
@@ -53,7 +53,7 @@
                 </div>
                 <div class="col-lg-4 col-md-4">
                   <h2 class="font-25 col-green">
-                    {{ closed.length ? closed.length : 0 }}
+                    {{ getAppointments.closed ? getAppointments.closed : 0 }}
                   </h2>
                   <small>
                     <i class="fas fa-arrow-up col-green"></i> Closed

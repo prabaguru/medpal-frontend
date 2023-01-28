@@ -51,9 +51,11 @@ export class DashboardComponent
   public pieChartOptions: Partial<ChartOptions>;
   userData: any;
   lastLogin: string = "";
-  getAppointments: any = [];
-  pending: any = [];
-  closed: any = [];
+  getAppointments: any = {
+    total: 0,
+    booked: 0,
+    closed: 0,
+  };
   cancelled: any = [];
   constructor(
     private authService: AuthService,
@@ -66,9 +68,9 @@ export class DashboardComponent
   }
 
   private smallChart2() {
-    let tot = this.getAppointments.length;
-    let pen = this.pending.length;
-    let clo = this.closed.length;
+    let tot = this.getAppointments.total;
+    let pen = this.getAppointments.booked;
+    let clo = this.getAppointments.closed;
     this.pieChartOptions = {
       series2: [tot, pen, clo],
       chart: {
@@ -81,7 +83,7 @@ export class DashboardComponent
       dataLabels: {
         enabled: false,
       },
-      labels: ["Booked", "Pending", "Closed"],
+      labels: ["Booked", "Ongoing", "Closed"],
 
       responsive: [],
     };
@@ -127,14 +129,7 @@ export class DashboardComponent
       .subscribe({
         next: (data) => {
           //console.log(data);
-          this.getAppointments = [];
           this.getAppointments = data;
-          this.pending = this.getAppointments.filter(
-            (x: any) => x.AppointmentStatus == "Booked"
-          );
-          this.closed = this.getAppointments.filter(
-            (x: any) => x.AppointmentStatus == "Closed"
-          );
           this.smallChart2();
         },
         error: (error) => {

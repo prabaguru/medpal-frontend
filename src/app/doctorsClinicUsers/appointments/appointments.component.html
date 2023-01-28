@@ -222,7 +222,10 @@
                           >
                           <span
                             class="red"
-                            *ngIf="element.AppointmentStatus == 'Booked'"
+                            *ngIf="
+                              element.AppointmentStatus == 'Booked' ||
+                              element.AppointmentStatus == 'Cancelled'
+                            "
                             >{{ element.AppointmentStatus }}</span
                           >
                         </span>
@@ -347,8 +350,20 @@
                                   }}
                                 </td>
                               </tr>
-                              <tr *ngIf="element.AppointmentStatus == 'Booked'">
-                                <td colspan="2">
+                              <tr>
+                                <td
+                                  *ngIf="element.AppointmentStatus == 'Booked'"
+                                >
+                                  <button
+                                    mat-raised-button
+                                    color="accent"
+                                    type="button"
+                                    (click)="cancelAppointment(element)"
+                                    class="lh-base"
+                                  >
+                                    Cancel Appointment
+                                  </button>
+                                  &nbsp;&nbsp;
                                   <button
                                     mat-raised-button
                                     color="primary"

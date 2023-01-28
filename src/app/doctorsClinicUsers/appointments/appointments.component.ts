@@ -206,7 +206,7 @@ export class DoctorAppointmentsComponent
     obj = {
       id: aId,
       AppointmentStatus: "Closed",
-      closedBy: `Reception: ${this.userData.firstName}`,
+      closedBy: "Doctor",
     };
     this.subs.sink = this.apiService
       .closeDoctorappointment(obj)
@@ -235,6 +235,68 @@ export class DoctorAppointmentsComponent
             "center"
           );
         },
+        complete: () => {},
+      });
+  }
+  cancelAppointment(aId: any) {
+    let obj = {};
+    obj = {
+      id: aId._id,
+      AppointmentStatus: "Cancelled",
+      closedBy: "Doctor",
+      slot: `${aId.slot}-Cancelled`,
+      appointmentDate: aId.appointmentDate,
+      updateType: "Cancel",
+    };
+    let curTime = moment().unix();
+    if (aId.appointmentDate < curTime) {
+      this.sharedDataService.showNotification(
+        "snackbar-danger",
+        "Slot time has expired.This appointment cannot be cancelled.",
+        "top",
+        "center"
+      );
+      return;
+    }
+    this.subs.sink = this.apiService
+      .closeDoctorappointment(obj)
+      .pipe(first())
+      .subscribe({
+        next: (data) => {
+          this.sharedDataService.showNotification(
+            "snackbar-success",
+            "Appointment cancelled sucessfully.",
+            "top",
+            "center"
+          );
+          let len = this.getAppointments.length;
+          for (let i = 0; i < len; i++) {
+            if (aId._id == this.getAppointments[i]._id) {
+              this.getAppointments[i].AppointmentStatus = "Cancelled";
+            }
+          }
+          this.updateCancelAppointments(aId);
+        },
+        error: (error) => {
+          this.sharedDataService.showNotification(
+            "snackbar-danger",
+            error,
+            "top",
+            "center"
+          );
+        },
+        complete: () => {},
+      });
+  }
+  updateCancelAppointments(obj: any) {
+    this.subs.sink = this.apiService
+      .updateCancelAppointments(obj)
+      .pipe(first())
+      .subscribe({
+        next: (data) => {
+          //console.log(data);
+        },
+        error: (error) => {},
         complete: () => {},
       });
   }

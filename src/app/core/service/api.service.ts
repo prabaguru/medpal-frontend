@@ -1,5 +1,10 @@
 ﻿import { Injectable } from "@angular/core";
-import { HttpParams, HttpClient, HttpHeaders } from "@angular/common/http";
+import {
+  HttpParams,
+  HttpClient,
+  HttpHeaders,
+  HttpErrorResponse,
+} from "@angular/common/http";
 import { catchError, Observable, of, throwError } from "rxjs";
 import { environment } from "src/environments/environment";
 import { IDoctor } from "../index";
@@ -55,7 +60,7 @@ export class ApiService {
       observe: "events",
     });
   }
-  private handleError(err) {
+  private handleError(err: HttpErrorResponse) {
     //console.log("error caught in service");
     //console.error(err);
     //Handle the error here
@@ -76,50 +81,68 @@ export class ApiService {
 
   getAllDoctorAppoinmentsById(data: any) {
     let params = new HttpParams({ fromObject: data });
-    return this.http.get(
-      `${environment.apiUrl}/patient_appointments/getDocAppById`,
-      {
+    return this.http
+      .get(`${environment.apiUrl}/patient_appointments/getDocAppById`, {
         params,
-      }
-    );
-  }
-  closeDoctorappointment(user) {
-    return this.http.put(
-      `${environment.apiUrl}/patient_appointments/update`,
-      user
-    );
+      })
+      .pipe(catchError(this.handleError));
   }
 
   update(user) {
-    return this.http.put(`${environment.apiUrl}/doctors/update`, user);
+    return this.http
+      .put(`${environment.apiUrl}/doctors/update`, user)
+      .pipe(catchError(this.handleError));
   }
   doctorPasswordReset(user) {
-    return this.http.put(`${environment.apiUrl}/doctors/resetPassword`, user);
+    return this.http
+      .put(`${environment.apiUrl}/doctors/resetPassword`, user)
+      .pipe(catchError(this.handleError));
   }
 
   hopitalPasswordUpdate(user) {
-    return this.http.put(`${environment.apiUrl}/hospitals/update`, user);
+    return this.http
+      .put(`${environment.apiUrl}/hospitals/update`, user)
+      .pipe(catchError(this.handleError));
   }
 
   updatePassword(user) {
-    return this.http.put(`${environment.apiUrl}/doctors/changePassWord`, user);
+    return this.http
+      .put(`${environment.apiUrl}/doctors/changePassWord`, user)
+      .pipe(catchError(this.handleError));
   }
 
   updateSingle(id) {
-    return this.http.put(`${environment.apiUrl}/doctors/sdelete`, { id: id });
+    return this.http
+      .put(`${environment.apiUrl}/doctors/sdelete`, { id: id })
+      .pipe(catchError(this.handleError));
   }
 
   updateAllStatus(id, flag) {
-    return this.http.put(`${environment.apiUrl}/doctors/updateAllStatus`, {
-      id: id,
-      flag: flag,
-    });
+    return this.http
+      .put(`${environment.apiUrl}/doctors/updateAllStatus`, {
+        id: id,
+        flag: flag,
+      })
+      .pipe(catchError(this.handleError));
   }
 
   delete(id: number) {
-    return this.http.delete(`${environment.apiUrl}/doctors/${id}`);
+    return this.http
+      .delete(`${environment.apiUrl}/doctors/${id}`)
+      .pipe(catchError(this.handleError));
   }
 
+  closeDoctorappointment(user: any): Observable<any> {
+    return this.http
+      .put(`${environment.apiUrl}/patient_appointments/update`, user)
+      .pipe(catchError(this.handleError));
+  }
+
+  updateCancelAppointments(user: any): Observable<any> {
+    return this.http
+      .put(`${environment.apiUrl}/doctors/updateCancelAppointments`, user)
+      .pipe(catchError(this.handleError));
+  }
   public bookAppointment(data: any) {
     return this.http
       .post(`${environment.apiUrl}/patient_appointments/register`, data)
