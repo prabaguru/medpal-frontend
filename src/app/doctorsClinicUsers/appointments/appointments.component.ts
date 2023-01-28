@@ -243,7 +243,7 @@ export class DoctorAppointmentsComponent
     obj = {
       id: aId._id,
       AppointmentStatus: "Cancelled",
-      closedBy: "Doctor",
+      closedBy: "Reception",
       slot: `${aId.slot}-Cancelled`,
       appointmentDate: aId.appointmentDate,
       updateType: "Cancel",
