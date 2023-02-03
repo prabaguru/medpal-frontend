@@ -748,7 +748,9 @@
               >
                 <mat-expansion-panel-header>
                   <mat-panel-title> Change Profile Password </mat-panel-title>
-                  <mat-icon>password</mat-icon>
+                  <mat-panel-description
+                    >&nbsp; <mat-icon>password</mat-icon></mat-panel-description
+                  >
                 </mat-expansion-panel-header>
                 <form
                   [formGroup]="profileFormPass"
@@ -891,18 +893,22 @@
                 </form>
               </mat-expansion-panel>
 
-              <!-- <mat-expansion-panel
+              <mat-expansion-panel
                 *ngIf="userData?.tab5"
                 [expanded]="step === 6"
                 (opened)="setStep(6)"
                 hideToggle
               >
                 <mat-expansion-panel-header>
-                  <mat-panel-title> Upload Clinic Images </mat-panel-title>
-                  <mat-icon>image</mat-icon>
+                  <mat-panel-title> Apply Leave </mat-panel-title>
+                  <mat-panel-description
+                    >&nbsp;
+                    <mat-icon>toggle_off</mat-icon></mat-panel-description
+                  >
                 </mat-expansion-panel-header>
-                <app-image-upload></app-image-upload>
-              </mat-expansion-panel> -->
+                <!-- <app-image-upload></app-image-upload> -->
+                <applyleave></applyleave>
+              </mat-expansion-panel>
             </mat-accordion>
           </div>
         </div>

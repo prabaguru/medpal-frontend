@@ -183,4 +183,10 @@ export class ApiService {
       .get<any>(`${environment.apiUrl}/hospitals/getById/${id}`)
       .pipe(catchError(this.handleError));
   }
+
+  updateAllLeave(user: any): Observable<any> {
+    return this.http
+      .put(`${environment.apiUrl}/patient_appointments/updateAllLeave`, user)
+      .pipe(catchError(this.handleError));
+  }
 }

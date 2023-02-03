@@ -179,9 +179,9 @@ export class DoctorBookAppointmentsComponent
   }
   ngOnInit(): void {
     //console.log(this.userData);
-    if (this.userData.ClinicTwoTimings.active) {
-      this.clinics.splice(1, 0, "Clinic2");
-    }
+    // if (this.userData.ClinicTwoTimings.active) {
+    //   this.clinics.splice(1, 0, "Clinic2");
+    // }
   }
   getHospitalById() {
     this.subs.sink = this.apiService

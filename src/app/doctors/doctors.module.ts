@@ -26,6 +26,7 @@ import { MatStepperModule } from "@angular/material/stepper";
 import { NgOtpInputModule } from "ng-otp-input";
 import { FilePickerModule } from "ngx-awesome-uploader";
 import { ImageUploadComponent } from "./image-upload/image-upload.component";
+import { ApplyLeaveComponent } from "../shared/components/applyleave/applyleave.component";
 @NgModule({
   declarations: [
     ProfileSettingsComponent,
@@ -37,6 +38,7 @@ import { ImageUploadComponent } from "./image-upload/image-upload.component";
     DoctorAppointmentsComponent,
     DoctorBookAppointmentsComponent,
     ImageUploadComponent,
+    ApplyLeaveComponent,
   ],
   imports: [
     GooglePlaceModule,

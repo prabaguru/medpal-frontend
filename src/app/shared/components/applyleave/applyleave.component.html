@@ -1,0 +1,50 @@
+<form [formGroup]="firstFormGroup" (ngSubmit)="submitForm()">
+  <div class="form-group">
+    <div class="container-fluid mt-2">
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-12">
+          <mat-error
+            >All appointments will be cancelled for the date selected if it has
+            prebooked appointments</mat-error
+          >
+        </div>
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Choose Appointment Date</mat-label>
+            <input
+              id="appointdate"
+              matInput
+              [min]="minDate"
+              [max]="maxDate"
+              [matDatepicker]="picker"
+              [readonly]="true"
+              formControlName="appointmentDate"
+            />
+            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <!-- <div
+                          class="d-flex justify-content-center"
+                          *ngIf="finalTimeslot.length == 0 && timingSlotsFlag"
+                        >
+                          <div
+                            class="alert alert-danger col-md-5 fw-bold text-center mt-3"
+                            role="alert"
+                          >
+                            Clinic is not functioning today. Kindly select
+                            different date.
+                          </div>
+                        </div> -->
+
+        <div class="mt-2">
+          <button mat-raised-button color="primary" type="submit">Apply</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
