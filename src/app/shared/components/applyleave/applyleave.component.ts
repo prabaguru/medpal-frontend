@@ -95,7 +95,12 @@ export class ApplyLeaveComponent
       .pipe(first())
       .subscribe(
         (data: any) => {
-          console.log(data);
+          this.sharedDataService.showNotification(
+            "snackbar-success",
+            data.message,
+            "top",
+            "center"
+          );
         },
         (error) => {
           this.sharedDataService.showNotification(

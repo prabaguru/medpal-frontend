@@ -47,7 +47,7 @@ export class establishmentComponent
   mintimeThu = "00:00 am";
   mintimeFri = "00:00 am";
   mintimeSat = "00:00 am";
-  mintimeCBTS = "12:00 pm";
+  mintimeCBTS = "9:00 am";
   mintimeCBT = "12:00 pm";
   maxtimeCBT = "16:00 pm";
   BreakTimeStops = [];
@@ -86,14 +86,62 @@ export class establishmentComponent
     this.establishmentForm = this.formBuilder.group({
       id: [this.userData._id, []],
       ClinicOneTimings: this.formBuilder.group({
-        Sunday: [this.userData.ClinicOneTimings.Sunday, []],
-        Monday: [this.userData.ClinicOneTimings.Monday, []],
-        Tuesday: [this.userData.ClinicOneTimings.Tuesday, []],
-        Wednesday: [this.userData.ClinicOneTimings.Wednesday, []],
-        Thursday: [this.userData.ClinicOneTimings.Thursday, []],
-        Friday: [this.userData.ClinicOneTimings.Friday, []],
-        Saturday: [this.userData.ClinicOneTimings.Saturday, []],
-        Cbt: [this.userData.ClinicOneTimings.Cbt, []],
+        Sunday: [
+          {
+            value: this.userData.ClinicOneTimings.Sunday,
+            disabled: true,
+          },
+          [],
+        ],
+        Monday: [
+          {
+            value: this.userData.ClinicOneTimings.Monday,
+            disabled: true,
+          },
+          [],
+        ],
+        Tuesday: [
+          {
+            value: this.userData.ClinicOneTimings.Tuesday,
+            disabled: true,
+          },
+          [],
+        ],
+        Wednesday: [
+          {
+            value: this.userData.ClinicOneTimings.Wednesday,
+            disabled: true,
+          },
+          [],
+        ],
+        Thursday: [
+          {
+            value: this.userData.ClinicOneTimings.Thursday,
+            disabled: true,
+          },
+          [],
+        ],
+        Friday: [
+          {
+            value: this.userData.ClinicOneTimings.Friday,
+            disabled: true,
+          },
+          [],
+        ],
+        Saturday: [
+          {
+            value: this.userData.ClinicOneTimings.Saturday,
+            disabled: true,
+          },
+          [],
+        ],
+        Cbt: [
+          {
+            value: true,
+            disabled: true,
+          },
+          [],
+        ],
         clinicArea: [
           this.userData.ClinicOneTimings.clinicArea,
           [Validators.required],
