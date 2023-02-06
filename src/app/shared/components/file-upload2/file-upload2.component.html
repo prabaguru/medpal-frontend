@@ -9,13 +9,13 @@
 <form [formGroup]="form" (ngSubmit)="submitForm()">
   <div class="form-group">
     <a
-      *ngIf="userdatas.docUrl"
+      *ngIf="userdatas?.docUrl"
       href="{{ userdatas.docUrl }}"
       class="img-thumbnail font12"
       target="_blank"
-      >{{ userdatas.docName }}</a
+      >{{ userdatas?.docName }}</a
     >
-    <span *ngIf="!userdatas.docUrl">No records Found</span>
+    <span *ngIf="!userdatas?.docUrl">No records Found</span>
     <!-- <div class="preview" *ngIf="preview && preview !== null">
       <img [src]="preview" alt="DP" class="img-thumbnail" width="70" />
     </div> -->

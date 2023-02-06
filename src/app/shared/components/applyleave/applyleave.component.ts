@@ -51,6 +51,8 @@ export class ApplyLeaveComponent
   preview: string;
   minDate: Date;
   maxDate: Date;
+  submitFlag: boolean = true;
+  learveArr: any;
   constructor(
     private host: ElementRef<HTMLInputElement>,
     private authService: AuthService,
@@ -61,9 +63,12 @@ export class ApplyLeaveComponent
     super();
     this.minDate = moment(moment.now()).toDate();
     this.maxDate = moment(this.minDate, "DD/MM/YYYY").add(10, "days").toDate();
+    this.subs.sink = this.authService.currentUser.subscribe((x) => {
+      this.userData = x;
+      this.learveArr = this.userData?.leaveDates;
+    });
   }
   ngOnInit() {
-    this.userData = this.authService.currentUserValue;
     //console.log(this.userData);
     this.firstFormGroup = this.fb.group({
       appointmentDate: ["", Validators.required],
@@ -73,10 +78,11 @@ export class ApplyLeaveComponent
     return this.firstFormGroup.controls;
   }
   getDay(e: any) {
-    let date;
-    date = moment(e.value._d).day();
+    //let date;
+    //date = moment(e.value._d).day();
     //console.log(e.value._d);
     //let checkSlot = this.slotCheck(this.momweekday[date]);
+    this.submitFlag = false;
   }
 
   submitForm() {
@@ -85,7 +91,8 @@ export class ApplyLeaveComponent
     let dt = moment(date, "DD/MM/YYYY hh:mm a").unix();
     // console.log(dateeObj);
     // console.log(dt);
-    let obj = {
+    let obj = {};
+    obj = {
       d_id: this.userData._id,
       date: dateeObj,
       datestamp: dt,
@@ -101,6 +108,13 @@ export class ApplyLeaveComponent
             "top",
             "center"
           );
+          this.submitFlag = true;
+          this.firstFormGroup.reset();
+          this.learveArr.push(obj);
+          let objL = {
+            leaveDates: this.learveArr,
+          };
+          this.updateLocalStorage(objL);
         },
         (error) => {
           this.sharedDataService.showNotification(
@@ -112,14 +126,11 @@ export class ApplyLeaveComponent
         }
       );
   }
-  // updateLocalStorage(obj) {
-  //   const oldInfo = JSON.parse(localStorage.getItem("currentUser"));
-  //   localStorage.setItem("currentUser", JSON.stringify({ ...oldInfo, ...obj }));
-  //   this.authService.updateUserObjOnSave(
-  //     JSON.parse(localStorage.getItem("currentUser"))
-  //   );
-  //   this.userData = [];
-  //   this.userData = this.authService.currentUserValue;
-  //   //this.preview = null;
-  // }
+  updateLocalStorage(obj: any) {
+    const oldInfo = JSON.parse(localStorage.getItem("currentUser"));
+    localStorage.setItem("currentUser", JSON.stringify({ ...oldInfo, ...obj }));
+    this.authService.updateUserObjOnSave(
+      JSON.parse(localStorage.getItem("currentUser"))
+    );
+  }
 }

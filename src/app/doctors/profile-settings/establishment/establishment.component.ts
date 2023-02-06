@@ -77,12 +77,15 @@ export class establishmentComponent
     private router: Router
   ) {
     super();
-  }
-
-  ngOnInit() {
     this.authService.currentUser.subscribe((x) => {
       this.userData = x;
     });
+    if (this.userData === undefined) {
+      this.clinicAddress = null;
+    }
+  }
+
+  ngOnInit() {
     this.establishmentForm = this.formBuilder.group({
       id: [this.userData._id, []],
       ClinicOneTimings: this.formBuilder.group({

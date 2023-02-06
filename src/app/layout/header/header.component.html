@@ -121,7 +121,7 @@
             class="nav-notification-icons pt-0"
           >
             <img
-              *ngIf="!userData.image?.imageUrl"
+              *ngIf="!userData?.image.imageUrl"
               src="assets/images/user.jpg"
               class="rounded-circle"
               width="32"
@@ -129,8 +129,8 @@
               alt="User"
             />
             <img
-              *ngIf="userData.image?.imageUrl"
-              [src]="userData.image.imageUrl"
+              *ngIf="userData?.image.imageUrl"
+              [src]="userData?.image.imageUrl"
               class="rounded-circle"
               width="32"
               height="32"
@@ -146,7 +146,7 @@
               <ul class="menu">
                 <li class="body">
                   <ul class="user_dw_menu">
-                    <li *ngIf="userData.role === 'Doctor'">
+                    <li *ngIf="userData?.role === 'Doctor'">
                       <a
                         href="javascript:void(0)"
                         [routerLink]="['/doctors/profile-settings']"
@@ -156,7 +156,7 @@
                         >Profile Settings
                       </a>
                     </li>
-                    <li *ngIf="userData.role === 'Clinic/Hospital-User'">
+                    <li *ngIf="userData?.role === 'Clinic/Hospital-User'">
                       <a
                         href="javascript:void(0);"
                         (click)="logout('Clinic/Hospital-Use')"
@@ -166,7 +166,7 @@
                         >Logout
                       </a>
                     </li>
-                    <li *ngIf="userData.role === 'Doctor'">
+                    <li *ngIf="userData?.role === 'Doctor'">
                       <a href="javascript:void(0);" (click)="logout('Doctor')">
                         <mat-icon aria-hidden="false" class="msr-2"
                           >power_settings_new</mat-icon

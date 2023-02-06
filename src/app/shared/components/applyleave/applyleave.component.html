@@ -1,16 +1,16 @@
 <form [formGroup]="firstFormGroup" (ngSubmit)="submitForm()">
   <div class="form-group">
     <div class="container-fluid mt-2">
-      <div class="row d-flex justify-content-center">
+      <div class="row">
         <div class="col-md-12">
           <mat-error
-            >All appointments will be cancelled for the date selected if it has
-            prebooked appointments</mat-error
+            >All appointments will be cancelled for the leave date selected if
+            it has prebooked appointments</mat-error
           >
         </div>
         <div class="col-md-3">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Choose Appointment Date</mat-label>
+            <mat-label>Choose Leave Date</mat-label>
             <input
               id="appointdate"
               matInput
@@ -19,6 +19,7 @@
               [matDatepicker]="picker"
               [readonly]="true"
               formControlName="appointmentDate"
+              (dateChange)="getDay($event)"
             />
             <mat-hint>DD/MM/YYYY</mat-hint>
             <mat-datepicker-toggle
@@ -27,6 +28,23 @@
             ></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
+        </div>
+        <div class="col-md-2">&nbsp;</div>
+        <div class="col-md-4">
+          <table class="table table-striped">
+            <tr>
+              <td scope="row" colspan="2">Applied Dates</td>
+            </tr>
+            <tr>
+              <td scope="row" colspan="2" *ngIf="learveArr.length === 0">
+                <mat-error>No Applied Dates found</mat-error>
+              </td>
+            </tr>
+            <tr *ngFor="let leave of learveArr; let i = index">
+              <td scope="row">{{ i + 1 }}</td>
+              <td>{{ leave.date }}</td>
+            </tr>
+          </table>
         </div>
         <!-- <div
                           class="d-flex justify-content-center"
@@ -42,7 +60,14 @@
                         </div> -->
 
         <div class="mt-2">
-          <button mat-raised-button color="primary" type="submit">Apply</button>
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="submitFlag"
+          >
+            Apply
+          </button>
         </div>
       </div>
     </div>

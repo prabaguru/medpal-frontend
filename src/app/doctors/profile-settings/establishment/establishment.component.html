@@ -53,8 +53,8 @@
               dropdown</mat-error
             >
             <span *ngIf="!clinicAddress">{{
-              userData.ClinicOneTimings.ClinicLocation.address
-                ? userData.ClinicOneTimings.ClinicLocation.address
+              userData?.ClinicOneTimings.ClinicLocation.address
+                ? userData?.ClinicOneTimings.ClinicLocation.address
                 : ""
             }}</span>
             <span *ngIf="clinicAddress">{{ clinicAddress }}</span>
