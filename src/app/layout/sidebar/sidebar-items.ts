@@ -97,7 +97,7 @@ export const ROUTES: RouteInfo[] = [
       },
       {
         path: "clinicUsers/manageappointments",
-        title: "Close Appointments",
+        title: "View/Close/Cancel Appointments",
         moduleName: "doctors",
         icon: "",
         class: "ml-menu",

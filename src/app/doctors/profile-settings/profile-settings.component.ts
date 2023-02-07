@@ -88,13 +88,14 @@ export class ProfileSettingsComponent
     private router: Router
   ) {
     super();
+    this.subs.sink = this.authService.currentUser.subscribe((x) => {
+      this.userData = x;
+    });
   }
 
   ngOnInit() {
     //this.userData = this.authService.currentUserValue;
-    this.subs.sink = this.authService.currentUser.subscribe((x) => {
-      this.userData = x;
-    });
+
     this.cage = this.userData.age ? this.userData.age : "";
     this.preliminaryForm = this.formBuilder.group({
       id: [this.userData._id, []],

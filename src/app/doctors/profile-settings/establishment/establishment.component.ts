@@ -146,15 +146,24 @@ export class establishmentComponent
           [],
         ],
         clinicArea: [
-          this.userData.ClinicOneTimings.clinicArea,
+          {
+            value: this.userData.ClinicOneTimings.clinicArea,
+            disabled: true,
+          },
           [Validators.required],
         ],
         ConsultationDurationC1: [
-          this.userData.ClinicOneTimings.ConsultationDurationC1,
+          {
+            value: this.userData.ClinicOneTimings.ConsultationDurationC1,
+            disabled: true,
+          },
           [Validators.required],
         ],
         ConsultationFeesC1: [
-          this.userData.ClinicOneTimings.ConsultationFeesC1,
+          {
+            value: this.userData.ClinicOneTimings.ConsultationFeesC1,
+            disabled: true,
+          },
           [
             Validators.required,
             Validators.pattern("^[0-9]*$"),
@@ -162,10 +171,20 @@ export class establishmentComponent
           ],
         ],
         ClinicName: [
-          this.userData.ClinicOneTimings.ClinicName,
+          {
+            value: this.userData.ClinicOneTimings.ClinicName,
+            disabled: true,
+          },
           [Validators.required, Validators.pattern("^[a-zA-Z '-]+$")],
         ],
-        ClinicLocation: ["", []],
+        ClinicLocation: [
+          {
+            value: "",
+            disabled: true,
+          },
+          ,
+          [],
+        ],
         location: ["", []],
         SunStarttime: [
           {

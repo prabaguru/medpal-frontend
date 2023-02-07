@@ -121,7 +121,7 @@
             class="nav-notification-icons pt-0"
           >
             <img
-              *ngIf="!userData?.image.imageUrl"
+              *ngIf="!userData?.image?.imageUrl"
               src="assets/images/user.jpg"
               class="rounded-circle"
               width="32"
@@ -129,8 +129,8 @@
               alt="User"
             />
             <img
-              *ngIf="userData?.image.imageUrl"
-              [src]="userData?.image.imageUrl"
+              *ngIf="userData?.image?.imageUrl"
+              [src]="userData?.image?.imageUrl"
               class="rounded-circle"
               width="32"
               height="32"

@@ -46,13 +46,13 @@ export class ApplyLeaveComponent
   extends UnsubscribeOnDestroyAdapter
   implements OnInit
 {
+  @Input() userData: any;
   firstFormGroup: FormGroup;
-  userData;
   preview: string;
   minDate: Date;
   maxDate: Date;
   submitFlag: boolean = true;
-  learveArr: any;
+  learveArr: any = [];
   constructor(
     private host: ElementRef<HTMLInputElement>,
     private authService: AuthService,
@@ -63,13 +63,15 @@ export class ApplyLeaveComponent
     super();
     this.minDate = moment(moment.now()).toDate();
     this.maxDate = moment(this.minDate, "DD/MM/YYYY").add(10, "days").toDate();
-    this.subs.sink = this.authService.currentUser.subscribe((x) => {
-      this.userData = x;
-      this.learveArr = this.userData?.leaveDates;
-    });
+    // this.subs.sink = this.authService.currentUser.subscribe((x) => {
+    //   this.userData = x;
+    //   this.learveArr = this.userData?.leaveDates;
+    // });
   }
   ngOnInit() {
+    this.learveArr = this.userData?.leaveDates ? this.userData?.leaveDates : [];
     //console.log(this.userData);
+    //alert(this.userData.role);
     this.firstFormGroup = this.fb.group({
       appointmentDate: ["", Validators.required],
     });
@@ -97,6 +99,15 @@ export class ApplyLeaveComponent
       date: dateeObj,
       datestamp: dt,
     };
+    if (!this.userData._id) {
+      this.sharedDataService.showNotification(
+        "snackbar-danger",
+        "Doctor info not found.",
+        "top",
+        "center"
+      );
+      return;
+    }
     this.subs.sink = this.apiService
       .updateAllLeave(obj)
       .pipe(first())

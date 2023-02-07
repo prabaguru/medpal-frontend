@@ -21,22 +21,22 @@
           <div class="sidebar-profile clearfix">
             <div class="profile-img">
               <img
-                *ngIf="!userData.image?.imageUrl"
+                *ngIf="!userData?.image?.imageUrl"
                 src="assets/images/usrbig.jpg"
                 alt="profile"
               />
               <img
-                *ngIf="userData.image?.imageUrl"
-                [src]="userData.image.imageUrl"
+                *ngIf="userData?.image?.imageUrl"
+                [src]="userData?.image?.imageUrl"
                 alt="profile"
               />
             </div>
             <div class="profile-info">
               <h3>
-                <span *ngIf="userData.role === 'Doctor'">Dr.</span>
-                {{ userData.firstName | slice : 0 : 20 }}
+                <span *ngIf="userData?.role === 'Doctor'">Dr.</span>
+                {{ userData?.firstName | slice : 0 : 20 }}
               </h3>
-              <p>Welcome {{ userData.role }} !</p>
+              <p>Welcome {{ userData?.role }} !</p>
             </div>
           </div>
         </li>
@@ -54,7 +54,9 @@
           </div>
           <a
             [routerLink]="sidebarItem.class === '' ? [sidebarItem.path] : null"
-            *ngIf="!sidebarItem.groupTitle && userData.role == sidebarItem.role"
+            *ngIf="
+              !sidebarItem.groupTitle && userData?.role == sidebarItem.role
+            "
             [ngClass]="[sidebarItem.class]"
             (click)="callLevel1Toggle($event, sidebarItem.moduleName)"
             class="menu-top"
@@ -77,7 +79,7 @@
               "
             >
               <a
-                *ngIf="userData.role == sidebarItem.submenu[i].role"
+                *ngIf="userData?.role == sidebarItem.submenu[i].role"
                 [routerLink]="
                   sidebarSubItem.submenu.length > 0
                     ? null
