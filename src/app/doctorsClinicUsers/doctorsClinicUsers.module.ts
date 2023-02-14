@@ -16,10 +16,17 @@ import { NgApexchartsModule } from "ng-apexcharts";
 import { DoctorsClinicUsersRoutingModule } from "./doctorsClinicUsers-routing.module";
 import { DoctorBookAppointmentsComponent } from "./book-appointments/book-appointments.component";
 import { DoctorAppointmentsComponent } from "./appointments/appointments.component";
+import { ComponentsModule } from "../shared/components/components.module";
+import { DocLeaveComponent } from "./leaves/leaves.component";
 import { MatStepperModule } from "@angular/material/stepper";
 import { NgOtpInputModule } from "ng-otp-input";
+
 @NgModule({
-  declarations: [DoctorBookAppointmentsComponent, DoctorAppointmentsComponent],
+  declarations: [
+    DoctorBookAppointmentsComponent,
+    DoctorAppointmentsComponent,
+    DocLeaveComponent,
+  ],
   imports: [
     GooglePlaceModule,
     CommonModule,
@@ -41,7 +48,9 @@ import { NgOtpInputModule } from "ng-otp-input";
     PerfectScrollbarModule,
     MatStepperModule,
     NgOtpInputModule,
+    ComponentsModule,
   ],
+
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class DoctorsClinicUsersModule {}

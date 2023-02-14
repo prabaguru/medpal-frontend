@@ -105,6 +105,16 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
         role: "Clinic/Hospital-User",
       },
+      {
+        path: "clinicUsers/applyleave",
+        title: "Apply Leave For Doctors",
+        moduleName: "doctors",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        submenu: [],
+        role: "Clinic/Hospital-User",
+      },
     ],
   },
 ];

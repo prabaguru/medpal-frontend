@@ -1,0 +1,204 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <div class="row">
+              <div class="col-md-3">
+                <h2 translate><strong>Apply Leave </strong> for Doctors</h2>
+              </div>
+              <div class="col-md-12 mt-2" *ngIf="showdoc">
+                <form [formGroup]="clinincForm">
+                  <div class="col-md-8">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="outline"
+                    >
+                      <mat-label>Select Doctor&nbsp;(Search by name)</mat-label>
+                      <input
+                        style="text-transform: uppercase"
+                        type="text"
+                        #inputAutoComplete3
+                        matInput
+                        [formControl]="codeOwnerListCtrl"
+                        [matAutocomplete]="auto4"
+                        #trigger3="matAutocompleteTrigger"
+                      />
+                      <div matSuffix style="display: flex">
+                        <button
+                          (click)="clearInputCOW($event)"
+                          *ngIf="
+                            codeOwnerListCtrl?.value !== null &&
+                            codeOwnerListCtrl?.value !== ''
+                          "
+                          aria-label="Clear"
+                          mat-icon-button
+                          type="button"
+                        >
+                          <mat-icon>clear</mat-icon>
+                        </button>
+
+                        <button
+                          (click)="openOrClosePanelCOW($event, trigger3)"
+                          aria-label="Clear"
+                          mat-icon-button
+                          type="button"
+                        >
+                          <mat-icon>{{
+                            arrowIconSubject3.getValue()
+                          }}</mat-icon>
+                        </button>
+                      </div>
+                      <mat-autocomplete
+                        (closed)="arrowIconSubject3.next('arrow_drop_down')"
+                        (opened)="arrowIconSubject3.next('arrow_drop_up')"
+                        (optionSelected)="
+                          arrowIconSubject3.next('arrow_drop_down');
+                          getAllDoctorInfo($event.option.value._id)
+                        "
+                        #auto4="matAutocomplete"
+                        [displayWith]="displayFn3.bind(this)"
+                      >
+                        <mat-option
+                          *ngFor="let doc of codeOwnerfilteredOptions | async"
+                          [value]="doc"
+                          [title]="doc.firstName"
+                          ><img
+                            *ngIf="doc?.image.imageUrl"
+                            class="selectImg"
+                            src="{{ doc.image.imageUrl }}"
+                            alt="Medpal"
+                          />
+                          <img
+                            *ngIf="!doc?.image.imageUrl"
+                            src="../../../assets/images/user.jpg"
+                            alt="Medpal"
+                            class="selectImg"
+                          />&nbsp;&nbsp;
+                          <span class="cap"
+                            >Dr. {{ doc.firstName }} {{ doc.lastName }} -
+                            {{ doc.ClinicOneTimings.ClinicName }} -
+                            {{ doc.ClinicOneTimings.clinicArea }} -
+                            <span
+                              *ngIf="
+                                doc.graduation.Graduation === 'UG' ||
+                                doc.graduation.Graduation === 'PG'
+                              "
+                            >
+                              ({{ doc.graduation.qualificationUG.sName }})
+                            </span>
+                            <span *ngIf="doc.graduation.Graduation === 'PG'">
+                              {{ doc.graduation.qualificationPG.sName }}
+                              -
+                              {{ doc.graduation.specialisationPG.name }})
+                            </span>
+                            -
+                            <strong
+                              >&#8377;
+                              {{
+                                doc.ClinicOneTimings.ConsultationFeesC1
+                              }}</strong
+                            >
+                          </span>
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="body">
+            <form [formGroup]="firstFormGroup" (ngSubmit)="submitForm()">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-md-12">
+                    <mat-error
+                      >All appointments will be cancelled for the leave date
+                      selected if it has prebooked appointments</mat-error
+                    >
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="outline"
+                    >
+                      <mat-label>Choose Leave Date</mat-label>
+                      <input
+                        id="appointdate"
+                        matInput
+                        [min]="minDate"
+                        [max]="maxDate"
+                        [matDatepicker]="picker"
+                        [readonly]="true"
+                        formControlName="appointmentDate"
+                        (dateChange)="getDay($event)"
+                      />
+                      <mat-hint>DD/MM/YYYY</mat-hint>
+                      <mat-datepicker-toggle
+                        matSuffix
+                        [for]="picker"
+                      ></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-2">&nbsp;</div>
+                  <div class="col-md-4">
+                    <table class="table table-striped">
+                      <tr>
+                        <td scope="row" colspan="2">
+                          Applied Leave Dates<span
+                            *ngIf="doc?.firstName"
+                            class="fw-bold"
+                            >for Dr.{{ doc.firstName }}</span
+                          >
+                        </td>
+                      </tr>
+                      <tr>
+                        <td
+                          scope="row"
+                          colspan="2"
+                          *ngIf="learveArr.length === 0"
+                        >
+                          <mat-error>No Applied Dates found</mat-error>
+                        </td>
+                      </tr>
+                      <tr *ngFor="let leave of learveArr; let i = index">
+                        <td scope="row">{{ i + 1 }}</td>
+                        <td>{{ leave.date }}</td>
+                      </tr>
+                    </table>
+                  </div>
+                  <!-- <div
+                          class="d-flex justify-content-center"
+                          *ngIf="finalTimeslot.length == 0 && timingSlotsFlag"
+                        >
+                          <div
+                            class="alert alert-danger col-md-5 fw-bold text-center mt-3"
+                            role="alert"
+                          >
+                            Clinic is not functioning today. Kindly select
+                            different date.
+                          </div>
+                        </div> -->
+
+                  <div class="mt-2">
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      type="submit"
+                      [disabled]="submitFlag"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

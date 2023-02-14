@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { Routes, RouterModule } from "@angular/router";
 import { DoctorBookAppointmentsComponent } from "./book-appointments/book-appointments.component";
 import { DoctorAppointmentsComponent } from "./appointments/appointments.component";
+import { DocLeaveComponent } from "./leaves/leaves.component";
 const routes: Routes = [
   {
     path: "",
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: "manageappointments",
     component: DoctorAppointmentsComponent,
+  },
+  {
+    path: "applyleave",
+    component: DocLeaveComponent,
   },
 ];
 

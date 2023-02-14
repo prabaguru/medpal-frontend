@@ -299,7 +299,15 @@ export class DoctorBookAppointmentsComponent
     let date;
     date = moment(e.value._d).day();
     let checkSlot = this.slotCheck(this.momweekday[date]);
-    if (checkSlot) {
+    let checkLeavearr = this.doc.leaveDates;
+    let checkLeave: boolean = false;
+    let calDate = moment(e.value._d).format("DD/MM/YYYY");
+    for (let i = 0; i < checkLeavearr.length; i++) {
+      if (checkLeavearr[i].date === calDate) {
+        checkLeave = true;
+      }
+    }
+    if (checkSlot && !checkLeave) {
       this.getAppointmentsById(date);
       this.timingSlotsFlag = false;
     } else {

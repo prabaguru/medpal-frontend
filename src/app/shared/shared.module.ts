@@ -7,6 +7,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 
 import { MaterialModule } from "./material.module";
 import { FeatherIconsModule } from "./feather-icons.module";
+
 @NgModule({
   declarations: [],
   imports: [

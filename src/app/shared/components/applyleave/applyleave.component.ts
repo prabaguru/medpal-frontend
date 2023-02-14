@@ -63,10 +63,10 @@ export class ApplyLeaveComponent
     super();
     this.minDate = moment(moment.now()).toDate();
     this.maxDate = moment(this.minDate, "DD/MM/YYYY").add(10, "days").toDate();
-    // this.subs.sink = this.authService.currentUser.subscribe((x) => {
-    //   this.userData = x;
-    //   this.learveArr = this.userData?.leaveDates;
-    // });
+    this.subs.sink = this.authService.currentUser.subscribe((x) => {
+      this.userData = x;
+      this.learveArr = this.userData?.leaveDates;
+    });
   }
   ngOnInit() {
     this.learveArr = this.userData?.leaveDates ? this.userData?.leaveDates : [];
@@ -76,6 +76,7 @@ export class ApplyLeaveComponent
       appointmentDate: ["", Validators.required],
     });
   }
+
   get f() {
     return this.firstFormGroup.controls;
   }
