@@ -570,7 +570,7 @@ export class DoctorBookAppointmentsComponent
     this.timeLeft = 90;
     this.otpBtnText = "sec left to enter OTP";
     this.secondFormGroup.get("mobNo")?.disable({ onlySelf: true });
-    //this.onSubmitOtp(this.otp);
+    this.onSubmitOtp(this.otp);
   }
 
   startTimer() {
@@ -833,7 +833,7 @@ export class DoctorBookAppointmentsComponent
 
     this.subs.sink = this.apiService.updateDoctorAppointments(obj).subscribe({
       next: (data: any) => {
-        //this.confirmBookingSms();
+        this.confirmBookingSms();
         //this.confirmBookingSms();
         //this.commonService.showNotification(data.message);
       },
