@@ -65,13 +65,23 @@ export class ApplyLeaveComponent
     this.maxDate = moment(this.minDate, "DD/MM/YYYY").add(10, "days").toDate();
     this.subs.sink = this.authService.currentUser.subscribe((x) => {
       this.userData = x;
-      this.learveArr = this.userData?.leaveDates;
+      this.learveArr = [];
+      let learveArr = this.userData?.leaveDates
+        ? this.userData?.leaveDates
+        : [];
+      let curDate = moment(new Date());
+      let learveArrLen = learveArr.length;
+      for (let i = 0; i < learveArrLen; i++) {
+        let pastDate = moment.unix(learveArr[i].datestamp);
+        let after = pastDate.isSameOrAfter(curDate, "days");
+        if (after) {
+          this.learveArr.push(learveArr[i]);
+        }
+      }
+      //console.log(this.learveArr);
     });
   }
   ngOnInit() {
-    this.learveArr = this.userData?.leaveDates ? this.userData?.leaveDates : [];
-    //console.log(this.userData);
-    //alert(this.userData.role);
     this.firstFormGroup = this.fb.group({
       appointmentDate: ["", Validators.required],
     });
@@ -137,6 +147,42 @@ export class ApplyLeaveComponent
           );
         }
       );
+  }
+
+  cancelLeave(obj: any) {
+    if (!obj?.date) {
+      return;
+    }
+    this.subs.sink = this.apiService
+      .cancelLeave(obj)
+      .pipe(first())
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+          this.sharedDataService.showNotification(
+            "snackbar-success",
+            "Leave cancelled successfully.",
+            "top",
+            "center"
+          );
+          for (let i = 0; i < this.learveArr.length; i++) {
+            this.learveArr.splice(i, 1);
+          }
+          if (data.data) {
+            this.updateLocalStorage(data.data);
+          }
+        },
+        error: (error) => {
+          this.sharedDataService.showNotification(
+            "snackbar-danger",
+            error,
+            "top",
+            "center"
+          );
+          //this.submitted = false;
+        },
+        complete: () => {},
+      });
   }
   updateLocalStorage(obj: any) {
     const oldInfo = JSON.parse(localStorage.getItem("currentUser"));

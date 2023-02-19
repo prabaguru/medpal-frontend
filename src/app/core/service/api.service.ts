@@ -189,4 +189,9 @@ export class ApiService {
       .put(`${environment.apiUrl}/patient_appointments/updateAllLeave`, user)
       .pipe(catchError(this.handleError));
   }
+  cancelLeave(user: any): Observable<any> {
+    return this.http
+      .put(`${environment.apiUrl}/doctors/cancelLeave`, user)
+      .pipe(catchError(this.handleError));
+  }
 }
