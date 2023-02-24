@@ -119,8 +119,19 @@ export class DocLeaveComponent
       .subscribe({
         next: (data) => {
           this.doc = data[0];
-          this.learveArr = this.doc?.leaveDates ? this.doc?.leaveDates : [];
+          //this.learveArr = this.doc?.leaveDates ? this.doc?.leaveDates : [];
           //console.log(this.doc);
+          this.learveArr = [];
+          let learveArr = this.doc?.leaveDates ? this.doc?.leaveDates : [];
+          let curDate = moment(new Date());
+          let learveArrLen = learveArr.length;
+          for (let i = 0; i < learveArrLen; i++) {
+            let pastDate = moment.unix(learveArr[i].datestamp);
+            let after = pastDate.isSameOrAfter(curDate, "days");
+            if (after) {
+              this.learveArr.push(learveArr[i]);
+            }
+          }
         },
         error: (error) => {
           this.sharedDataService.showNotification(
