@@ -134,7 +134,40 @@ export class DocLeaveComponent
         complete: () => {},
       });
   }
-
+  cancelLeave(obj: any) {
+    if (!obj?.date) {
+      return;
+    }
+    this.subs.sink = this.apiService
+      .cancelLeave(obj)
+      .pipe(first())
+      .subscribe({
+        next: (data) => {
+          //console.log(data);
+          this.sharedDataService.showNotification(
+            "snackbar-success",
+            "Leave cancelled successfully.",
+            "top",
+            "center"
+          );
+          for (let i = 0; i < this.learveArr.length; i++) {
+            if (this.learveArr[i].datestamp === obj?.datestamp) {
+              this.learveArr.splice(i, 1);
+            }
+          }
+        },
+        error: (error) => {
+          this.sharedDataService.showNotification(
+            "snackbar-danger",
+            error,
+            "top",
+            "center"
+          );
+          //this.submitted = false;
+        },
+        complete: () => {},
+      });
+  }
   submitForm() {
     if (!this.doc?._id) {
       this.sharedDataService.showNotification(

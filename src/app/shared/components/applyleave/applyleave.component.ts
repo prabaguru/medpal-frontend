@@ -158,7 +158,7 @@ export class ApplyLeaveComponent
       .pipe(first())
       .subscribe({
         next: (data) => {
-          console.log(data);
+          //console.log(data);
           this.sharedDataService.showNotification(
             "snackbar-success",
             "Leave cancelled successfully.",
@@ -166,7 +166,9 @@ export class ApplyLeaveComponent
             "center"
           );
           for (let i = 0; i < this.learveArr.length; i++) {
-            this.learveArr.splice(i, 1);
+            if (this.learveArr[i].datestamp === obj?.datestamp) {
+              this.learveArr.splice(i, 1);
+            }
           }
           if (data.data) {
             this.updateLocalStorage(data.data);

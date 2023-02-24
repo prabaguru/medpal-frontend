@@ -144,7 +144,7 @@
                     </mat-form-field>
                   </div>
                   <div class="col-md-2">&nbsp;</div>
-                  <div class="col-md-4">
+                  <div class="col-md-6">
                     <table class="table table-striped">
                       <tr>
                         <td scope="row" colspan="2">
@@ -155,6 +155,7 @@
                           >
                         </td>
                       </tr>
+
                       <tr>
                         <td
                           scope="row"
@@ -167,6 +168,15 @@
                       <tr *ngFor="let leave of learveArr; let i = index">
                         <td scope="row">{{ i + 1 }}</td>
                         <td>{{ leave.date }}</td>
+                        <td>
+                          <button
+                            type="button"
+                            class="btn btn-primary my-3"
+                            (click)="cancelLeave(leave)"
+                          >
+                            Cancel Leave
+                          </button>
+                        </td>
                       </tr>
                     </table>
                   </div>
