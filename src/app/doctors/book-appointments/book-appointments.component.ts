@@ -502,12 +502,18 @@ export class DoctorBookAppointmentsComponent
     let obj: any = {
       id: this.doc._id,
       clinic: this.clinicSelection === "Clinic1" ? "Clinic1" : "Clinic2",
+      date: moment(this.f["appointmentDate"].value).format("DD/MM/YYYY"),
     };
     this.subs.sink = this.apiService
       .getDoctorAppointments(obj)
       .pipe(first())
       .subscribe(
         (data: any) => {
+          if (data?.checkLeave) {
+            this.finalTimeslot = [];
+            this.timingSlotsFlag = true;
+            return;
+          }
           let clinic = this.clinicSelection;
           let app =
             clinic === "Clinic1"
